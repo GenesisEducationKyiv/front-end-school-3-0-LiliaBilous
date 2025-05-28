@@ -12,7 +12,7 @@ We will apply the architectural principle of **Low Coupling & High Cohesion** th
 - Each component must have a **single, well-defined responsibility** ("one component — one task").
 - **Shared UI elements** (e.g., modals, buttons, inputs) will be placed in a `shared/components/` folder and reused consistently.
 - **All business logic** (e.g., data fetching, filtering, validation, side-effects) will be extracted into **Pinia stores**, **utility functions**, or **composables**, which are **UI-agnostic**.
-- We will incrementally adopt **composable functions** using Vue's `setup()` function (available in Vue 3 even with Options API).
+- Logic will be encapsulated using composable functions following the Composition API pattern with the setup() function.
 
 Each composable will:
 
@@ -34,8 +34,7 @@ This ADR builds on [ADR 0001](./ADR-0001__FeatureBasedStructure.md), which intro
 
 ### Rejected Alternatives
 
-- **Keeping monolithic components** with both UI and logic: This violates separation of concerns and quickly becomes unmanageable.
-- **Full rewrite with Composition API**: This would introduce unnecessary overhead. Instead, we adopt `setup()` incrementally within Options API using composables.
+- **Keeping monolithic components** that mix UI and logic: this breaks separation of concerns and leads to unmaintainable code over time.
 
 ## Status
 
@@ -45,14 +44,14 @@ Proposed
 
 ### Positive:
 
-- Improved maintainability and architecture hygiene
+- Improved maintainability and architectural clarity
 - Reduced technical debt during scaling and refactoring
-- Easier testing of isolated logic and smaller units
+- Easier unit testing and isolation of logic
 - More predictable and clean component behavior
-- Easier onboarding and reviews for new contributors
+- Easier onboarding and peer reviews
 
 ### Negative:
 
 - Requires time investment to refactor legacy components
-- Developers must understand `setup()` and composables within Options API context
+- Developers must understand Composition API and composables
 - Temporary slowdown in feature development during migration
