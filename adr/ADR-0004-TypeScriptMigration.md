@@ -10,21 +10,17 @@ We will migrate the codebase to TypeScript. This includes:
 
 - Renaming relevant files from `.js` to `.ts` and `.vue` scripts to `<script lang="ts">`
 - Introducing a strict `tsconfig.json` configuration
-- Removing all `any`, `as unknown as`, and other unsafe type assertions
-- Using:
-
-  - Type guards and predicates to infer types safely
-  - Zod for parsing and validating unknown data
-  - Neverthrow for safe error handling without exceptions
+- Using type guards and predicates to infer types safely
+- Using Zod for parsing and validating unknown data
+- Using Neverthrow for safe error handling without exceptions
 
 ## Rationale
 
-TypeScript adds strong typing, editor tooling, and static analysis, reducing bugs and making the codebase more scalable and self-documenting. It improves reliability without requiring a major architectural overhaul.
+TypeScript provides static typing, better IDE support, and compile-time safety. It improves reliability and readability and reduces the likelihood of runtime bugs. Migrating to TypeScript aligns with best practices for long-term project scalability and makes the codebase more approachable for new contributors.
 
-## Alternatives Considered
+#### Alternatives Considered
 
-- **Staying on JavaScript**: Rejected due to increased risk of bugs, low scalability, and difficult onboarding/testing.
-- **Using JSDoc types**: Rejected due to limited enforcement and tooling vs. full TypeScript.
+- Remain on JavaScript — Rejected: increases risk of runtime errors, slows onboarding, and makes refactoring more error-prone. Also, continuing in JavaScript would block further architectural improvements (such as those required in follow-up tasks like HW#2).
 
 ## Status
 
@@ -38,8 +34,10 @@ Accepted
 - Better developer tooling and autocomplete
 - Improved documentation through types
 - Safer refactoring and API usage
+- Ability to validate external data more robustly
 
 **Negative:**
 
-- Initial migration effort and learning curve
-- Need to rewrite or update existing JS files and typings
+- Initial migration effort (renaming files, updating syntax)
+- Learning curve for contributors unfamiliar with TypeScript
+- Some third-party libraries may require custom type definitions or wrappers
