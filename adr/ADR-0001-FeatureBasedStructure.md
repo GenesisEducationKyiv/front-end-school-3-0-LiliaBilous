@@ -4,7 +4,7 @@
 
 The current project uses a type-based structure (e.g., all components, services, etc., live in separate global folders). While manageable at a small scale, this approach becomes inefficient as the application grows: it becomes harder to locate related files, increases the risk of conflicts and unintended coupling across unrelated modules, and hinders maintainability.
 
-Since the Track Manager is expected to grow and be reviewed by other developers, a maintainable and scalable folder structure is critical.
+Since the **Track Manager** is expected to grow and be reviewed by other developers, a maintainable and scalable folder structure is critical.
 
 ## Decision
 

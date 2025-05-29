@@ -1,4 +1,4 @@
-# ADR 0002: Low Coupling & High Cohesion
+# ADR 0002: Impruve Low Coupling & High Cohesion
 
 ## Context
 
