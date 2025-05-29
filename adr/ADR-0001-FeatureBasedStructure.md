@@ -53,12 +53,7 @@ Common utilities and base UI components will be placed in `src/shared/` or `src/
 
 ## Rationale
 
-### Advantages:
-
-- Easier to group and locate related code
-- Simplifies navigation and refactoring
-- Scales better as features grow
-- Reduces technical debt
+Switching to a feature-based structure just feels more natural: all the files for a particular feature live in one place, which makes it easier to work on something without touching unrelated code. It also helps avoid coupling between features, since you’re less tempted to "just import" something from another part of the app. Refactoring also becomes more straightforward when everything related is nearby.
 
 Alternative - keeping the type-based structure: doesn’t scale well, makes refactoring harder, and increases complexity.
 
@@ -68,13 +63,15 @@ Proposed
 
 ## Consequences
 
-### Positive:
+After applying the new feature-based structure:
 
-- Easier to scale and maintain
-- Logical and consistent structure
-- Reduced inter-feature coupling
+- The `src/features/` directory now contains all feature-specific logic, including UI, state, services, and composables for tracks
+- The shared utilities and base components were moved to `src/shared/`, clarifying what is generic vs. feature-specific
+- Refactoring became easier — changes to a feature usually require touching fewer files scattered across the codebase
+- Developers now spend less time navigating between folders, since most logic for a feature lives in one place
 
-### Negative:
+Negative:
 
-- Initial reorganization requires time
-- Adaptation to the new structure is required
+- The reorganization required updating many import paths and rethinking file locations
+- Some developers needed time to adjust to the new conventions and folder layout
+- A few shared modules were initially duplicated across features until we centralized them properly
