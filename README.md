@@ -37,7 +37,6 @@ API documentation: http://localhost:8000/documentation
 - Vite as the build tool
 - Plain CSS for styling
 
-
 ## ✅ Implemented Features
 
 ### Main Features
@@ -88,7 +87,6 @@ src/
 ├── services/       # API service calls and integrations
 ├── router/         # Vue Router configuration and route definitions
 └── App.vue         # Root Vue component
-```
 ```
 
 ## 📎 Notes
