@@ -2,7 +2,7 @@
 
 ## Context
 
-The _Track Manager_ project is a single-developer frontend application built with Vue 3(Options API).
+The _Track Manager_ project is a single-developer frontend application built with Vue 3(Composition API).
 As the project evolves and is subject to external code reviews, it becomes important to document key architectural decisions.
 
 ## Decision
@@ -19,19 +19,9 @@ Each ADR will follow a consistent format:
 
 File names will follow the convention: `ADR-XXXX-title.md` where `XXXX` is a sequential number. ADRs will be version-controlled as part of the repository to ensure historical traceability.
 
-High-level technology choices (e.g., Vue 3, Vite, Pinia, TailwindCSS) and structural conventions (e.g., feature-based folder organization, modularity, state management) will be recorded in separate ADRs or summarized in a technical documentation file such as `architecture-overview.md`.
-
 ## Rationale
 
 Architecture Decision Records (ADRs) help capture the reasoning behind critical technical and architectural choices. They improve traceability, facilitate understanding for other contributors and reviewers, and provide historical context for why certain decisions were made.
-
-Establishing a formal ADR process provides the following benefits:
-
-- Makes architectural reasoning explicit and reviewable
-- Avoids repetitive discussions and undocumented changes
-- Encourages thoughtful, transparent decision-making
-- Helps external reviewers understand project evolution
-- Supports individual learning and skill development
 
 We considered not using ADRs, which would save short-term effort, but would create long-term ambiguity and hinder maintainability and collaboration.
 
