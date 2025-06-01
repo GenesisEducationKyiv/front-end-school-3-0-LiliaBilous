@@ -1,33 +1,37 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "lib": ["ESNext", "DOM"],
-    "allowJs": true,                   // дозволяє JS
-    "checkJs": true,                   // типізація JS
-    "strict": true,                    // строгий режим
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "forceConsistentCasingInFileNames": true,
+    /* Base Options */
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
     "verbatimModuleSyntax": true,
 
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    /* Output */
+    "outDir": "dist",
+    "sourceMap": true,
+
+    /* For libraries/monorepo */
+    "composite": true,
+    "declarationMap": true,
+
+    /* DOM support */
+    "lib": ["es2022", "dom", "dom.iterable"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    },
-    "types": ["node"]
+    }
   },
   "include": [
     "src/**/*.ts",
@@ -35,6 +39,5 @@
     "src/**/*.d.ts",
     "src/**/*.vue"
   ],
-  
   "exclude": ["node_modules", "dist"]
 }
