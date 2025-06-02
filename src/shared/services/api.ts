@@ -1,7 +1,7 @@
 import { fetchWrapper } from '@/shared/services/fetchWrapper.ts'
 
 import type { Result } from 'neverthrow'
-import type { Track, TrackQuery, PaginatedTracks } from '@/features/tracks/types/Tracks.ts'
+import type { Track, TrackQuery, PaginatedTracks } from '@/features/tracks/schema/trackSchema.ts'
 
 
 const API_BASE = 'http://localhost:8000/api'

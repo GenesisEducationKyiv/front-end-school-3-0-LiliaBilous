@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import type { Track } from '@/features/tracks/types/Tracks'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseButton from '@/shared/components/BaseButton.vue'
 
 defineProps<{ track: Track }>()

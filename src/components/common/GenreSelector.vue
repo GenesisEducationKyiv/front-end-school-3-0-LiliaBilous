@@ -35,9 +35,7 @@ const { availableGenres } = storeToRefs(store)
 const selectedOption = ref('')
 
 onMounted(() => {
-  console.log('Mounted, availableGenres:', store.availableGenres)
   if (store.availableGenres.length === 0) {
-    console.log('Calling fetchGenres...')
     store.fetchGenres()
   }
 })

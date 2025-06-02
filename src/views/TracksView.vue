@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Track } from '@/features/tracks/types/Tracks'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { ref, onMounted } from 'vue'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
 import { notifySuccess, notifyError } from '@/shared/services/toastService'
@@ -120,7 +120,7 @@ function deleteSelected(ids: string[]) {
 function addNewTrack(newTrack: Track) {
   try {
     trackStore.addTrack(newTrack)
-    notifySuccess('New track added')
+    // notifySuccess('New track added')
   } catch {
     notifyError('Failed to add track')
   }

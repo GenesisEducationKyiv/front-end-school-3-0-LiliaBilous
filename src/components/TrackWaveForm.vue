@@ -13,81 +13,83 @@
       <button v-if="!isPlaying" @click="play" :data-testid="`play-button-${trackData.id}`" class="button play-button">
         Play
       </button>
-      <button v-else @click="pause" class="button play-button" :data-testid="`pause-button-${trackData.id}`">
+      <button v-else @click="pause" :data-testid="`pause-button-${trackData.id}`" class="button play-button">
         Pause
       </button>
 
       <span :data-testid="`audio-progress-${trackData.id}`">
         {{ currentTime }} / {{ duration }}
       </span>
-      <button type="button" @click="removeAudioFile" class="button danger">Remove File</button>
+
+      <button type="button" @click="removeAudioFile" class="button danger">
+        Remove File
+      </button>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, onUnmounted, nextTick } from 'vue'
 import WaveSurfer from 'wavesurfer.js'
 
-const emit = defineEmits(['reset'])
-const props = defineProps({
-  slug: String
-})
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 
-const audioRef = ref(null)
-const waveformRef = ref(null)
-const trackData = ref(null)
+const props = defineProps<{ slug: string }>()
+const emit = defineEmits<{ (e: 'reset', trackId: string): void }>()
 
-let waveSurfer = null
+const audioRef = ref<HTMLAudioElement | null>(null)
+const waveformRef = ref<HTMLDivElement | null>(null)
+const trackData = ref<Track | null>(null)
+
+let waveSurfer: WaveSurfer | null = null
+
 const isPlaying = ref(false)
 const currentTime = ref('0:00')
 const duration = ref('0:00')
 
-const formatTime = (seconds) => {
+function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60)
   const s = Math.floor(seconds % 60).toString().padStart(2, '0')
   return `${m}:${s}`
 }
 
-const updateProgress = () => {
+function updateProgress() {
   if (audioRef.value) {
     currentTime.value = formatTime(audioRef.value.currentTime)
   }
 }
 
-const updateDuration = () => {
+function updateDuration() {
   if (audioRef.value) {
     duration.value = formatTime(audioRef.value.duration)
   }
 }
 
-const play = () => {
+function play() {
   audioRef.value?.play()
   waveSurfer?.play()
   isPlaying.value = true
 }
 
-const pause = () => {
+function pause() {
   audioRef.value?.pause()
   waveSurfer?.pause()
   isPlaying.value = false
 }
 
-const removeAudioFile = () => {
-  emit('reset', trackData.value.id)
-  trackData.value.audioFile = null
-  trackData.value = null
-  isPlaying.value = false
+function removeAudioFile() {
+  if (trackData.value) {
+    emit('reset', trackData.value.id)
+    trackData.value.audioFile = null
+    trackData.value = null
+    isPlaying.value = false
+  }
 }
 
-const initWaveSurfer = () => {
+function initWaveSurfer() {
   if (!waveformRef.value || !audioRef.value || !trackData.value?.audioFile) return
 
-  if (waveSurfer) {
-    waveSurfer.destroy()
-    waveSurfer = null
-  }
-
+  waveSurfer?.destroy()
   waveSurfer = WaveSurfer.create({
     container: waveformRef.value,
     waveColor: '#B5B7C0',
@@ -101,15 +103,20 @@ const initWaveSurfer = () => {
   waveSurfer.load(trackData.value.audioFile)
 }
 
-const fetchTrackData = async () => {
+async function fetchTrackData() {
   try {
     const res = await fetch(`http://localhost:8000/api/tracks/${props.slug}`)
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
 
     const data = await res.json()
-    data.audioFile = `http://localhost:8000/api/files/${data.audioFile}`
-    trackData.value = data
+    const fullTrack: Track = {
+      ...data,
+      audioFile: data.audioFile
+        ? `http://localhost:8000/api/files/${data.audioFile}`
+        : null,
+    }
 
+    trackData.value = fullTrack
     await nextTick()
     initWaveSurfer()
   } catch (err) {
@@ -117,53 +124,15 @@ const fetchTrackData = async () => {
   }
 }
 
-watch(() => props.slug, () => {
-  if (props.slug) fetchTrackData()
-}, { immediate: true })
+watch(
+  () => props.slug,
+  () => {
+    if (props.slug) fetchTrackData()
+  },
+  { immediate: true }
+)
 
 onUnmounted(() => {
   waveSurfer?.destroy()
 })
 </script>
-
-<style scoped>
-.audio-player {
-  padding: 1rem;
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.waveform {
-  width: 100%;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  justify-content: space-around;
-}
-
-.audio-hidden {
-  display: none;
-}
-
-.play-button {
-  background-color: var(--secondary-alt-color);
-}
-
-@media screen and (max-width: 50rem) {
-  .audio-player {
-    padding: 0.25rem;
-    margin-top: 16px;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-
-}
-</style>

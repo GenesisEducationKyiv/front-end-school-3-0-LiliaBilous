@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { validateAudioFile } from '@/shared/utils/validation'
-import type { Track } from '@/features/tracks/types/Tracks'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseModal from '@/shared/components/BaseModal.vue'
 
 // --- Props & Emits ---

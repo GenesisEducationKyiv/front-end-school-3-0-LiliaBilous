@@ -63,7 +63,7 @@ import { ref, watch, computed } from 'vue'
 import BaseModal from '@/shared/components/BaseModal.vue'
 import GenreSelector from '@/components/common/GenreSelector.vue'
 import { isValidImageUrl, validateTrackForm } from '@/shared/utils/validation.ts'
-import type { Track } from '@/features/tracks/types/Tracks'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 
 // --- Props & Emits ---
 const props = defineProps<{
