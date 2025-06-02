@@ -1,35 +1,45 @@
 <template>
   <div class="bulk__container">
     <label class="custom-checkbox">
-      <input type="checkbox" :checked="selectAll" @change="toggleSelectAll" data-testid="select-all" id="select-all"/>
+      <input
+        id="select-all"
+        type="checkbox"
+        :checked="selectAll"
+        @change="toggleSelectAll"
+        data-testid="select-all"
+      />
       <span class="checkmark"></span>
       Select All
     </label>
-    <button data-testid="bulk-delete-button" @click="$emit('delete-selected')" :disabled="!selectedIds.length"
-      class="bulk__button button">
+
+    <button
+      data-testid="bulk-delete-button"
+      class="bulk__button button"
+      :disabled="!selectedIds.length"
+      @click="$emit('delete-selected')"
+    >
       Delete {{ selectedIds.length }} Selected
     </button>
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  selectedIds: {
-    type: Array,
-    required: true
-  },
-  selectAll: {
-    type: Boolean,
-    required: true
-  }
-})
+<script setup lang="ts">
+defineProps<{
+  selectedIds: string[]
+  selectAll: boolean
+}>()
 
-const emit = defineEmits(['update:selectAll'])
+const emit = defineEmits<{
+  (e: 'update:selectAll', value: boolean): void
+  (e: 'delete-selected'): void
+}>()
 
-function toggleSelectAll(event) {
-  emit('update:selectAll', event.target.checked)
+function toggleSelectAll(event: Event) {
+  const checked = (event.target as HTMLInputElement).checked
+  emit('update:selectAll', checked)
 }
 </script>
+
 <style>
 .bulk__container {
   display: flex;
@@ -47,7 +57,9 @@ function toggleSelectAll(event) {
   background-color: var(--accent-color);
   color: var(--white-color);
 }
-
+.bulk__container .custom-checkbox {
+    margin-left: 1rem;
+}
 .custom-checkbox {
   display: flex;
   align-items: center;
