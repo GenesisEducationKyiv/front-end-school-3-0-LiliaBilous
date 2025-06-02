@@ -5,14 +5,20 @@ import type { Track, TrackQuery, PaginatedTracks } from '@/features/tracks/schem
 
 
 const API_BASE = 'http://localhost:8000/api'
+// const audioFile = `http://localhost:8000/api/files/${data.audioFile}`
+
 
 // Genres
 export const getGenres = (): Promise<Result<string[], Error>> =>
   fetchWrapper<string[]>(`${API_BASE}/genres`)
 
 // One track by slug
-export const getTrack = (slug: string): Promise<Result<Track, Error>> =>
+export const getTrackBySlug = (slug: string): Promise<Result<Track, Error>> =>
   fetchWrapper<Track>(`${API_BASE}/tracks/${slug}`)
+
+//  URL for track audio file
+export const getTrackAudioUrl = (filename: string): string =>
+  `${API_BASE}/files/${filename}`
 
 // Create
 export const createTrack = (trackData: Omit<Track, 'id'>): Promise<Result<Track, Error>> =>

@@ -10,7 +10,7 @@ export const TrackSchema = z.object({
     slug: z.string(),
     coverImage: z.string().url().optional(),
     audioFile: z.string().url().optional(),
-    createdAt: z.string(), // або z.coerce.date()
+    createdAt: z.string(),
     updatedAt: z.string()
 })
 export type Track = z.infer<typeof TrackSchema>

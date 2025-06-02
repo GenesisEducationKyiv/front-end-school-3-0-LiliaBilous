@@ -6,15 +6,17 @@ export async function fetchWrapper<T>(
 ): Promise<Result<T, Error>> {
   try {
     const res = await fetch(url, options)
-    const contentType = res.headers.get('content-type')
-    const hasBody = contentType?.includes('application/json')
+    const contentType = res.headers.get('content-type') || ''
+    const hasBody = contentType.includes('application/json')
 
     const data = hasBody ? await res.json() : null
 
     if (!res.ok) {
-      const message = (data && typeof data === 'object' && 'error' in data)
-        ? data.error
-        : 'Something went wrong'
+      const message =
+        typeof data?.error === 'string'
+          ? data.error
+          : `Request failed with status ${res.status}`
+
       return err(new Error(message))
     }
 
