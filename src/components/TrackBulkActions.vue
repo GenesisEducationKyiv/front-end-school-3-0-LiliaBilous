@@ -58,7 +58,7 @@ function toggleSelectAll(event: Event) {
   color: var(--white-color);
 }
 .bulk__container .custom-checkbox {
-    margin-left: 1rem;
+    margin-left: 0.75rem;
 }
 .custom-checkbox {
   display: flex;

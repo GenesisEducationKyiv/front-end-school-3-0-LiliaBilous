@@ -36,7 +36,7 @@ import CreateTrackModal from '@/components/modals/CreateTrackModal.vue'
 import EditTrackModal from '@/components/modals/EditTrackModal.vue'
 import ConfirmDeleteModal from '@/components/modals/ConfirmDeleteModal.vue'
 import UploadFileModal from '@/components/modals/UploadFileModal.vue'
-import PaginationControls from '@/components/common/Pagination.vue'
+import PaginationControls from '@/components/common/PaginationControls.vue'
 import TrackToolbar from '@/components/TrackToolbar.vue'
 
 const trackStore = useTrackStore()
