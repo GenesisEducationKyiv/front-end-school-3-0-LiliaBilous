@@ -2,7 +2,7 @@
   <BaseModal @close="$emit('close')">
     <!-- Title -->
     <template #title>
-      Create New Track
+      <h2 class="modal-title">Create New Track</h2>
     </template>
 
     <template #content>
