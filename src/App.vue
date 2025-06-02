@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
 import AppFooter from '@/components/common/AppFooter.vue'
-
+import ModalHost from '@/shared/components/ModalHost.vue'
 const AsyncTracksView = defineAsyncComponent({
   loader: () => import('@/views/TracksView.vue'),
   delay: 200,
   timeout: 10000,
-  suspensible: true,
+
 })
 </script>
 
@@ -31,7 +31,7 @@ const AsyncTracksView = defineAsyncComponent({
         <div class="spinner" data-testid="loading-indicator" data-loading="true"></div>
       </template>
     </Suspense>
-
+    <ModalHost />
     <!-- Footer -->
     <AppFooter />
   </div>
