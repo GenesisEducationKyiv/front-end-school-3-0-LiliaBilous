@@ -56,7 +56,7 @@ function onPageChange(page: number) {
   trackStore.fetchTracks()
 }
 
-// This function is used to open  modals
+// function for open  modals & handle actions
 function openCreateModal() {
   showModal(CreateTrackModal, {
     listeners: {
@@ -79,18 +79,16 @@ function openUploadModal(track: Track) {
     }
   })
 }
-
 function openEditModal(track: Track) {
   selectedTrack.value = { ...track }
   showModal(EditTrackModal, {
     props: { track: selectedTrack.value },
     listeners: {
       close: hideModal,
-      'updated': (track: unknown) => handleTrackUpdate(track as Track)
+      'updated': (track: unknown) => handleTrackEdit(track as Track)
     }
   })
 }
-
 function openConfirmDelete(track: Track) {
   selectedTrack.value = { ...track }
   showModal(ConfirmDeleteModal, {
@@ -107,61 +105,56 @@ function openConfirmDelete(track: Track) {
     }
   })
 }
-function deleteSelected(ids: string[]) {
-  try {
-    trackStore.removeTracks(ids)
-    notifySuccess('Selected tracks deleted')
-  } catch {
-    notifyError('Failed to delete selected tracks')
+// call methods from store & poceed results
+async function addNewTrack(newTrack: Track) {
+  const result = await trackStore.addTrack(newTrack)
+
+  if (result.isOk()) {
+    notifySuccess('New track added')
+  } else {
+    notifyError(`Failed to add track: ${result.error.message}`)
   }
 }
-
-
-function addNewTrack(newTrack: Track) {
-  try {
-    trackStore.addTrack(newTrack)
-    // notifySuccess('New track added')
-  } catch {
-    notifyError('Failed to add track')
-  }
-}
-
-function handleTrackUpdate(updatedTrack: Track) {
-  try {
-    trackStore.editTrack(updatedTrack)
+async function handleTrackEdit(updatedTrack: Track) {
+  const result = await trackStore.editTrack(updatedTrack)
+  if (result.isOk()) {
     notifySuccess('Track updated successfully')
-  } catch {
+  } else {
     notifyError('Failed to update track')
   }
 }
-
-function handleFileUpload(id: string, file: File) {
-  try {
-    trackStore.uploadFile(id, file)
+async function deleteSingleTrack(id: string) {
+  const result = await trackStore.removeTrack(id)
+  if (result.isOk()) {
+    notifySuccess('Track deleted successfully')
+  } else {
+    notifyError(`Failed to delete track: ${result.error.message}`)
+  }
+}
+async function deleteSelected(ids: string[]) {
+  const result = await trackStore.removeTracks(ids)
+  if (result.isOk()) {
+    notifySuccess('Selected tracks deleted')
+  } else {
+    notifyError('Failed to delete selected tracks')
+  }
+}
+async function handleFileUpload(id: string, file: File) {
+  const result = await trackStore.uploadFile(id, file)
+  if (result.isOk()) {
     notifySuccess('File uploaded successfully')
-  } catch {
+  } else {
     notifyError('Upload failed')
   }
 }
-
-function handleFileRemove(id: string) {
-  try {
-    trackStore.deleteFile(id)
+async function handleFileRemove(id: string) {
+  const result = await trackStore.deleteFile(id)
+  if (result.isOk()) {
     notifySuccess('File removed successfully')
-  } catch {
+  } else {
     notifyError('Failed to remove file')
   }
 }
-
-function deleteSingleTrack(id: string) {
-  try {
-    trackStore.removeTrack(id)
-    notifySuccess('Track deleted successfully')
-  } catch {
-    notifyError('Failed to delete track')
-  }
-}
-
 </script>
 <style>
 .main {
