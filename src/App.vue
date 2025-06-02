@@ -36,3 +36,24 @@ const AsyncTracksView = defineAsyncComponent({
     <AppFooter />
   </div>
 </template>
+<style>
+.hero {
+  position: relative;
+  height: var(--hero-height);
+  width: 100%;
+  background: center / cover url(@/assets/image.webp) no-repeat;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--white-color);
+  padding-top: 6rem;
+}
+
+.hero__title {
+  font-size: 3em;
+  font-weight: 700;
+}
+</style>

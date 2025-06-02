@@ -23,7 +23,6 @@
   </main>
 </template>
 
-
 <script setup lang="ts">
 import type { Track } from '@/features/tracks/types/Tracks'
 import { ref, onMounted } from 'vue'
@@ -164,3 +163,46 @@ function deleteSingleTrack(id: string) {
 }
 
 </script>
+<style>
+.main {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--hero-height)*(-0.25));
+  width: 90%;
+  background: var(--white-color);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+}
+
+.main__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.main__create-track-button {
+  position: relative;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  background: linear-gradient(90deg, #7B2EFF 0%, #FF2D5E 50%, #FF6B2C 100%);
+  transition: color 0.3s ease-in-out;
+}
+
+.main__create-track-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(262deg, #7B2EFF 0%, #FF2D5E 50%, #FF6B2C 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.main__create-track-button:hover::before {
+  opacity: 1;
+}
+</style>

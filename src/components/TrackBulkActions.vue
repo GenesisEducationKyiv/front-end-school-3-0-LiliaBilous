@@ -1,23 +1,13 @@
 <template>
   <div class="bulk__container">
     <label class="custom-checkbox">
-      <input
-        id="select-all"
-        type="checkbox"
-        :checked="selectAll"
-        @change="toggleSelectAll"
-        data-testid="select-all"
-      />
+      <input id="select-all" type="checkbox" :checked="selectAll" @change="toggleSelectAll" data-testid="select-all" />
       <span class="checkmark"></span>
       Select All
     </label>
 
-    <button
-      data-testid="bulk-delete-button"
-      class="bulk__button button"
-      :disabled="!selectedIds.length"
-      @click="$emit('delete-selected')"
-    >
+    <button data-testid="bulk-delete-button" class="bulk__button button" :disabled="!selectedIds.length"
+      @click="$emit('delete-selected')">
       Delete {{ selectedIds.length }} Selected
     </button>
   </div>
@@ -57,9 +47,7 @@ function toggleSelectAll(event: Event) {
   background-color: var(--accent-color);
   color: var(--white-color);
 }
-.bulk__container .custom-checkbox {
-    margin-left: 0.75rem;
-}
+
 .custom-checkbox {
   display: flex;
   align-items: center;
