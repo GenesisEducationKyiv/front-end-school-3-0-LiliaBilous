@@ -1,8 +1,11 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
-    <div class="modal-content">
+  <BaseModal @close="$emit('close')">
+    <!-- Title -->
+    <template #title>
       <h2 class="modal-title">Edit Track</h2>
-      <form @submit.prevent="handleSubmit" class="form">
+    </template>
+    <template #content>
+      <form id="edit-track-form" @submit.prevent="handleSubmit" class="form">
         <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
@@ -38,51 +41,70 @@
           <GenreSelector v-model:selected="form.genres" />
           <p v-if="errors.genres" class="error-text">{{ errors.genres }}</p>
         </div>
-
-        <!-- Actions -->
-        <div class="modal-actions">
-          <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button"
-            aria-label="Cancel editing track">
-            Cancel
-          </button>
-          <button type="submit" class="button button-submit" data-testid="submit-button"
-            aria-label="Save track changes">
-            Save
-          </button>
-        </div>
       </form>
-
-    </div>
-  </div>
+    </template>
+    <template #footer>
+      <div class="modal-actions">
+        <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button"
+          aria-label="Cancel editing track">
+          Cancel
+        </button>
+        <button type="submit" form="edit-track-form" class="button button-submit" data-testid="submit-button"
+          aria-label="Save track changes">
+          Save
+        </button>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, computed } from 'vue'
+import BaseModal from '@/shared/components/BaseModal.vue'
 import GenreSelector from '@/components/common/GenreSelector.vue'
-import { isValidImageUrl, validateTrackForm } from '@/utils/validation'
+import { isValidImageUrl, validateTrackForm } from '@/shared/utils/validation.ts'
+import type { Track } from '@/features/tracks/types/Tracks'
 
-const props = defineProps({
-  track: Object,
-})
-const emit = defineEmits(['close', 'updated'])
+// --- Props & Emits ---
+const props = defineProps<{
+  track: Track
+}>()
 
-const form = ref({ ...props.track })
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'updated', updatedTrack: Track): void
+}>()
 
-const errors = ref({
+// --- State ---
+const form = ref<Track>({ ...props.track })
+
+type ValidationErrors = {
+  title: string
+  artist: string
+  genres: string
+  coverImage: string
+}
+
+const errors = ref<ValidationErrors>({
   title: '',
   artist: '',
   genres: '',
   coverImage: '',
 })
 
-watch(() => props.track, (newVal) => {
-  form.value = { ...newVal }
-})
+watch(
+  () => props.track,
+  (newVal) => {
+    form.value = { ...newVal }
+  }
+)
 
 const fallbackImage = 'https://placehold.co/100'
-const validImageUrl = computed(() => isValidImageUrl(form.value.coverImage))
+const validImageUrl = computed(() =>
+  isValidImageUrl(form.value.coverImage ?? '')
+)
 
-
+// --- Form submit ---
 async function handleSubmit() {
   const { isValid, errors: newErrors } = validateTrackForm(form.value)
   errors.value = newErrors

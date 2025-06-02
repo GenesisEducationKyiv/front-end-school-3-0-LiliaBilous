@@ -1,8 +1,12 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
-    <div class="modal-content">
-      <h2 class="modal-title">Create New Track</h2>
-      <form @submit.prevent="handleSubmit">
+  <BaseModal @close="$emit('close')">
+    <!-- Title -->
+    <template #title>
+      Create New Track
+    </template>
+
+    <template #content>
+      <form @submit.prevent="handleSubmit" id="create-track-form">
         <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
@@ -39,33 +43,48 @@
           <img :src="form.coverImage.trim() && isValidImageUrl(form.coverImage) ? form.coverImage : defaultImage"
             alt="cover image preview" class="cover-image-preview" />
         </div>
-
-        <div class="button-row">
-          <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button">
-            Cancel
-          </button>
-          <button type="submit" class="button button-submit" data-testid="submit-button">
-            Create
-          </button>
-        </div>
       </form>
-    </div>
-  </div>
+    </template>
+    <!-- Form content -->
+
+    <!-- Footer buttons -->
+    <template #footer>
+      <div class="button-row">
+        <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button">
+          Cancel
+        </button>
+        <button type="submit" form="create-track-form" class="button button-submit" data-testid="submit-button">
+          Create
+        </button>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import BaseModal from '@/shared/components/BaseModal.vue'
 import GenreSelector from '@/components/common/GenreSelector.vue'
-import { isValidImageUrl, validateTrackForm } from '@/utils/validation'
+import { isValidImageUrl, validateTrackForm } from '@/shared/utils/validation.ts'
 
-const emit = defineEmits(['close', 'new-track'])
+
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'new-track', payload: {
+    title: string
+    artist: string
+    album: string
+    coverImage: string
+    genres: string[]
+  }): void
+}>()
 
 const form = ref({
   title: '',
   artist: '',
   album: '',
   coverImage: 'https://placehold.co/100',
-  genres: []
+  genres: [] as string[]
 })
 
 const errors = ref({
@@ -80,8 +99,8 @@ const defaultImage = 'https://placehold.co/100'
 function handleSubmit() {
   const { isValid, errors: newErrors } = validateTrackForm(form.value)
   errors.value = newErrors
-
   if (!isValid) return
+
   emit('new-track', form.value)
   emit('close')
 }

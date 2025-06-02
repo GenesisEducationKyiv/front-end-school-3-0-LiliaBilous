@@ -1,98 +1,151 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
-    <div class="modal-content">
-      <h2 class="modal-title">Upload File for {{ track.title }}</h2>
+  <BaseModal @close="$emit('close')">
+    <template #title>
+      <h2 class="modal-title">Upload File for <span>{{ track.title }}</span></h2>
+    </template>
+    <template #content>
+      <form id="upload-file" @submit.prevent="handleSubmit" class="form">
 
-      <form @submit.prevent="handleSubmit" class="form">
-        <div class="form-group">
-          <label for="audioFile" class="form-label">Upload Track (MP3, WAV)</label>
-
-          <!-- Аудіоплеєр -->
-          <div v-if="form.audioFileUrl" class="audio-player">
-            <audio :src="form.audioFileUrl" controls class="audio-control" :data-testid="`audio-player-${track.id}`"
-              :aria-label="`Audio preview for ${track.title}`"></audio>
+        <div v-if="!audioFile" class="file-upload-wrapper">
+          <label for="audioFile" class="button custom-file-upload" data-testid="button-upload-audio">
+            Upload Track (MP3, WAV)
+          </label>
+          <input type="file" id="audioFile" accept=".mp3, .wav" @change="handleAudioUpload"
+            aria-describedby="audio-file-instructions" data-testid="input-audio-file" />
+          <p id="audio-file-instructions" class="visually-hidden">
+            Accepted formats: MP3 or WAV. Maximum size: 10MB.
+          </p>
+          <p v-if="error" class="error-text" role="alert" data-testid="error-audioFile">
+            {{ error }}
+          </p>
+        </div>
+        <div v-if="audioFileUrl" class="audio-player">
+          <div class="file-info">
+            <p class="file-name" v-if="audioFile">{{ audioFile.name }}</p>
             <button type="button" @click="removeAudioFile" class="button danger small"
               aria-label="Remove uploaded audio file">
               Remove File
             </button>
           </div>
 
-          <!-- Назва файлу -->
-          <p v-if="form.audioFile" class="file-name" data-testid="audio-file-name">
-            {{ form.audioFile.name }}
-          </p>
+          <audio :src="audioFileUrl" controls class="audio-control" :aria-label="`Audio preview for ${track.title}`" />
 
-          <!-- Інпут для завантаження -->
-          <div v-else>
-            <input type="file" id="audioFile" accept=".mp3, .wav" @change="handleAudioUpload" class="form-input"
-              data-testid="input-audio-file" aria-describedby="audio-file-instructions" />
-            <p id="audio-file-instructions" class="visually-hidden">
-              Accepted formats: MP3 or WAV. Maximum size: 10MB.
-            </p>
-            <p v-if="errors.audioFile" class="error-text" data-testid="error-audioFile" role="alert">
-              {{ errors.audioFile }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Дії -->
-        <div class="button-row">
-          <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button"
-            aria-label="Cancel file upload">
-            Cancel
-          </button>
-          <button type="submit" class="button button-submit" data-testid="submit-button"
-            aria-label="Save uploaded file">
-            Save
-          </button>
         </div>
       </form>
-
-    </div>
-  </div>
-
+    </template>
+    <template #footer>
+      <div class="button-row">
+        <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button">
+          Cancel
+        </button>
+        <button type="submit" form="upload-file" class="button button-submit" data-testid="submit-button">
+          Save
+        </button>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-import { validateAudioFile } from '@/utils/validation'
-const emit = defineEmits(['close', 'upload',])
-const props = defineProps({
-  track: Object,
-})
-const errors = ref({
-  audioFile: '',
-})
+import { validateAudioFile } from '@/shared/utils/validation'
+import type { Track } from '@/features/tracks/types/Tracks'
+import BaseModal from '@/shared/components/BaseModal.vue'
 
-const form = ref({ ...props.track })
+// --- Props & Emits ---
+const props = defineProps<{ track: Track }>()
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'upload', id: string, file: File): void
+}>()
 
-function handleAudioUpload(event) {
+// --- State ---
+const audioFile = ref<File | null>(null)
+const audioFileUrl = ref<string>('')
+const error = ref<string>('')
 
-  const file = event.target.files[0]
+// --- Methods ---
+function handleAudioUpload(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+
   if (!file) return
 
-  const { valid, error } = validateAudioFile(file)
+  const { valid, error: validationError } = validateAudioFile(file)
 
   if (!valid) {
-    errors.value.audioFile = error
+    error.value = validationError
     return
   }
 
-  form.value.audioFile = file
-  form.value.audioFileUrl = URL.createObjectURL(file)
-  errors.value.audioFile = ''
+  audioFile.value = file
+  audioFileUrl.value = URL.createObjectURL(file)
+  error.value = ''
 }
+
 function handleSubmit() {
-  if (!form.value.audioFile) {
-    errors.value.audioFile = 'Please upload a file first.'
+  if (!audioFile.value) {
+    error.value = 'Please upload a file first.'
     return
   }
-  emit('upload', form.value.id, form.value.audioFile)
+
+  emit('upload', props.track.id, audioFile.value)
   emit('close')
 }
+
 function removeAudioFile() {
-  form.value.audioFile = null
-  form.value.audioFileUrl = ''
+  audioFile.value = null
+  audioFileUrl.value = ''
+}
+</script>
+<style>
+input[type="file"] {
+  display: none;
 }
 
-</script>
+.custom-file-upload {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: var(--secondary-color);
+}
+
+.file-upload-wrapper {}
+
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.file-name {
+  font-weight: 500;
+  color: var(--text-color);
+  text-transform: capitalize;
+}
+
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.audio-control {
+  height: 5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+</style>
