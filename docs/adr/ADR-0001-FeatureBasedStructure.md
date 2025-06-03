@@ -75,3 +75,9 @@ Negative:
 - The reorganization required updating many import paths and rethinking file locations
 - Some developers needed time to adjust to the new conventions and folder layout
 - A few shared modules were initially duplicated across features until we centralized them properly
+
+## 🧭 Navigation
+
+---
+
+[⬅️ Previous](./ADR-0000-ADRGuide.md) | [🏠 Index(README)](./adr/README.md) | [ Next ➡️ ](./ADR-0002-LowCoupling&HighCohesion.md)

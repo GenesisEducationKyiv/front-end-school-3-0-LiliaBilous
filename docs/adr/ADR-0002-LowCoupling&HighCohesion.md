@@ -55,3 +55,9 @@ Proposed
 - Requires time investment to refactor legacy components
 - Developers must understand Composition API and composables
 - Temporary slowdown in feature development during migration
+
+## 🧭 Navigation
+
+---
+
+[⬅️ Previous](./ADR-0001-FeatureBasedStructure.md) | [🏠 Index(README)](../README.md) | [ Next ➡️ ](./ADR-0003-KeyboardNavigation.md)

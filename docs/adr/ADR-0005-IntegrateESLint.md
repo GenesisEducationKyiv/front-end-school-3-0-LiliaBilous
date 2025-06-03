@@ -42,3 +42,9 @@ Accepted
 
 - Initial configuration effort
 - Developers must adapt to stricter rules
+
+## 🧭 Navigation
+
+---
+
+[⬅️ Previous](./ADR-0005-IntegrateESLint.md) | [🏠 Index(README)](../README.md) |

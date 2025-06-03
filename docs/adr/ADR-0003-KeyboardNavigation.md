@@ -36,3 +36,9 @@ Proposed
 
 - Refactoring modals and focus management will require additional effort
 - Some learning curve involved in implementing proper focus trapping logic
+
+## 🧭 Navigation
+
+---
+
+[⬅️ Previous](./ADR-0002-LowCoupling&HighCohesion.md) | [🏠 Index(README)](../README.md) | [ Next ➡️ ](./ADR-0004-TypeScriptMigration.md)

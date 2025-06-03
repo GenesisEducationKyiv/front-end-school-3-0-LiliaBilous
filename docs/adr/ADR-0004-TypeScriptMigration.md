@@ -41,3 +41,9 @@ Accepted
 - Initial migration effort (renaming files, updating syntax)
 - Learning curve for contributors unfamiliar with TypeScript
 - Some third-party libraries may require custom type definitions or wrappers
+
+## 🧭 Navigation
+
+---
+
+[⬅️ Previous](./ADR-0003-KeyboardNavigation.md) | [🏠 Index(README)](../README.md) | [ Next ➡️ ](./ADR-0005-IntegrateESLint.md)
