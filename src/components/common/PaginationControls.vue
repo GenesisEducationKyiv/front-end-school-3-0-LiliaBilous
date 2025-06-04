@@ -1,58 +1,45 @@
 <template>
   <div class="pagination">
-    <button
-      data-testid="pagination-prev"
-      @click="goToPage(currentPage - 1)"
-      :disabled="currentPage === 1"
-      class="pagination-button"
-    >
+    <button data-testid="pagination-prev" @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
+      class="pagination-button">
       &laquo;
     </button>
 
-    <button
-      v-for="page in visiblePages"
-      :key="page"
-      @click="goToPage(page)"
-      :class="['pagination-page', { 'active': page === currentPage }]"
-    >
+    <button v-for="page in visiblePages" :key="page" @click="goToPage(page)"
+      :class="['pagination-page', { active: page === currentPage }]">
       {{ page }}
     </button>
 
-    <button
-      data-testid="pagination-next"
-      @click="goToPage(currentPage + 1)"
-      :disabled="currentPage === totalPages"
-      class="pagination-button"
-    >
+    <button data-testid="pagination-next" @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
+      class="pagination-button">
       &raquo;
     </button>
   </div>
 </template>
 
-
-
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps({
-  currentPage: Number,
-  totalPages: Number,
-  maxVisible: {
-    type: Number,
-    default: 5
-  }
-})
+const props = defineProps<{
+  currentPage: number
+  totalPages: number
+  maxVisible?: number
+}>()
 
-const emit = defineEmits(['change'])
+const emit = defineEmits<{
+  (e: 'change', page: number): void
+}>()
 
-function goToPage(page) {
+const maxVisible = computed(() => props.maxVisible ?? 5)
+
+function goToPage(page: number) {
   if (page >= 1 && page <= props.totalPages) {
     emit('change', page)
   }
 }
 
 const visiblePages = computed(() => {
-  const half = Math.floor(props.maxVisible / 2)
+  const half = Math.floor(maxVisible.value / 2)
   let start = props.currentPage - half
   let end = props.currentPage + half
 
@@ -68,10 +55,11 @@ const visiblePages = computed(() => {
 
   start = Math.max(start, 1)
 
-  const pages = []
+  const pages: number[] = []
   for (let i = start; i <= end; i++) {
     pages.push(i)
   }
+
   return pages
 })
 </script>

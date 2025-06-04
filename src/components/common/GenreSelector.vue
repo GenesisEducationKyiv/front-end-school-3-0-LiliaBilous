@@ -1,39 +1,19 @@
 <template>
   <div class="genre-wrapper">
     <label for="genre-select" class="form-label">Genres</label>
-    <select
-      id="genre-select"
-      data-testid="genre-select"
-      v-model="selectedOption"
-      @change="handleSelect"
-      class="form-input genre-select"
-      aria-label="Select a genre to add"
-    >
+    <select id="genre-select" data-testid="genre-select" v-model="selectedOption" @change="handleSelect"
+      class="form-input genre-select" aria-label="Select a genre to add">
       <option data-testid="genre-add-option" value="">+ Add genre</option>
-      <option
-        v-for="option in genreOptions"
-        :key="option"
-        :value="option"
-      >
+      <option v-for="option in genreOptions" :key="option" :value="option">
         {{ option }}
       </option>
     </select>
 
     <div class="genre-container">
-      <span
-        v-for="(genre, index) in selected"
-        :key="genre"
-        class="genre-tag"
-        data-testid="genre-tag"
-      >
+      <span v-for="(genre, index) in props.selected" :key="genre" class="genre-tag" data-testid="genre-tag">
         {{ genre }}
-        <button
-          type="button"
-          @click="removeGenre(index)"
-          title="Remove genre"
-          :aria-label="`Remove genre ${genre}`"
-          data-testid="genre-remove-button"
-        >
+        <button type="button" @click="removeGenre(index)" title="Remove genre" :aria-label="`Remove genre ${genre}`"
+          data-testid="genre-remove-button">
           &times;
         </button>
       </span>
@@ -41,26 +21,25 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, computed } from 'vue'
-import { getGenres } from '@/services/api.js'
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useTrackStore } from '@/features/tracks/stores/trackStore'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps({
-  selected: {
-    type: Array,
-    default: () => [],
-  },
-})
+const props = defineProps<{ selected: string[] }>()
+const emit = defineEmits<{ (e: 'update:selected', value: string[]): void }>()
 
-const emit = defineEmits(['update:selected'])
+const store = useTrackStore()
+const { availableGenres } = storeToRefs(store)
 
-const availableGenres = ref([])
 const selectedOption = ref('')
 
-onMounted(async () => {
-  const result = await getGenres()
-  availableGenres.value = result
+onMounted(() => {
+  if (store.availableGenres.length === 0) {
+    store.fetchGenres()
+  }
 })
+
 
 const genreOptions = computed(() =>
   availableGenres.value.filter(genre => !props.selected.includes(genre))
@@ -73,9 +52,10 @@ function handleSelect() {
   }
 }
 
-function removeGenre(index) {
+function removeGenre(index: number) {
   const updated = [...props.selected]
   updated.splice(index, 1)
   emit('update:selected', updated)
 }
+
 </script>
