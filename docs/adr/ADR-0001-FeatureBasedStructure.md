@@ -10,56 +10,74 @@ Since the **Track Manager** is expected to grow and be reviewed by other develop
 
 We will adopt a **feature-based folder structure**, grouping all related files by functionality rather than by type. For example:
 
-```
-src/
-├── features/
-│   ├── tracks/
-│   │   ├── components/
-│   │   │   ├── TrackList.vue
-│   │   │   ├── TrackToolbar.vue
-│   │   │   └── TrackWaveForm.vue
-│   │   ├── modals/
-│   │   │   ├── CreateTrackModal.vue
-│   │   │   ├── EditTrackModal.vue
-│   │   │   ├── UploadFileModal.vue
-│   │   │   └── ConfirmDeleteModal.vue
-│   │   ├── store/
-│   │   │   └── trackStore.js
-│   │   ├── services/
-│   │   │   └── trackApi.js
-│   │   ├── composables/
-│   │   │   └── useTrackManager.js
-│   │   └── TracksView.vue
-│
-├── shared/
-│   ├── components/
-│   │   ├── BaseButton.vue
-│   │   └── Icon.vue
-│   ├── services/
-│   │   ├── fetchWrapper.js
-│   │   └── toastService.js
-│   ├── composables/
-│   │   └── useModal.js
-│   └── utils/
-│       └── validation.js
-│
-├── router/
-│   └── index.js
+```src/
 ├── App.vue
-├── main.js
+├── assets/                     # Static assets like icons, fonts, images
+│   └── ...
+├── router/
+│   └── index.ts                # Application routes
+├── services/                   # Generic API wrappers or config
+│   ├── fetchWrapper.js         # Low-level HTTP client wrapper
+│   └── toastService.js         # Global toast notifications service
+├── shared/                     # Reusable non-feature-specific logic
+│   ├── components/
+│   │   ├── layout/             # Shared layout components
+│   │   │   └── AppFooter.vue
+│   │   ├── ui/                 # UI primitives like buttons, inputs, loaders
+│   │   │   └── PaginationControls.vue
+│   │   └── forms/              # Reusable form-related components
+│   │       └── GenreSelector.vue
+│   └── utils/                  # Common helpers, formatters, validators
+│       └── ...
+├── features/
+│   └── tracks/                 # Everything related to the 'tracks' feature
+│       ├── components/         # Feature-specific UI components
+│       │   ├── TrackCard.vue
+│       │   ├── TrackList.vue
+│       │   ├── TrackToolbar.vue
+│       │   ├── TrackWaveForm.vue
+│       │   ├── TrackActionsButton.vue
+│       │   ├── TrackBulkActions.vue
+│       │   └── modals/         # Modals specific to track management
+│       │       ├── CreateTrackModal.vue
+│       │       ├── EditTrackModal.vue
+│       │       ├── ConfirmDeleteModal.vue
+│       │       └── UploadFileModal.vue
+│       ├── stores/             # Pinia stores for track and genre state
+│       │   ├── useTrackStore.ts
+│       │   └── useGenresStore.ts
+│       ├── schema/             # Zod schemas and validation logic
+│       │   ├── trackSchema.ts
+│       │   └── genreSchema.ts
+│       ├── services/           # Track-specific API services
+│       │   └── trackApi.ts
+│       └── views/              # Entry views for this feature
+│           └── TracksView.vue
+└── views/                      # Global views outside of features(e.g. 404 page)
+    └── NotFound.vue            # 404 - Page not found(like example)
+
 ```
 
 Common utilities and base UI components will be placed in `src/shared/` or `src/common/`.
 
 ## Rationale
 
-Switching to a feature-based structure just feels more natural: all the files for a particular feature live in one place, which makes it easier to work on something without touching unrelated code. It also helps avoid coupling between features, since you’re less tempted to "just import" something from another part of the app. Refactoring also becomes more straightforward when everything related is nearby.
+A feature-based structure improves **cohesion** and **encapsulation**: all related logic for a feature is grouped together, making it easier to maintain, test, and onboard new developers.
 
-Alternative - keeping the type-based structure: doesn’t scale well, makes refactoring harder, and increases complexity.
+Compared to alternatives:
+
+| Structure Type             | Pros                                                           | Cons                                                                |
+| -------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **Type-based**             | Familiar to many; good for small apps                          | Hard to scale; scattered files; harder refactoring; weaker cohesion |
+| **Flat**                   | Simple, fast to prototype                                      | Quickly becomes chaotic; zero modularity                            |
+| **Feature-based (chosen)** | Locality of logic; easier scaling, onboarding, and refactoring | Requires discipline; unfamiliar to some developers                  |
+| **Domain/DDD-based**       | Powerful for large-scale domains                               | Overkill for small projects; harder to adopt without experience     |
+
+The feature-based structure is a good middle-ground between simplicity and scalability and matches the complexity and growth expectations of this project.
 
 ## Status
 
-Proposed
+✅ **Accepted** — to be rolled out incrementally during upcoming refactors.
 
 ## Consequences
 
@@ -78,6 +96,4 @@ Negative:
 
 ## 🧭 Navigation
 
----
-
-[⬅️ Previous](./ADR-0000-ADRGuide.md) | [🏠 Index(README)](./adr/README.md) | [ Next ➡️ ](./ADR-0002-LowCoupling&HighCohesion.md)
+[⬅️ Previous](./ADR-0000-ADRGuide.md) | [🏠 Index(README)](./adr/README.md) | [➡️ Next](./ADR-0002-LowCoupling&HighCohesion.md)
