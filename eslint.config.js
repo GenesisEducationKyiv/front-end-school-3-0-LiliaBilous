@@ -13,5 +13,12 @@ export default defineConfig([
     rules: {
       "no-console": "warn",
     }
+  },
+  {
+    "extends": [
+      "plugin:vue/vue3-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier" // додати сюди
+    ]
   }
 ]);
