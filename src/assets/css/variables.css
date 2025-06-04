@@ -1,0 +1,27 @@
+:root {
+    --primary-color: #25a7da;
+    --accent-color: #ff003c;
+    --secondary-color: #dc006e;
+    --secondary-alt-color: #823aff;
+    --warning-color: #e76026;
+
+    --text-color: #242323;
+    --border-color: #B5B7C0;
+    --grey-fill-color: #ededed;
+    --white-color: #fff;
+
+    --hero-height: 600px;
+}
+
+/* animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
