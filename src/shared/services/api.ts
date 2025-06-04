@@ -5,8 +5,6 @@ import type { Track, TrackQuery, PaginatedTracks } from '@/features/tracks/schem
 
 
 const API_BASE = 'http://localhost:8000/api'
-// const audioFile = `http://localhost:8000/api/files/${data.audioFile}`
-
 
 // Genres
 export const getGenres = (): Promise<Result<string[], Error>> =>
