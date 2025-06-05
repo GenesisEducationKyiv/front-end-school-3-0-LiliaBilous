@@ -1,17 +1,28 @@
 <template>
   <BaseModal @close="$emit('close')">
     <template #title>
-      <h2 class="modal-title">Upload File for <span>{{ track.title }}</span></h2>
+      <h2 class="modal-title">
+        Upload File for <span>{{ track.title }}</span>
+      </h2>
     </template>
     <template #content>
       <form id="upload-file" @submit.prevent="handleSubmit" class="form">
-
         <div v-if="!audioFile" class="file-upload-wrapper">
-          <label for="audioFile" class="button custom-file-upload" data-testid="button-upload-audio">
+          <label
+            for="audioFile"
+            class="button custom-file-upload"
+            data-testid="button-upload-audio"
+          >
             Upload Track (MP3, WAV)
           </label>
-          <input type="file" id="audioFile" accept=".mp3, .wav" @change="handleAudioUpload"
-            aria-describedby="audio-file-instructions" data-testid="input-audio-file" />
+          <input
+            type="file"
+            id="audioFile"
+            accept=".mp3, .wav"
+            @change="handleAudioUpload"
+            aria-describedby="audio-file-instructions"
+            data-testid="input-audio-file"
+          />
           <p id="audio-file-instructions" class="visually-hidden">
             Accepted formats: MP3 or WAV. Maximum size: 10MB.
           </p>
@@ -22,23 +33,41 @@
         <div v-if="audioFileUrl" class="audio-player">
           <div class="file-info">
             <p class="file-name" v-if="audioFile">{{ audioFile.name }}</p>
-            <button type="button" @click="removeAudioFile" class="button danger small"
-              aria-label="Remove uploaded audio file">
+            <button
+              type="button"
+              @click="removeAudioFile"
+              class="button danger small"
+              aria-label="Remove uploaded audio file"
+            >
               Remove File
             </button>
           </div>
 
-          <audio :src="audioFileUrl" controls class="audio-control" :aria-label="`Audio preview for ${track.title}`" />
-
+          <audio
+            :src="audioFileUrl"
+            controls
+            class="audio-control"
+            :aria-label="`Audio preview for ${track.title}`"
+          />
         </div>
       </form>
     </template>
     <template #footer>
       <div class="button-row">
-        <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button">
+        <button
+          type="button"
+          @click="$emit('close')"
+          class="button button-cancel"
+          data-testid="cancel-button"
+        >
           Cancel
         </button>
-        <button type="submit" form="upload-file" class="button button-submit" data-testid="submit-button">
+        <button
+          type="submit"
+          form="upload-file"
+          class="button button-submit"
+          data-testid="submit-button"
+        >
           Save
         </button>
       </div>
@@ -48,7 +77,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { validateAudioFile } from '@/shared/utils/validation'
+import { validateAudioFile } from '@/shared/utils/audioFileValidation'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseModal from '@/shared/components/BaseModal.vue'
 
@@ -66,14 +95,22 @@ const error = ref<string>('')
 
 // --- Methods ---
 function handleAudioUpload(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0]
+  const target = event.target
 
-  if (!file) return
+  if (!(target instanceof HTMLInputElement)) {
+    error.value = 'Unexpected input element.'
+    return
+  }
 
-  const { valid, error: validationError } = validateAudioFile(file)
+  const file = target.files?.[0]
+  if (!file) {
+    error.value = 'No file selected.'
+    return
+  }
 
-  if (!valid) {
+  const { isValid, error: validationError } = validateAudioFile(file)
+
+  if (!isValid) {
     error.value = validationError
     return
   }
@@ -99,7 +136,7 @@ function removeAudioFile() {
 }
 </script>
 <style>
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 
@@ -120,7 +157,8 @@ input[type="file"] {
   background-color: var(--secondary-color);
 }
 
-.file-upload-wrapper {}
+.file-upload-wrapper {
+}
 
 .file-info {
   display: flex;
