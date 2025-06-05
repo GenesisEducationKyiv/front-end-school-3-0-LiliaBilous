@@ -9,7 +9,12 @@
         <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
-          <input id="title-input" v-model="form.title" class="form-input" data-testid="title-input" />
+          <input
+            id="title-input"
+            v-model="form.title"
+            class="form-input"
+            data-testid="title-input"
+          />
           <p v-if="errors.title" class="error-text" data-testid="error-title">{{ errors.title }}</p>
         </div>
 
@@ -17,7 +22,9 @@
         <div class="form-group">
           <label class="form-label" for="artist-input">Artist</label>
           <input id="artist-input" v-model="form.artist" class="form-input" />
-          <p v-if="errors.artist" class="error-text" data-testid="error-artist">{{ errors.artist }}</p>
+          <p v-if="errors.artist" class="error-text" data-testid="error-artist">
+            {{ errors.artist }}
+          </p>
         </div>
 
         <!-- Album -->
@@ -31,13 +38,11 @@
           <label class="form-label" for="cover-image-input">Cover Image URL</label>
           <input id="cover-image-input" v-model="form.coverImage" class="form-input" />
           <p v-if="errors.coverImage" class="error-text">{{ errors.coverImage }}</p>
-          <img :src="validImageUrl ? form.coverImage : fallbackImage" class="image-preview"
-            :alt="validImageUrl ? 'Cover image preview' : 'Fallback cover image preview'" />
+          <img :src="form.coverImage" class="image-preview" :alt="'Cover image preview'" />
         </div>
 
         <!-- Genre Selector -->
         <div class="form-group">
-          <label class="form-label visually-hidden">Genres</label>
           <GenreSelector v-model:selected="form.genres" />
           <p v-if="errors.genres" class="error-text">{{ errors.genres }}</p>
         </div>
@@ -45,12 +50,22 @@
     </template>
     <template #footer>
       <div class="modal-actions">
-        <button type="button" @click="$emit('close')" class="button button-cancel" data-testid="cancel-button"
-          aria-label="Cancel editing track">
+        <button
+          type="button"
+          @click="$emit('close')"
+          class="button button-cancel"
+          data-testid="cancel-button"
+          aria-label="Cancel editing track"
+        >
           Cancel
         </button>
-        <button type="submit" form="edit-track-form" class="button button-submit" data-testid="submit-button"
-          aria-label="Save track changes">
+        <button
+          type="submit"
+          form="edit-track-form"
+          class="button button-submit"
+          data-testid="submit-button"
+          aria-label="Save track changes"
+        >
           Save
         </button>
       </div>
@@ -59,11 +74,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import BaseModal from '@/shared/components/BaseModal.vue'
 import GenreSelector from '@/components/common/GenreSelector.vue'
-import { isValidImageUrl, validateTrackForm } from '@/shared/utils/validation.ts'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
+import type { ValidationErrors } from '@/shared/utils/trackFormSchema.ts'
+import { validateTrackForm } from '@/shared/utils/formValidation.ts'
+import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
+import { defaultValidationErrors } from '@/shared/utils/defaultTrackForm.ts'
+
+type TrackFormFields = Pick<Track, 'title' | 'artist' | 'album' | 'genres' | 'coverImage'>
 
 // --- Props & Emits ---
 const props = defineProps<{
@@ -76,42 +96,44 @@ const emit = defineEmits<{
 }>()
 
 // --- State ---
-const form = ref<Track>({ ...props.track })
-
-type ValidationErrors = {
-  title: string
-  artist: string
-  genres: string
-  coverImage: string
-}
+const form = ref<TrackFormFields>({
+  title: props.track.title,
+  artist: props.track.artist,
+  album: props.track.album,
+  genres: props.track.genres,
+  coverImage: props.track.coverImage ?? DEFAULT_COVER_IMAGE,
+})
 
 const errors = ref<ValidationErrors>({
-  title: '',
-  artist: '',
-  genres: '',
-  coverImage: '',
+  ...defaultValidationErrors,
 })
 
 watch(
   () => props.track,
   (newVal) => {
-    form.value = { ...newVal }
+    form.value = {
+      title: newVal.title,
+      artist: newVal.artist,
+      album: newVal.album,
+      genres: [...newVal.genres],
+      coverImage: newVal.coverImage ?? DEFAULT_COVER_IMAGE,
+    }
   }
-)
-
-const fallbackImage = 'https://placehold.co/100'
-const validImageUrl = computed(() =>
-  isValidImageUrl(form.value.coverImage ?? '')
 )
 
 // --- Form submit ---
 async function handleSubmit() {
-  const { isValid, errors: newErrors } = validateTrackForm(form.value)
-  errors.value = newErrors
+  const result = validateTrackForm(form.value)
+  errors.value = result.errors
 
-  if (!isValid) return
+  if (!result.isValid) return
 
-  emit('updated', form.value)
+  const updatedTrack: Track = {
+    ...props.track,
+    ...form.value,
+  }
+
+  emit('updated', updatedTrack)
   emit('close')
 }
 </script>
