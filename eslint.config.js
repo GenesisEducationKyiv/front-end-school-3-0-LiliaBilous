@@ -14,6 +14,7 @@ export default defineConfig([
       parserOptions: {
         project: "./tsconfig.json",
         tsconfigRootDir: process.cwd(),
+        extraFileExtensions: [".vue"],
       },
     },
   },
