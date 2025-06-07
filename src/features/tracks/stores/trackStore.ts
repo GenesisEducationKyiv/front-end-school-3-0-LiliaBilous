@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Result } from 'neverthrow'
 import {
-  getGenres,
   getTrackBySlug,
   getTrackAudioUrl,
   getTracks,
@@ -14,53 +13,30 @@ import {
   deleteTrackFile,
 } from '@/shared/services/api.ts'
 
-import type { Track, TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
 
 export const useTrackStore = defineStore('trackStore', () => {
   // state
-  const availableGenres = ref<string[]>([])
   const trackBySlug = ref<Track | null>(null)
   const tracks = ref<Track[]>([])
-  const page = ref()
   const totalPages = ref()
   const isLoading = ref(false)
 
   const filterStore = useTrackFilterStore()
 
   // actions
-  const fetchGenres = async (): Promise<Result<string[], Error>> => {
-    const result = await getGenres()
-
-    if (result.isOk()) {
-      availableGenres.value = result.value
-    }
-    return result
-  }
-
   const fetchTracks = async (): Promise<void> => {
     isLoading.value = true
-    try {
-      const query: TrackQuery = {
-        page: filterStore.page,
-        limit: 10,
-        search: filterStore.search,
-        artist: filterStore.artist,
-        genre: filterStore.genres.join(','),
-        ...(filterStore.sort ? { sort: filterStore.sort } : {}),
-      }
+    const query = filterStore.toQuery()
 
-      const result = await getTracks(query)
+    const result = await getTracks(query)
 
-      if (result.isOk()) {
-        tracks.value = result.value.data
-        totalPages.value = result.value.meta.totalPages
-      }
-    } catch (err) {
-      console.error(err)
-    } finally {
-      isLoading.value = false
+    if (result.isOk()) {
+      tracks.value = result.value.data
+      totalPages.value = result.value.meta.totalPages
     }
+    isLoading.value = false
   }
   const fetchTrackBySlug = async (slug: string): Promise<Result<Track, Error>> => {
     const result = await getTrackBySlug(slug)
@@ -130,15 +106,12 @@ export const useTrackStore = defineStore('trackStore', () => {
 
   return {
     // state
-    availableGenres,
     trackBySlug,
     tracks,
-    page,
     totalPages,
     isLoading,
 
     // actions
-    fetchGenres,
     fetchTracks,
     fetchTrackBySlug,
     addTrack,

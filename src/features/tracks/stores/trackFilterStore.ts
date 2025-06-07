@@ -1,47 +1,57 @@
-import { ref, computed } from 'vue'
+import * as Belt from '@mobily/ts-belt'
+import { pipe } from '@mobily/ts-belt'
 import { defineStore } from 'pinia'
-import type { LocationQuery } from 'vue-router'
-
-export const useTrackFilterStore = defineStore('trackFilterStore', () => {
-  // state
-  const page = ref(1)
+import { ref } from 'vue'
+import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
+export const useTrackFilterStore = defineStore('trackFilter', () => {
   const search = ref('')
   const artist = ref('')
-  const genres = ref<string[]>([])
+  const genre = ref('')
   const sort = ref('')
+  const page = ref(1)
 
-  // actions
-  const isFilterActive = computed(() => {
-    return search.value || artist.value || genres.value.length > 0
-  })
-  function setPage(value: number) {
-    page.value = value
+  function toQuery(): TrackQuery {
+    return {
+      page: page.value,
+      limit: 10,
+      search: search.value || undefined,
+      artist: artist.value || undefined,
+      genre: genre.value || undefined,
+      sort: sort.value || undefined,
+    }
+  }
+
+  function initFromQuery(query) {
+    search.value = pipe(Belt.O.fromNullable(query.search), Belt.O.getWithDefault(''))
+
+    artist.value = pipe(Belt.O.fromNullable(query.artist), Belt.O.getWithDefault(''))
+
+    genre.value = pipe(Belt.O.fromNullable(query.genre), Belt.O.getWithDefault(''))
+
+    sort.value = pipe(Belt.O.fromNullable(query.sort), Belt.O.getWithDefault(''))
+
+    page.value = pipe(Belt.O.fromNullable(query.page), Belt.O.getWithDefault(1))
   }
 
   function resetFilters() {
     search.value = ''
     artist.value = ''
-    genres.value = []
+    genre.value = ''
     sort.value = ''
     page.value = 1
   }
-  function initFromQuery(query: LocationQuery) {
-    search.value = typeof query.search === 'string' ? query.search : ''
-    artist.value = typeof query.artist === 'string' ? query.artist : ''
-    genres.value = typeof query.genre === 'string' ? [query.genre] : []
-    sort.value = typeof query.sort === 'string' ? query.sort : ''
-    page.value = typeof query.page === 'string' ? parseInt(query.page) || 1 : 1
-  }
 
   return {
+    // state
     search,
     artist,
-    genres,
+    genre,
     sort,
     page,
-    isFilterActive,
-    setPage,
-    resetFilters,
+
+    // actions
+    toQuery,
     initFromQuery,
+    resetFilters,
   }
 })
