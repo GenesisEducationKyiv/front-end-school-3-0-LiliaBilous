@@ -47,7 +47,7 @@
           <FilterTabGroup
             @modelValue="selectGenre"
             :options="availableGenres"
-            :modelValue="trackStore.availableGenres[0] ?? ''"
+            v-model="filterStore.genre"
             ariaLabel=" Select genre"
             variant="genre"
           />
@@ -60,7 +60,7 @@
             data-testid="filter-artist"
             type="text"
             v-model="filterStore.artist"
-            @input="trackStore.fetchTracks"
+            @input="debouncedSearch"
             placeholder="Filter by Artist"
             aria-label="Filter tracks by artist"
           />
@@ -81,69 +81,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import debounce from 'lodash.debounce'
-import { getGenres } from '@/shared/services/api'
+import { ref, computed, onMounted } from 'vue'
+import { F } from '@mobily/ts-belt'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore'
-import type { Result } from 'neverthrow'
-import FilterTabGroup from '@/shared/components/FilterTabGroup.vue'
-import { useRoute } from 'vue-router'
-const route = useRoute()
-
+import { useTrackGenreStore } from '@/features/tracks/stores/trackGenresStore.ts'
 import { useSyncFiltersWithUrl } from '@/shared/composables/useFiltersWithUrl'
+import FilterTabGroup from '@/shared/components/FilterTabGroup.vue'
+
 useSyncFiltersWithUrl()
 
+const dropdownOpen = ref(true)
 const filterStore = useTrackFilterStore()
 const trackStore = useTrackStore()
+const genreStore = useTrackGenreStore()
+const availableGenres = computed(() => genreStore.genres)
 const sortOptions = ['title', 'artist', 'album', 'createdAt']
+
 function selectSort(value: string) {
   filterStore.sort = value
   trackStore.fetchTracks()
 }
-
-const availableGenres = ref<string[]>([])
-const dropdownOpen = ref(true)
-
-const debouncedSearch = debounce(() => {
-  trackStore.fetchTracks()
-}, 500)
-
-onMounted(async () => {
-  const result: Result<string[], Error> = await getGenres()
-
-  result.match(
-    (genres) => {
-      availableGenres.value = genres
-    },
-    (error) => {
-      console.error('Failed to fetch genres:', error)
-      availableGenres.value = []
-    }
-  )
-  filterStore.initFromQuery(route.query)
-})
-
 function selectGenre(genre: string): void {
-  if (filterStore.genres[0] === genre) {
-    filterStore.genres = []
-  } else {
-    filterStore.genres = [genre]
-  }
-  filterStore.page = 1
+  filterStore.genre = genre
   trackStore.fetchTracks()
 }
 function resetAllFilters() {
   filterStore.resetFilters()
   trackStore.fetchTracks()
 }
-
 const isFilterActive = computed((): boolean => {
-  return (
-    !!filterStore.search ||
-    !!filterStore.artist ||
-    filterStore.genres.length > 0 ||
-    !!filterStore.sort
-  )
+  return !!filterStore.search || !!filterStore.artist || !!filterStore.genre || !!filterStore.sort
+})
+const debouncedSearch = F.debounce(() => {
+  trackStore.fetchTracks()
+}, 500)
+onMounted(() => {
+  genreStore.fetchGenres()
 })
 </script>

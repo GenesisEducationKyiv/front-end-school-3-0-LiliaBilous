@@ -1,6 +1,7 @@
 import { watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
+import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
 
 export function useSyncFiltersWithUrl() {
   const router = useRouter()
@@ -15,7 +16,7 @@ export function useSyncFiltersWithUrl() {
     () => ({
       search: store.search,
       artist: store.artist,
-      genre: store.genres.join(','),
+      genre: store.genre,
       sort: store.sort,
       page: store.page,
     }),
@@ -29,16 +30,23 @@ export function useSyncFiltersWithUrl() {
     { deep: true }
   )
 }
-function cleanQuery<T extends Record<string, string | number | undefined | null>>(
-  query: T
-): Partial<T> {
-  const cleaned: Partial<T> = {}
+
+function cleanQuery(query: TrackQuery): Partial<Record<keyof TrackQuery, string | number>> {
+  const cleaned: Partial<Record<keyof TrackQuery, string | number>> = {}
 
   for (const key in query) {
-    const value = query[key]
-    if (value !== undefined && value !== null && value !== '' && !(key === 'page' && value === 1)) {
-      cleaned[key] = value
+    const typedKey = key as keyof TrackQuery
+    const value = query[typedKey]
+
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== '' &&
+      !(key === 'page' && (value === 1 || value === '1'))
+    ) {
+      cleaned[typedKey] = value
     }
   }
+
   return cleaned
 }
