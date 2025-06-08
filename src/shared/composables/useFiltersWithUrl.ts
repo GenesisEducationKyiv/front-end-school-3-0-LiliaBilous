@@ -1,16 +1,11 @@
-import { watch, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
 
 export function useSyncFiltersWithUrl() {
   const router = useRouter()
-  const route = useRoute()
   const store = useTrackFilterStore()
-
-  onMounted(() => {
-    store.initFromQuery(route.query)
-  })
 
   watch(
     () => ({

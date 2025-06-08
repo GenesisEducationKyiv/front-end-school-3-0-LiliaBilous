@@ -21,16 +21,16 @@ export const useTrackFilterStore = defineStore('trackFilter', () => {
     }
   }
 
-  function initFromQuery(query) {
-    search.value = pipe(Belt.O.fromNullable(query.search), Belt.O.getWithDefault(''))
+  function initFromQuery(query: Partial<TrackQuery>) {
+    search.value = pipe(Belt.O.fromNullable(query.search), Belt.O.getWithDefault<string>(''))
 
-    artist.value = pipe(Belt.O.fromNullable(query.artist), Belt.O.getWithDefault(''))
+    artist.value = pipe(Belt.O.fromNullable(query.artist), Belt.O.getWithDefault<string>(''))
 
-    genre.value = pipe(Belt.O.fromNullable(query.genre), Belt.O.getWithDefault(''))
+    genre.value = pipe(Belt.O.fromNullable(query.genre), Belt.O.getWithDefault<string>(''))
 
-    sort.value = pipe(Belt.O.fromNullable(query.sort), Belt.O.getWithDefault(''))
+    sort.value = pipe(Belt.O.fromNullable(query.sort), Belt.O.getWithDefault<string>(''))
 
-    page.value = pipe(Belt.O.fromNullable(query.page), Belt.O.getWithDefault(1))
+    page.value = pipe(Belt.O.fromNullable(query.page), Belt.O.getWithDefault<number>(1))
   }
 
   function resetFilters() {

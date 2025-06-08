@@ -81,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
 import { F } from '@mobily/ts-belt'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
@@ -89,8 +90,7 @@ import { useTrackGenreStore } from '@/features/tracks/stores/trackGenresStore.ts
 import { useSyncFiltersWithUrl } from '@/shared/composables/useFiltersWithUrl'
 import FilterTabGroup from '@/shared/components/FilterTabGroup.vue'
 
-useSyncFiltersWithUrl()
-
+const route = useRoute()
 const dropdownOpen = ref(true)
 const filterStore = useTrackFilterStore()
 const trackStore = useTrackStore()
@@ -116,7 +116,11 @@ const isFilterActive = computed((): boolean => {
 const debouncedSearch = F.debounce(() => {
   trackStore.fetchTracks()
 }, 500)
+
+useSyncFiltersWithUrl()
 onMounted(() => {
+  filterStore.initFromQuery(route.query)
+  trackStore.fetchTracks()
   genreStore.fetchGenres()
 })
 </script>
