@@ -1,5 +1,4 @@
-import { O } from '@mobily/ts-belt'
-import { pipe } from '@mobily/ts-belt'
+import { O, pipe } from '@mobily/ts-belt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
