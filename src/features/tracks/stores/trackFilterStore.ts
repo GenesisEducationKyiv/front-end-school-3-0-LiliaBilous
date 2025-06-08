@@ -3,12 +3,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
 export const useTrackFilterStore = defineStore('trackFilter', () => {
-  const search = ref('')
-  const artist = ref('')
-  const genre = ref('')
-  const sort = ref('')
-  const page = ref(1)
+  // state
+  const search = ref<string>('')
+  const artist = ref<string>('')
+  const genre = ref<string>('')
+  const sort = ref<string>('')
+  const page = ref<number>(1)
 
+  // actions
   function toQuery(): TrackQuery {
     return {
       page: page.value,
@@ -22,13 +24,9 @@ export const useTrackFilterStore = defineStore('trackFilter', () => {
 
   function initFromQuery(query: Partial<TrackQuery>) {
     search.value = pipe(O.fromNullable(query.search), O.getWithDefault<string>(''))
-
     artist.value = pipe(O.fromNullable(query.artist), O.getWithDefault<string>(''))
-
     genre.value = pipe(O.fromNullable(query.genre), O.getWithDefault<string>(''))
-
     sort.value = pipe(O.fromNullable(query.sort), O.getWithDefault<string>(''))
-
     page.value = pipe(O.fromNullable(query.page), O.getWithDefault<number>(1))
   }
 

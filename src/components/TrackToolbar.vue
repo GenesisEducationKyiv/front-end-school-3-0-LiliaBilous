@@ -37,7 +37,6 @@
             data-testid="search-input"
             type="text"
             v-model="filterStore.search"
-            @input="debouncedSearch"
             placeholder="Search..."
             aria-label="Search tracks by title or metadata"
           />
@@ -48,7 +47,7 @@
             @modelValue="selectGenre"
             :options="availableGenres"
             v-model="filterStore.genre"
-            ariaLabel=" Select genre"
+            ariaLabel="Select genre"
             variant="genre"
           />
         </div>
@@ -60,7 +59,6 @@
             data-testid="filter-artist"
             type="text"
             v-model="filterStore.artist"
-            @input="debouncedSearch"
             placeholder="Filter by Artist"
             aria-label="Filter tracks by artist"
           />
@@ -83,8 +81,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
-import { F } from '@mobily/ts-belt'
-import { useTrackStore } from '@/features/tracks/stores/trackStore'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore'
 import { useTrackGenreStore } from '@/features/tracks/stores/trackGenresStore.ts'
 import { useSyncFiltersWithUrl } from '@/shared/composables/useFiltersWithUrl'
@@ -93,34 +89,27 @@ import FilterTabGroup from '@/shared/components/FilterTabGroup.vue'
 const route = useRoute()
 const dropdownOpen = ref(true)
 const filterStore = useTrackFilterStore()
-const trackStore = useTrackStore()
 const genreStore = useTrackGenreStore()
 const availableGenres = computed(() => genreStore.genres)
 const sortOptions = ['title', 'artist', 'album', 'createdAt']
 
 function selectSort(value: string) {
   filterStore.sort = value
-  trackStore.fetchTracks()
 }
-function selectGenre(genre: string): void {
-  filterStore.genre = genre
-  trackStore.fetchTracks()
+function selectGenre(value: string) {
+  filterStore.genre = value
 }
 function resetAllFilters() {
   filterStore.resetFilters()
-  trackStore.fetchTracks()
 }
+
 const isFilterActive = computed((): boolean => {
   return !!filterStore.search || !!filterStore.artist || !!filterStore.genre || !!filterStore.sort
 })
-const debouncedSearch = F.debounce(() => {
-  trackStore.fetchTracks()
-}, 500)
 
 useSyncFiltersWithUrl()
 onMounted(() => {
   filterStore.initFromQuery(route.query)
-  trackStore.fetchTracks()
   genreStore.fetchGenres()
 })
 </script>

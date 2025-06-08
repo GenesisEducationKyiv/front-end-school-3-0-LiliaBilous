@@ -1,11 +1,14 @@
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTrackStore } from '@/features/tracks/stores/trackStore'
 import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
+import { F } from '@mobily/ts-belt'
 
 export function useSyncFiltersWithUrl() {
   const router = useRouter()
   const store = useTrackFilterStore()
+  const trackStore = useTrackStore()
 
   watch(
     () => ({
@@ -16,13 +19,27 @@ export function useSyncFiltersWithUrl() {
       page: store.page,
     }),
     (newQuery) => {
-      router.replace({
-        query: {
-          ...cleanQuery(newQuery),
-        },
-      })
+      router.replace({ query: cleanQuery(newQuery) })
     },
     { deep: true }
+  )
+
+  const debouncedFetchTracks = F.debounce(() => {
+    trackStore.fetchTracks()
+  }, 1000)
+
+  watch(
+    () => [store.search, store.artist],
+    () => {
+      store.page = 1
+      debouncedFetchTracks()
+    }
+  )
+  watch(
+    () => [store.genre, store.sort, store.page],
+    () => {
+      trackStore.fetchTracks()
+    }
   )
 }
 
