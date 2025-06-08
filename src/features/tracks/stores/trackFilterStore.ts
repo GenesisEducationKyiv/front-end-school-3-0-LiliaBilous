@@ -1,4 +1,4 @@
-import * as Belt from '@mobily/ts-belt'
+import { O } from '@mobily/ts-belt'
 import { pipe } from '@mobily/ts-belt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -22,15 +22,15 @@ export const useTrackFilterStore = defineStore('trackFilter', () => {
   }
 
   function initFromQuery(query: Partial<TrackQuery>) {
-    search.value = pipe(Belt.O.fromNullable(query.search), Belt.O.getWithDefault<string>(''))
+    search.value = pipe(O.fromNullable(query.search), O.getWithDefault<string>(''))
 
-    artist.value = pipe(Belt.O.fromNullable(query.artist), Belt.O.getWithDefault<string>(''))
+    artist.value = pipe(O.fromNullable(query.artist), O.getWithDefault<string>(''))
 
-    genre.value = pipe(Belt.O.fromNullable(query.genre), Belt.O.getWithDefault<string>(''))
+    genre.value = pipe(O.fromNullable(query.genre), O.getWithDefault<string>(''))
 
-    sort.value = pipe(Belt.O.fromNullable(query.sort), Belt.O.getWithDefault<string>(''))
+    sort.value = pipe(O.fromNullable(query.sort), O.getWithDefault<string>(''))
 
-    page.value = pipe(Belt.O.fromNullable(query.page), Belt.O.getWithDefault<number>(1))
+    page.value = pipe(O.fromNullable(query.page), O.getWithDefault<number>(1))
   }
 
   function resetFilters() {
