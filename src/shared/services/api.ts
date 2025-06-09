@@ -3,7 +3,6 @@ import { fetchWrapper } from '@/shared/services/fetchWrapper.ts'
 import type { Result } from 'neverthrow'
 import type { Track, TrackQuery, PaginatedTracks } from '@/features/tracks/schema/trackSchema.ts'
 
-
 const API_BASE = 'http://localhost:8000/api'
 
 // Genres
@@ -15,8 +14,7 @@ export const getTrackBySlug = (slug: string): Promise<Result<Track, Error>> =>
   fetchWrapper<Track>(`${API_BASE}/tracks/${slug}`)
 
 //  URL for track audio file
-export const getTrackAudioUrl = (filename: string): string =>
-  `${API_BASE}/files/${filename}`
+export const getTrackAudioUrl = (filename: string): string => `${API_BASE}/files/${filename}`
 
 // Create
 export const createTrack = (trackData: Omit<Track, 'id'>): Promise<Result<Track, Error>> =>
@@ -49,10 +47,7 @@ export const bulkDeleteTracks = (ids: string[]): Promise<Result<null, Error>> =>
   })
 
 // Upload audio file
-export const uploadTrackFile = (
-  id: string,
-  formData: FormData
-): Promise<Result<Track, Error>> =>
+export const uploadTrackFile = (id: string, formData: FormData): Promise<Result<Track, Error>> =>
   fetchWrapper<Track>(`${API_BASE}/tracks/${id}/upload`, {
     method: 'POST',
     body: formData,
