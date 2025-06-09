@@ -32,7 +32,6 @@
 
     /* DOM support */
     "lib": ["es2022", "dom", "dom.iterable"],
-    
   },
   "include": [
     "src/**/*.ts",
