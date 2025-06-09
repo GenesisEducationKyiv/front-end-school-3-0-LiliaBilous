@@ -3,199 +3,177 @@
     <div class="main__container">
       <TrackToolbar />
 
-      <div
-        v-if="trackStore.isLoading"
-        data-testid="loading-tracks"
-        data-loading="true"
-        class="loading-indicator"
-      >
+      <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true" class="loading-indicator">
         Loading tracks...
       </div>
 
-      <Transition name="fade">
-        <TrackBulkActions
-          v-if="!trackStore.isLoading && selectedIds.length"
-          :selected-ids="selectedIds"
-          :select-all="selectAll"
-          @update:selectAll="toggleSelectAll"
-          @delete-selected="deleteSelected"
-        />
-      </Transition>
-
-      <button
-        data-testid="create-track-button"
-        class="main__create-track-button button"
-        @click="showModal = true"
-        :disabled="trackStore.isLoading"
-        :aria-disabled="trackStore.isLoading"
-        :data-loading="trackStore.isLoading"
-      >
+      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
+        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
         + Create Track
       </button>
 
-      <TrackList
-        v-if="!trackStore.isLoading"
-        :tracks="trackStore.tracks"
-        :selected-ids="selectedIds"
-        :select-all="selectAll"
-        @edit="openEditModal"
-        @delete="openConfirmDelete"
-        @update:selected-ids="val => selectedIds = val"
-        @upload="openUploadModal"
-        @reset="handleFileRemove"
-      />
+      <TrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
+        @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove" @bulk-delete="deleteSelected" />
 
-      <PaginationControls
-        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
-        data-testid="pagination"
-        :current-page="trackStore.page"
-        :total-pages="trackStore.totalPages"
-        @change="onPageChange"
-      />
+
+      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
+        :current-page="trackStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
     </div>
 
-    <Teleport to="#modal">
-      <Transition name="modal-fade">
-        <div v-if="showModal || isEditModalOpen || isUploadModalOpen || showConfirmDeleteModal">
-          <CreateTrackModal
-            v-if="showModal"
-            @close="showModal = false"
-            @new-track="addNewTrack"
-          />
-          <EditTrackModal
-            v-if="isEditModalOpen"
-            :track="selectedTrack"
-            @close="isEditModalOpen = false"
-            @updated="handleTrackUpdate"
-          />
-          <UploadFileModal
-            v-if="isUploadModalOpen"
-            :track="selectedTrack"
-            @close="isUploadModalOpen = false"
-            @upload="handleFileUpload"
-          />
-          <ConfirmDeleteModal
-            v-if="showConfirmDeleteModal"
-            :track="selectedTrack"
-            @close="showConfirmDeleteModal = false"
-            @confirm="deleteSingleTrack"
-          />
-        </div>
-      </Transition>
-    </Teleport>
   </main>
 </template>
 
-
-<script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useTrackStore } from '@/stores/trackStore'
-import { notifySuccess, notifyError } from '@/services/toastService'
+<script setup lang="ts">
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
+import { ref, onMounted } from 'vue'
+import { useTrackStore } from '@/features/tracks/stores/trackStore'
+import { notifySuccess, notifyError } from '@/shared/services/toastService'
+import { useModal } from '@/shared/composables/useModal'
 
 import TrackList from '@/components/TrackList.vue'
 import CreateTrackModal from '@/components/modals/CreateTrackModal.vue'
 import EditTrackModal from '@/components/modals/EditTrackModal.vue'
 import ConfirmDeleteModal from '@/components/modals/ConfirmDeleteModal.vue'
 import UploadFileModal from '@/components/modals/UploadFileModal.vue'
-import PaginationControls from '@/components/common/Pagination.vue'
+import PaginationControls from '@/components/common/PaginationControls.vue'
 import TrackToolbar from '@/components/TrackToolbar.vue'
-import TrackBulkActions from '@/components/TrackBulkActions.vue'
 
 const trackStore = useTrackStore()
-const showModal = ref(false)
-const isEditModalOpen = ref(false)
-const isUploadModalOpen = ref(false)
-const showConfirmDeleteModal = ref(false)
-const selectedTrack = ref(null)
-const selectedIds = ref([])
+const { showModal, hideModal } = useModal()
+
+const selectedTrack = ref<Track | null>(null)
+const selectedIds = ref<string[]>([])
 const selectAll = ref(false)
 
 onMounted(() => {
   trackStore.fetchTracks()
 })
-watch(selectedIds, (newVal) => {
-  selectAll.value = newVal.length === trackStore.tracks.length
-})
 
-function toggleSelectAll(value) {
-  selectAll.value = value
-  selectedIds.value = value ? trackStore.tracks.map(t => t.id) : []
-}
-function onPageChange(page) {
+function onPageChange(page: number) {
   trackStore.page = page
   selectAll.value = false
   selectedIds.value = []
   trackStore.fetchTracks()
 }
-function openUploadModal(track) {
-  selectedTrack.value = { ...track }
-  isUploadModalOpen.value = true
+
+// function for open  modals & handle actions
+function openCreateModal() {
+  showModal(CreateTrackModal, {
+    listeners: {
+      close: hideModal,
+      'new-track': (track: unknown) => addNewTrack(track as Track)
+    }
+  })
 }
-function openEditModal(track) {
+function openUploadModal(track: Track) {
   selectedTrack.value = { ...track }
-  isEditModalOpen.value = true
+  showModal(UploadFileModal, {
+    props: { track: selectedTrack.value },
+    listeners: {
+      close: hideModal,
+      upload: (id: unknown, file: unknown) => {
+        if (typeof id === 'string' && file instanceof File) {
+          handleFileUpload(id, file)
+        }
+      }
+    }
+  })
 }
-function openConfirmDelete(track) {
+function openEditModal(track: Track) {
   selectedTrack.value = { ...track }
-  showConfirmDeleteModal.value = true
+  showModal(EditTrackModal, {
+    props: { track: selectedTrack.value },
+    listeners: {
+      close: hideModal,
+      'updated': (track: unknown) => handleTrackEdit(track as Track)
+    }
+  })
 }
-function addNewTrack(newTrack) {
-  try {
-    trackStore.addTrack(newTrack)
+function openConfirmDelete(track: Track) {
+  selectedTrack.value = { ...track }
+  showModal(ConfirmDeleteModal, {
+    props: { track: selectedTrack.value },
+    listeners: {
+      close: hideModal,
+      confirm: (...args: unknown[]) => {
+        const [id] = args
+        if (typeof id === 'string') {
+          deleteSingleTrack(id)
+          hideModal()
+        }
+      }
+    }
+  })
+}
+// call methods from store & poceed results
+async function addNewTrack(newTrack: Track) {
+  const result = await trackStore.addTrack(newTrack)
+
+  if (result.isOk()) {
     notifySuccess('New track added')
-  } catch (e) {
-    notifyError('Failed to add track')
+  } else {
+    notifyError(`Failed to add track: ${result.error.message}`)
   }
 }
-function handleTrackUpdate(updatedTrack) {
-  try {
-    trackStore.editTrack(updatedTrack)
+async function handleTrackEdit(updatedTrack: Track) {
+  const result = await trackStore.editTrack(updatedTrack)
+  if (result.isOk()) {
     notifySuccess('Track updated successfully')
-  } catch (e) {
+  } else {
     notifyError('Failed to update track')
   }
 }
-function handleFileUpload(id, file) {
-  try {
-    trackStore.uploadFile(id, file)
-    notifySuccess('File uploaded successfully')
-  } catch (e) {
-    notifyError('Upload failed')
+async function deleteSingleTrack(id: string) {
+  const result = await trackStore.removeTrack(id)
+  if (result.isOk()) {
+    notifySuccess('Track deleted successfully')
+  } else {
+    notifyError(`Failed to delete track: ${result.error.message}`)
   }
 }
-function handleFileRemove(id) {
-  try {
-    trackStore.deleteFile(id)
-    notifySuccess('File removed successfully')
-  } catch (e) {
-    notifyError('Failed to remove file')
-  }
-}
-function deleteSingleTrack(id) {
-  console.log('Deleting track with id:', id)
-  try {
-    trackStore.removeTrack(id)
-    notifySuccess('Track deleted successfully!')
-    showConfirmDeleteModal.value = false
-  } catch (e) {
-    notifyError('Failed to delete track')
-  }
-}
-
-
-function deleteSelected() {
-  try {
-    trackStore.removeTracks(selectedIds.value)
-    selectedIds.value = []
-    selectAll.value = false
+async function deleteSelected(ids: string[]) {
+  const result = await trackStore.removeTracks(ids)
+  if (result.isOk()) {
     notifySuccess('Selected tracks deleted')
-  } catch (e) {
+  } else {
     notifyError('Failed to delete selected tracks')
   }
 }
-
+async function handleFileUpload(id: string, file: File) {
+  const result = await trackStore.uploadFile(id, file)
+  if (result.isOk()) {
+    notifySuccess('File uploaded successfully')
+  } else {
+    notifyError('Upload failed')
+  }
+}
+async function handleFileRemove(id: string) {
+  const result = await trackStore.deleteFile(id)
+  if (result.isOk()) {
+    notifySuccess('File removed successfully')
+  } else {
+    notifyError('Failed to remove file')
+  }
+}
 </script>
 <style>
+.main {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--hero-height)*(-0.25));
+  width: 90%;
+  background: var(--white-color);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+}
+
+.main__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .main__create-track-button {
   position: relative;
   font-size: 1.25em;
@@ -218,37 +196,6 @@ function deleteSelected() {
 }
 
 .main__create-track-button:hover::before {
-  opacity: 1;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-}
-
-/* modal anim */
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-.modal-fade-enter-to,
-.modal-fade-leave-from {
   opacity: 1;
 }
 </style>

@@ -1,74 +1,95 @@
 <template>
   <div class="track-item__actions-wrapper">
     <div>
-      <button @click="toggleMenu(track.id)" :class="isMobile ? 'button more-button' : 'more-button-hidden'"
-        :aria-label="`Actions for ${track.title}`">⋮</button>
-      <div :class="isMobile && activeTrackId === track.id && isDropdownOpen ? 'dropdown-menu' : 'track-item__actions'"
-        v-if="!isMobile || (isMobile && activeTrackId === track.id)">
-        <button :aria-label="`Upload audio file for ${track.title}`" :data-testid="`upload-track-${track.id}`"
-          v-show="!track.audioFile" @click="$emit('upload', track)" class="track-item__button button">Upload</button>
-        <button :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`" v-if="track.audioFile"
-          @click="handlePlay(track)" class="track-item__button button">{{
-            isPlayerVisible ? "Hide player" : 'Player' }}</button>
-        <button :aria-label="`Edit metadata for ${track.title}`" :data-testid="`edit-track-${track.id}`"
-          @click="$emit('edit', track)" class="track-item__button button ">Edit</button>
-        <button :aria-label="`Delete ${track.title}`" :data-testid="`delete-track-${track.id}`"
-          @click="$emit('delete', track)" class="track-item__button button ">Delete</button>
+      <BaseButton v-if="isMobile" class="more-button" :aria-label="`Actions for ${track.title}`"
+        @click="toggleMenu(track.id)">
+        ⋮
+      </BaseButton>
+
+      <div :class="{
+        'dropdown-menu': isMobile && activeTrackId === track.id && isDropdownOpen,
+        'track-item__actions': !isMobile || (isMobile && activeTrackId === track.id)
+      }">
+        <BaseButton v-show="!track.audioFile" class="track-item__button button"
+          :aria-label="`Upload audio file for ${track.title}`" :data-testid="`upload-track-${track.id}`"
+          @click="$emit('upload', track)">
+          Upload
+        </BaseButton>
+
+        <BaseButton v-if="track.audioFile" class="track-item__button button"
+          :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`" @click="handlePlay(track.id)">
+          {{ isPlayerVisible ? 'Hide player' : 'Player' }}
+        </BaseButton>
+
+        <BaseButton class="track-item__button button" :aria-label="`Edit metadata for ${track.title}`"
+          :data-testid="`edit-track-${track.id}`" @click="$emit('edit', track)">
+          Edit
+        </BaseButton>
+
+        <BaseButton class="track-item__button button" :aria-label="`Delete ${track.title}`"
+          :data-testid="`delete-track-${track.id}`" @click="$emit('delete', track)">
+          Delete
+        </BaseButton>
       </div>
     </div>
   </div>
 </template>
-<script setup>
+
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import type { Track } from '@/features/tracks/schema/trackSchema.ts'
+import BaseButton from '@/shared/components/BaseButton.vue'
 
-const props = defineProps({
-  track: Object,
-})
-const emit = defineEmits(['edit', 'delete', 'upload', 'play-track']);
+defineProps<{ track: Track }>()
 
-const isPlayerVisible = ref(false);
-const isMobile = ref(false);
-const activeTrackId = ref(null);
-const isDropdownOpen = ref(false);
+const emit = defineEmits<{
+  (e: 'edit', track: Track): void
+  (e: 'delete', track: Track): void
+  (e: 'upload', track: Track): void
+  (e: 'play-track', id: string): void
+}>()
 
+const isPlayerVisible = ref(false)
+const isMobile = ref(false)
+const activeTrackId = ref<string | null>(null)
+const isDropdownOpen = ref(false)
 
-function handlePlay(track) {
-  isPlayerVisible.value = !isPlayerVisible.value;
-  emit('play-track', track.id);
+function handlePlay(trackId: string) {
+  isPlayerVisible.value = !isPlayerVisible.value
+  emit('play-track', trackId)
 }
 
-function toggleMenu(id) {
+function toggleMenu(id: string) {
   if (isMobile.value) {
     if (activeTrackId.value === id && isDropdownOpen.value) {
-      activeTrackId.value = null;
-      isDropdownOpen.value = false;
+      activeTrackId.value = null
+      isDropdownOpen.value = false
     } else {
-      activeTrackId.value = id;
-      isDropdownOpen.value = true;
+      activeTrackId.value = id
+      isDropdownOpen.value = true
     }
   }
 }
 
 function checkScreenSize() {
-  isMobile.value = window.innerWidth <= 800;
+  isMobile.value = window.innerWidth <= 800
   if (!isMobile.value) {
-    activeTrackId.value = null;
-    isDropdownOpen.value = false;
+    activeTrackId.value = null
+    isDropdownOpen.value = false
   }
 }
 
 onMounted(() => {
-  checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
-});
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkScreenSize);
-});
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
-<style>
-.track-item__actions-wrapper {}
 
+<style scoped>
 .more-button-hidden,
 .track-item__actions-mobile-hidden,
 .track-item__actions-desktop-hidden {
