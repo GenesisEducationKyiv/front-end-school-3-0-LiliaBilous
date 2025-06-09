@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
@@ -44,7 +43,6 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": [
-      "eslint --fix",
       "prettier --write",
       "npm run lint"
     ]
