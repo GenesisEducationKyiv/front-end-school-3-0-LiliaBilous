@@ -43,8 +43,10 @@ export const useTrackStore = defineStore('trackStore', () => {
 
     if (result.isOk()) {
       const track = result.value
-      const audioFile = track.audioFile ? getTrackAudioUrl(track.audioFile) : undefined
-      const fullTrack = { ...track, audioFile }
+      const fullTrack = {
+        ...track,
+        ...(track.audioFile && { audioFile: getTrackAudioUrl(track.audioFile) }),
+      }
       trackBySlug.value = fullTrack
     }
     return result
