@@ -1,4 +1,4 @@
-import { AudioFileSchema } from '@/shared/utils/audioFileSchema.ts'
+import { AudioFileSchema } from '@/features/audio/schema/audioFileSchema'
 
 export function validateAudioFile(file: File | undefined): {
   isValid: boolean

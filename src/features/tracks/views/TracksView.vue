@@ -48,17 +48,17 @@
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { ref, onMounted } from 'vue'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
-import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore'
+import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore.ts'
 import { notifySuccess, notifyError } from '@/shared/services/toastService'
 import { useModal } from '@/shared/composables/useModal'
 
-import TrackList from '@/components/TrackList.vue'
-import CreateTrackModal from '@/components/modals/CreateTrackModal.vue'
-import EditTrackModal from '@/components/modals/EditTrackModal.vue'
-import ConfirmDeleteModal from '@/components/modals/ConfirmDeleteModal.vue'
-import UploadFileModal from '@/components/modals/UploadFileModal.vue'
-import PaginationControls from '@/components/common/PaginationControls.vue'
-import TrackToolbar from '@/components/TrackToolbar.vue'
+import TrackList from '@/features/tracks/components/TrackList.vue'
+import CreateTrackModal from '@/features/tracks/components/modals/CreateTrackModal.vue'
+import EditTrackModal from '@/features/tracks/components/modals/EditTrackModal.vue'
+import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
+import UploadFileModal from '@/features/tracks/components/modals/UploadFileModal.vue'
+import PaginationControls from '@/shared/components/ui/PaginationControls.vue'
+import TrackToolbar from '@/features/filters/components/TrackToolbar.vue'
 
 const trackStore = useTrackStore()
 const filterStore = useTrackFilterStore()

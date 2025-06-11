@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useTrackGenreStore } from '@/features/tracks/stores/trackGenresStore.ts'
+import { useTrackGenreStore } from '@/features/filters/store/trackGenresStore.ts'
 import { storeToRefs } from 'pinia'
 
 const props = defineProps<{ selected: string[] }>()

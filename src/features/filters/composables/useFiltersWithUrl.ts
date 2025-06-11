@@ -1,7 +1,7 @@
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
-import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
+import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
 import { F } from '@mobily/ts-belt'
 

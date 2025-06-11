@@ -4,7 +4,9 @@
       Test task from Genesis Academy
       <div class="footer__copyright">
         Made by
-        <a href="https://github.com/LiliaBilous" target="_blank" class="footer__link">LiliiaBilous</a>
+        <a href="https://github.com/LiliaBilous" target="_blank" class="footer__link"
+          >LiliiaBilous</a
+        >
         in 2025
       </div>
     </div>
@@ -13,7 +15,6 @@
 <style>
 .footer {
   width: 90%;
-
 }
 
 .footer__container {
@@ -42,6 +43,5 @@
     padding: 0.5rem;
     gap: 0.5rem;
   }
-
 }
 </style>

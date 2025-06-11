@@ -97,12 +97,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseModal from '@/shared/components/BaseModal.vue'
-import GenreSelector from '@/components/common/GenreSelector.vue'
-import type { TrackForm, ValidationErrors } from '@/shared/utils/trackFormSchema.ts'
+import BaseModal from '@/shared/components/modal/BaseModal.vue'
+import GenreSelector from '@/shared/components/GenreSelector.vue'
+import type { TrackForm, ValidationErrors } from '@/features/tracks/schema/trackFormSchema'
 import { validateTrackForm } from '@/shared/utils/formValidation.ts'
 import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
-import { defaultTrackForm, defaultValidationErrors } from '@/shared/utils/defaultTrackForm.ts'
+import { defaultTrackForm, defaultValidationErrors } from '@/features/tracks/utils/defaultTrackForm'
 
 const emit = defineEmits<{
   (e: 'close'): void

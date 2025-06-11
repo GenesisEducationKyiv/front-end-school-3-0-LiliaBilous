@@ -1,33 +1,55 @@
 <template>
   <div class="track-item__actions-wrapper">
     <div>
-      <BaseButton v-if="isMobile" class="more-button" :aria-label="`Actions for ${track.title}`"
-        @click="toggleMenu(track.id)">
+      <BaseButton
+        v-if="isMobile"
+        class="more-button"
+        :aria-label="`Actions for ${track.title}`"
+        @click="toggleMenu(track.id)"
+      >
         ⋮
       </BaseButton>
 
-      <div :class="{
-        'dropdown-menu': isMobile && activeTrackId === track.id && isDropdownOpen,
-        'track-item__actions': !isMobile || (isMobile && activeTrackId === track.id)
-      }">
-        <BaseButton v-show="!track.audioFile" class="track-item__button button"
-          :aria-label="`Upload audio file for ${track.title}`" :data-testid="`upload-track-${track.id}`"
-          @click="$emit('upload', track)">
+      <div
+        :class="{
+          'dropdown-menu': isMobile && activeTrackId === track.id && isDropdownOpen,
+          'track-item__actions': !isMobile || (isMobile && activeTrackId === track.id),
+        }"
+      >
+        <BaseButton
+          v-show="!track.audioFile"
+          class="track-item__button button"
+          :aria-label="`Upload audio file for ${track.title}`"
+          :data-testid="`upload-track-${track.id}`"
+          @click="$emit('upload', track)"
+        >
           Upload
         </BaseButton>
 
-        <BaseButton v-if="track.audioFile" class="track-item__button button"
-          :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`" @click="handlePlay(track.id)">
+        <BaseButton
+          v-if="track.audioFile"
+          class="track-item__button button"
+          :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`"
+          @click="handlePlay(track.id)"
+        >
           {{ isPlayerVisible ? 'Hide player' : 'Player' }}
         </BaseButton>
 
-        <BaseButton class="track-item__button button" :aria-label="`Edit metadata for ${track.title}`"
-          :data-testid="`edit-track-${track.id}`" @click="$emit('edit', track)">
+        <BaseButton
+          class="track-item__button button"
+          :aria-label="`Edit metadata for ${track.title}`"
+          :data-testid="`edit-track-${track.id}`"
+          @click="$emit('edit', track)"
+        >
           Edit
         </BaseButton>
 
-        <BaseButton class="track-item__button button" :aria-label="`Delete ${track.title}`"
-          :data-testid="`delete-track-${track.id}`" @click="$emit('delete', track)">
+        <BaseButton
+          class="track-item__button button"
+          :aria-label="`Delete ${track.title}`"
+          :data-testid="`delete-track-${track.id}`"
+          @click="$emit('delete', track)"
+        >
           Delete
         </BaseButton>
       </div>
@@ -38,7 +60,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
-import BaseButton from '@/shared/components/BaseButton.vue'
+import BaseButton from '@/shared/components/ui/BaseButton.vue'
 
 defineProps<{ track: Track }>()
 

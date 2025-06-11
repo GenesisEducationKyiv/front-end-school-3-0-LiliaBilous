@@ -1,10 +1,9 @@
 <template>
-    <Teleport to="#modal">
-        <Transition name="modal-fade">
-            <component :is="component" v-if="show && component" v-bind="props" v-on="listeners" />
-
-        </Transition>
-    </Teleport>
+  <Teleport to="#modal">
+    <Transition name="modal-fade">
+      <component :is="component" v-if="show && component" v-bind="props" v-on="listeners" />
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">

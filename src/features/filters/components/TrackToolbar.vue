@@ -81,10 +81,10 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
-import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore'
-import { useTrackGenreStore } from '@/features/tracks/stores/trackGenresStore.ts'
-import { useSyncFiltersWithUrl } from '@/shared/composables/useFiltersWithUrl'
-import FilterTabGroup from '@/shared/components/FilterTabGroup.vue'
+import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore.ts'
+import { useTrackGenreStore } from '@/features/filters/store/trackGenresStore.ts'
+import { useSyncFiltersWithUrl } from '@/features/filters/composables/useFiltersWithUrl'
+import FilterTabGroup from '@/features/filters/components/FilterTabGroup.vue'
 
 const route = useRoute()
 const dropdownOpen = ref(true)

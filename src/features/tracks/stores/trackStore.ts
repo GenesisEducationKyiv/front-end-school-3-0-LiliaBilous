@@ -14,7 +14,7 @@ import {
 } from '@/shared/services/api.ts'
 
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
-import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore.ts'
+import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 
 export const useTrackStore = defineStore('trackStore', () => {
   // state

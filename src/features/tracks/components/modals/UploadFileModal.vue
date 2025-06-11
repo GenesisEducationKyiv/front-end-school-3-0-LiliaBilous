@@ -77,9 +77,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { validateAudioFile } from '@/shared/utils/audioFileValidation'
+import { validateAudioFile } from '@/features/audio/utils/audioFileValidation'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
-import BaseModal from '@/shared/components/BaseModal.vue'
+import BaseModal from '@/shared/components/modal/BaseModal.vue'
 
 // --- Props & Emits ---
 const props = defineProps<{ track: Track }>()

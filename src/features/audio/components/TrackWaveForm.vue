@@ -1,7 +1,17 @@
 <template>
-  <div v-if="trackData && trackData.audioFile" :data-testid="`audio-player-${trackData.id}`" class="audio-player">
-    <audio ref="audioRef" :src="trackData.audioFile" preload="auto" @timeupdate="updateProgress"
-      @loadedmetadata="updateDuration" class="audio-hidden">
+  <div
+    v-if="trackData && trackData.audioFile"
+    :data-testid="`audio-player-${trackData.id}`"
+    class="audio-player"
+  >
+    <audio
+      ref="audioRef"
+      :src="trackData.audioFile"
+      preload="auto"
+      @timeupdate="updateProgress"
+      @loadedmetadata="updateDuration"
+      class="audio-hidden"
+    >
       Your browser does not support the audio element.
     </audio>
 
@@ -10,10 +20,20 @@
 
     <!-- Controls -->
     <div class="controls">
-      <button v-if="!isPlaying" @click="play" :data-testid="`play-button-${trackData.id}`" class="button play-button">
+      <button
+        v-if="!isPlaying"
+        @click="play"
+        :data-testid="`play-button-${trackData.id}`"
+        class="button play-button"
+      >
         Play
       </button>
-      <button v-else @click="pause" class="button play-button" :data-testid="`pause-button-${trackData.id}`">
+      <button
+        v-else
+        @click="pause"
+        class="button play-button"
+        :data-testid="`pause-button-${trackData.id}`"
+      >
         Pause
       </button>
 
@@ -31,7 +51,7 @@ import WaveSurfer from 'wavesurfer.js'
 
 const emit = defineEmits(['reset'])
 const props = defineProps({
-  slug: String
+  slug: String,
 })
 
 const audioRef = ref(null)
@@ -45,7 +65,9 @@ const duration = ref('0:00')
 
 const formatTime = (seconds) => {
   const m = Math.floor(seconds / 60)
-  const s = Math.floor(seconds % 60).toString().padStart(2, '0')
+  const s = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, '0')
   return `${m}:${s}`
 }
 
@@ -117,9 +139,13 @@ const fetchTrackData = async () => {
   }
 }
 
-watch(() => props.slug, () => {
-  if (props.slug) fetchTrackData()
-}, { immediate: true })
+watch(
+  () => props.slug,
+  () => {
+    if (props.slug) fetchTrackData()
+  },
+  { immediate: true }
+)
 
 onUnmounted(() => {
   waveSurfer?.destroy()
@@ -163,7 +189,5 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 0.5rem;
   }
-
-
 }
 </style>

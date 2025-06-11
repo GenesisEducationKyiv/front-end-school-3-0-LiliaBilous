@@ -32,9 +32,9 @@
 </template>
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import TrackBulkActions from '@/components/TrackBulkActions.vue'
-import TrackCard from '@/components/TrackCard.vue'
-import ConfirmDeleteModal from '@/components/modals/ConfirmDeleteModal.vue'
+import TrackBulkActions from '@/features/tracks/components/TrackBulkActions.vue'
+import TrackCard from '@/features/tracks/components/TrackCard.vue'
+import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
 import { useModal } from '@/shared/composables/useModal'
 import type { Track } from '@/features/tracks/schema/trackSchema'
 

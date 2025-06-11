@@ -1,4 +1,4 @@
-import type { TrackForm, ValidationErrors } from '@/shared/utils/trackFormSchema.ts'
+import type { TrackForm, ValidationErrors } from '@/features/tracks/schema/trackFormSchema'
 import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
 
 export const defaultTrackForm: TrackForm = {
