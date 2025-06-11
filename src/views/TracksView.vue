@@ -3,23 +3,44 @@
     <div class="main__container">
       <TrackToolbar />
 
-      <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true" class="loading-indicator">
+      <div
+        v-if="trackStore.isLoading"
+        data-testid="loading-tracks"
+        data-loading="true"
+        class="loading-indicator"
+      >
         Loading tracks...
       </div>
 
-      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
-        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
+      <button
+        data-testid="create-track-button"
+        class="main__create-track-button button"
+        @click="openCreateModal"
+        :disabled="trackStore.isLoading"
+        :aria-disabled="trackStore.isLoading"
+        :data-loading="trackStore.isLoading"
+      >
         + Create Track
       </button>
 
-      <TrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
-        @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove" @bulk-delete="deleteSelected" />
+      <TrackList
+        v-if="!trackStore.isLoading"
+        :tracks="trackStore.tracks"
+        @edit="openEditModal"
+        @delete="openConfirmDelete"
+        @upload="openUploadModal"
+        @reset="handleFileRemove"
+        @bulk-delete="deleteSelected"
+      />
 
-
-      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
-        :current-page="trackStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
+      <PaginationControls
+        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
+        data-testid="pagination"
+        :current-page="filterStore.page"
+        :total-pages="trackStore.totalPages"
+        @change="onPageChange"
+      />
     </div>
-
   </main>
 </template>
 
@@ -27,6 +48,7 @@
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { ref, onMounted } from 'vue'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
+import { useTrackFilterStore } from '@/features/tracks/stores/trackFilterStore'
 import { notifySuccess, notifyError } from '@/shared/services/toastService'
 import { useModal } from '@/shared/composables/useModal'
 
@@ -39,6 +61,7 @@ import PaginationControls from '@/components/common/PaginationControls.vue'
 import TrackToolbar from '@/components/TrackToolbar.vue'
 
 const trackStore = useTrackStore()
+const filterStore = useTrackFilterStore()
 const { showModal, hideModal } = useModal()
 
 const selectedTrack = ref<Track | null>(null)
@@ -50,7 +73,7 @@ onMounted(() => {
 })
 
 function onPageChange(page: number) {
-  trackStore.page = page
+  filterStore.page = page
   selectAll.value = false
   selectedIds.value = []
   trackStore.fetchTracks()
@@ -61,8 +84,8 @@ function openCreateModal() {
   showModal(CreateTrackModal, {
     listeners: {
       close: hideModal,
-      'new-track': (track: unknown) => addNewTrack(track as Track)
-    }
+      'new-track': (track: unknown) => addNewTrack(track as Track),
+    },
   })
 }
 function openUploadModal(track: Track) {
@@ -75,8 +98,8 @@ function openUploadModal(track: Track) {
         if (typeof id === 'string' && file instanceof File) {
           handleFileUpload(id, file)
         }
-      }
-    }
+      },
+    },
   })
 }
 function openEditModal(track: Track) {
@@ -85,8 +108,8 @@ function openEditModal(track: Track) {
     props: { track: selectedTrack.value },
     listeners: {
       close: hideModal,
-      'updated': (track: unknown) => handleTrackEdit(track as Track)
-    }
+      updated: (track: unknown) => handleTrackEdit(track as Track),
+    },
   })
 }
 function openConfirmDelete(track: Track) {
@@ -101,8 +124,8 @@ function openConfirmDelete(track: Track) {
           deleteSingleTrack(id)
           hideModal()
         }
-      }
-    }
+      },
+    },
   })
 }
 // call methods from store & poceed results
@@ -160,7 +183,7 @@ async function handleFileRemove(id: string) {
 .main {
   position: relative;
   z-index: 3;
-  margin-top: calc(var(--hero-height)*(-0.25));
+  margin-top: calc(var(--hero-height) * (-0.25));
   width: 90%;
   background: var(--white-color);
   border-radius: 0.5rem;
@@ -181,7 +204,7 @@ async function handleFileRemove(id: string) {
   color: white;
   overflow: hidden;
   z-index: 1;
-  background: linear-gradient(90deg, #7B2EFF 0%, #FF2D5E 50%, #FF6B2C 100%);
+  background: linear-gradient(90deg, #7b2eff 0%, #ff2d5e 50%, #ff6b2c 100%);
   transition: color 0.3s ease-in-out;
 }
 
@@ -189,7 +212,7 @@ async function handleFileRemove(id: string) {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(262deg, #7B2EFF 0%, #FF2D5E 50%, #FF6B2C 100%);
+  background: linear-gradient(262deg, #7b2eff 0%, #ff2d5e 50%, #ff6b2c 100%);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   z-index: -1;
