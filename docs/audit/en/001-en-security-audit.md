@@ -43,9 +43,27 @@ P.S. I’m considering replacing `vue-toastification` due to lack of updates.
 
 ### 1.2. Dev Dependencies
 
-| Package | npm downloads/week | ⭐ GitHub Stars | Maintenance | Last Update | Known Vulnerabilities               | Notes                |
-| ------- | ------------------ | --------------- | ----------- | ----------- | ----------------------------------- | -------------------- |
-| vite    | ~27,635,998        | ~15,800         | ✅ Active   | last month  | vulnerability in vite@6.3.1 - 6.3.3 | Builder / dev server |
+### 1.2. Dev Dependencies
+
+| Package                          | Weekly Downloads | ⭐ GitHub Stars | Maintenance | Last Updated        | Known Vulnerabilities       | Notes                                |
+| -------------------------------- | ---------------- | --------------- | ----------- | ------------------- | --------------------------- | ------------------------------------ |
+| vite                             | ~27,635,998      | ~15,800         | ✅ Active   | 1 month ago         | ⚠ vite@6.3.1–6.3.3 → fixed | Builder / dev server                 |
+| @vitejs/plugin-vue               | ~3,080,763       | 582             | ✅ Active   | 8 days ago          | None                        | Vite plugin for Vue                  |
+| @vue/tsconfig                    | ~794,275         | 335             | ✅ Active   | 7 months ago        | None                        | TypeScript config for Vue            |
+| vue-tsc                          | ~2,195,005       | ~6,200          | ✅ Active   | 6 days ago          | None                        | Type checker for .vue files          |
+| typescript                       | ~84,641,116      | ~105,000        | ✅ Active   | 2 days ago          | None                        | TypeScript compiler                  |
+| eslint                           | ~59,035,195      | ~26,000         | ✅ Active   | today (2025-06-13)  | None                        | Static code analysis                 |
+| eslint-plugin-vue                | ~3,900,548       | ~4,500          | ✅ Active   | 8 days ago          | None                        | Linting for .vue files               |
+| @typescript-eslint/parser        | ~49,949,824      | ~15,800         | ✅ Active   | 6 days ago          | None                        | Parser for ESLint + TypeScript       |
+| @typescript-eslint/eslint-plugin | ~46,961,970      | ~15,800         | ✅ Active   | 6 days ago          | None                        | ESLint rules for TypeScript          |
+| typescript-eslint                | ~11,646,234      | ~13,000         | ✅ Active   | 4 days ago          | None                        | Unified package (peer)               |
+| @vue/eslint-config-typescript    | ~1,225,279       | 160             | ✅ Active   | 3 months ago        | None                        | ESLint+TS preset config for Vue      |
+| vue-eslint-parser                | ~4,968,368       | 475             | ✅ Active   | 2 months ago        | None                        | Parser for Vue templates             |
+| husky                            | ~16,480,702      | ~33,700         | ✅ Active   | 7 months ago        | None                        | Git hooks (e.g., lint before commit) |
+| lint-staged                      | ~12,839,488      | ~13,900         | ✅ Active   | 18 days ago         | None                        | Run scripts on staged files          |
+| prettier                         | ~53,015,002      | ~50,600         | ✅ Active   | 3 months ago        | None                        | Code formatting                      |
+| globals                          | ~137,479,683     | 484             | ✅ Active   | 19 days ago         | None                        | Global variables for ESLint          |
+| @types/node                      | ~150,177,768     | ~49,900         | ✅ Active   | ongoing, 2 days ago | None                        | Type definitions for Node.js API     |
 
 No active vulnerabilities were found. The only issue discovered was in `brace-expansion` (low priority, resolved).
 
