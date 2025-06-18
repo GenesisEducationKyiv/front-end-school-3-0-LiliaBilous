@@ -1,12 +1,12 @@
 <template>
   <div
-    v-if="trackData && trackData.audioFile"
-    :data-testid="`audio-player-${trackData.id}`"
+    v-if="trackBySlug && trackBySlug.audioFile"
+    :data-testid="`audio-player-${trackBySlug.id}`"
     class="audio-player"
   >
     <audio
       ref="audioRef"
-      :src="trackData.audioFile"
+      :src="trackBySlug.audioFile"
       preload="auto"
       @timeupdate="updateProgress"
       @loadedmetadata="updateDuration"
@@ -23,7 +23,7 @@
       <button
         v-if="!isPlaying"
         @click="play"
-        :data-testid="`play-button-${trackData.id}`"
+        :data-testid="`play-button-${trackBySlug.id}`"
         class="button play-button"
       >
         Play
@@ -32,12 +32,12 @@
         v-else
         @click="pause"
         class="button play-button"
-        :data-testid="`pause-button-${trackData.id}`"
+        :data-testid="`pause-button-${trackBySlug.id}`"
       >
         Pause
       </button>
 
-      <span :data-testid="`audio-progress-${trackData.id}`">
+      <span :data-testid="`audio-progress-${trackBySlug.id}`">
         {{ currentTime }} / {{ duration }}
       </span>
       <button type="button" @click="removeAudioFile" class="button danger">Remove File</button>
@@ -45,111 +45,55 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch, onUnmounted, nextTick } from 'vue'
-import WaveSurfer from 'wavesurfer.js'
+<script setup lang="ts">
+import { ref, watch, nextTick } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAudioPlayer } from '@/features/audio/composables/useAudioPlayer'
+import { useTrackAudioStore } from '@/features/audio/store/audioStore'
 
-const emit = defineEmits(['reset'])
-const props = defineProps({
-  slug: String,
-})
+const props = defineProps<{ slug: string }>()
+const emit = defineEmits<{
+  (e: 'reset', trackId?: string): void
+}>()
 
-const audioRef = ref(null)
-const waveformRef = ref(null)
-const trackData = ref(null)
+const audioRef = ref<HTMLAudioElement | null>(null)
+const waveformRef = ref<HTMLDivElement | null>(null)
 
-let waveSurfer = null
-const isPlaying = ref(false)
-const currentTime = ref('0:00')
-const duration = ref('0:00')
+const audioStore = useTrackAudioStore()
+const { fetchTrackBySlug } = audioStore
+const { trackBySlug } = storeToRefs(audioStore)
 
-const formatTime = (seconds) => {
-  const m = Math.floor(seconds / 60)
-  const s = Math.floor(seconds % 60)
-    .toString()
-    .padStart(2, '0')
-  return `${m}:${s}`
-}
+const {
+  isPlaying,
+  currentTime,
+  duration,
+  updateProgress,
+  updateDuration,
+  play,
+  pause,
+  initWaveSurfer,
+} = useAudioPlayer(audioRef, waveformRef, trackBySlug.value?.audioFile ?? '')
 
-const updateProgress = () => {
-  if (audioRef.value) {
-    currentTime.value = formatTime(audioRef.value.currentTime)
-  }
-}
-
-const updateDuration = () => {
-  if (audioRef.value) {
-    duration.value = formatTime(audioRef.value.duration)
-  }
-}
-
-const play = () => {
-  audioRef.value?.play()
-  waveSurfer?.play()
-  isPlaying.value = true
-}
-
-const pause = () => {
-  audioRef.value?.pause()
-  waveSurfer?.pause()
-  isPlaying.value = false
-}
-
-const removeAudioFile = () => {
-  emit('reset', trackData.value.id)
-  trackData.value.audioFile = null
-  trackData.value = null
-  isPlaying.value = false
-}
-
-const initWaveSurfer = () => {
-  if (!waveformRef.value || !audioRef.value || !trackData.value?.audioFile) return
-
-  if (waveSurfer) {
-    waveSurfer.destroy()
-    waveSurfer = null
-  }
-
-  waveSurfer = WaveSurfer.create({
-    container: waveformRef.value,
-    waveColor: '#B5B7C0',
-    progressColor: '#e76026',
-    height: 60,
-    responsive: true,
-    media: audioRef.value,
-    interact: true,
-  })
-
-  waveSurfer.load(trackData.value.audioFile)
-}
-
-const fetchTrackData = async () => {
-  try {
-    const res = await fetch(`http://localhost:8000/api/tracks/${props.slug}`)
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
-
-    const data = await res.json()
-    data.audioFile = `http://localhost:8000/api/files/${data.audioFile}`
-    trackData.value = data
-
+const fetchData = async () => {
+  const result = await fetchTrackBySlug(props.slug)
+  if (result.isOk()) {
     await nextTick()
     initWaveSurfer()
-  } catch (err) {
-    console.error('Failed to fetch track:', err)
   }
 }
 
 watch(
   () => props.slug,
   () => {
-    if (props.slug) fetchTrackData()
+    if (props.slug) fetchData()
   },
   { immediate: true }
 )
 
-onUnmounted(() => {
-  waveSurfer?.destroy()
-})
+const removeAudioFile = () => {
+  emit('reset', trackBySlug.value?.id)
+  pause()
+}
 </script>
 
 <style scoped>
@@ -164,6 +108,7 @@ onUnmounted(() => {
 
 .waveform {
   width: 100%;
+  height: 60px;
 }
 
 .controls {
@@ -174,9 +119,9 @@ onUnmounted(() => {
   justify-content: space-around;
 }
 
-.audio-hidden {
+/* .audio-hidden {
   display: none;
-}
+} */
 
 .play-button {
   background-color: var(--secondary-alt-color);

@@ -2,8 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Result } from 'neverthrow'
 import {
-  getTrackBySlug,
-  getTrackAudioUrl,
   getTracks,
   createTrack,
   deleteTrack,
@@ -18,7 +16,6 @@ import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 
 export const useTrackStore = defineStore('trackStore', () => {
   // state
-  const trackBySlug = ref<Track | null>(null)
   const tracks = ref<Track[]>([])
   const totalPages = ref()
   const isLoading = ref(false)
@@ -37,19 +34,6 @@ export const useTrackStore = defineStore('trackStore', () => {
       totalPages.value = result.value.meta.totalPages
     }
     isLoading.value = false
-  }
-  const fetchTrackBySlug = async (slug: string): Promise<Result<Track, Error>> => {
-    const result = await getTrackBySlug(slug)
-
-    if (result.isOk()) {
-      const track = result.value
-      const fullTrack = {
-        ...track,
-        ...(track.audioFile && { audioFile: getTrackAudioUrl(track.audioFile) }),
-      }
-      trackBySlug.value = fullTrack
-    }
-    return result
   }
 
   const addTrack = async (newTrack: Omit<Track, 'id'>): Promise<Result<Track, Error>> => {
@@ -108,14 +92,12 @@ export const useTrackStore = defineStore('trackStore', () => {
 
   return {
     // state
-    trackBySlug,
     tracks,
     totalPages,
     isLoading,
 
     // actions
     fetchTracks,
-    fetchTrackBySlug,
     addTrack,
     removeTrack,
     removeTracks,
