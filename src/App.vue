@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import AppFooter from '@/components/common/AppFooter.vue'
-import ModalHost from '@/shared/components/ModalHost.vue'
+import AppFooter from '@/shared/components/ui/AppFooter.vue'
+import ModalHost from '@/shared/components/modal/ModalHost.vue'
 const AsyncTracksView = defineAsyncComponent({
-  loader: () => import('@/views/TracksView.vue'),
+  loader: () => import('@/features/tracks/views/TracksView.vue'),
   delay: 200,
   timeout: 10000,
-
 })
 </script>
 
@@ -16,9 +15,7 @@ const AsyncTracksView = defineAsyncComponent({
     <section class="hero">
       <div class="hero__background"></div>
       <div class="hero__content">
-        <h1 class="hero__title" data-testid="tracks-header">
-          Track Manager
-        </h1>
+        <h1 class="hero__title" data-testid="tracks-header">Track Manager</h1>
       </div>
     </section>
 

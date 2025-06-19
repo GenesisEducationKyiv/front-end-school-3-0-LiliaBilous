@@ -1,5 +1,5 @@
-import { TrackFormSchema, type TrackForm } from '@/shared/utils/trackFormSchema.ts'
-import { defaultValidationErrors } from '@/shared/utils/defaultTrackForm.ts'
+import { TrackFormSchema, type TrackForm } from '@/features/tracks/schema/trackFormSchema'
+import { defaultValidationErrors } from '@/features/tracks/utils/defaultTrackForm'
 
 export function validateTrackForm(form: TrackForm): {
   isValid: boolean
