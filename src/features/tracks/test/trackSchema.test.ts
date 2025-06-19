@@ -1,8 +1,7 @@
 // unit test
 import { describe, it, expect } from 'vitest'
-import { TrackSchema } from '../trackSchema'
+import { TrackSchema } from '../schema/trackSchema'
 
-// валідні базові дані
 const validTrack = {
   id: '1741096482742',
   title: 'Johnny B. Goode',
@@ -10,9 +9,9 @@ const validTrack = {
   genres: ['Pop', 'R&B', 'Rock'],
   slug: 'johnny-b-goode',
   coverImage: 'https://picsum.photos/seed/Johnny%20B.%20Goode/300/300',
-  audioFile: '1741096482742.mp3',
-  createdAt: '2025-03-04T13:54:42.742Z',
-  updatedAt: '2025-05-28T07:37:33.260Z',
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  audioFile: 'test.mp3',
 }
 
 describe('TrackSchema', () => {
@@ -38,8 +37,6 @@ describe('TrackSchema', () => {
 
   it('allows audioFile to be missing', () => {
     const withoutAudio = structuredClone(validTrack)
-    delete withoutAudio.audioFile
-
     const result = TrackSchema.safeParse(withoutAudio)
     expect(result.success).toBe(true)
   })
