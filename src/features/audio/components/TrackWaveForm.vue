@@ -15,10 +15,8 @@
       Your browser does not support the audio element.
     </audio>
 
-    <!-- Waveform -->
     <div ref="waveformRef" class="waveform"></div>
 
-    <!-- Controls -->
     <div class="controls">
       <button
         v-if="!isPlaying"
@@ -118,10 +116,6 @@ const removeAudioFile = () => {
   width: 100%;
   justify-content: space-around;
 }
-
-/* .audio-hidden {
-  display: none;
-} */
 
 .play-button {
   background-color: var(--secondary-alt-color);

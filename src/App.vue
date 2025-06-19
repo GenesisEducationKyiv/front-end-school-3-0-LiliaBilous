@@ -11,15 +11,12 @@ const AsyncTracksView = defineAsyncComponent({
 
 <template>
   <div class="wrapper">
-    <!-- Hero section -->
     <section class="hero">
       <div class="hero__background"></div>
       <div class="hero__content">
         <h1 class="hero__title" data-testid="tracks-header">Track Manager</h1>
       </div>
     </section>
-
-    <!-- Tracks View -->
     <Suspense>
       <template #default>
         <AsyncTracksView />
@@ -29,7 +26,6 @@ const AsyncTracksView = defineAsyncComponent({
       </template>
     </Suspense>
     <ModalHost />
-    <!-- Footer -->
     <AppFooter />
   </div>
 </template>

@@ -3,14 +3,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
 export const useTrackFilterStore = defineStore('trackFilter', () => {
-  // state
   const search = ref<string>('')
   const artist = ref<string>('')
   const genre = ref<string>('')
   const sort = ref<string>('')
   const page = ref<number>(1)
 
-  // actions
   function toQuery(): TrackQuery {
     return {
       page: page.value,
@@ -39,14 +37,12 @@ export const useTrackFilterStore = defineStore('trackFilter', () => {
   }
 
   return {
-    // state
     search,
     artist,
     genre,
     sort,
     page,
 
-    // actions
     toQuery,
     initFromQuery,
     resetFilters,

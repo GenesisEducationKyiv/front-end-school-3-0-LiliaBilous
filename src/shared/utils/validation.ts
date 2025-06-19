@@ -16,9 +16,7 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
-export function validateTrackForm(
-  form: TrackForm
-): { isValid: boolean; errors: ValidationErrors } {
+export function validateTrackForm(form: TrackForm): { isValid: boolean; errors: ValidationErrors } {
   const errors: ValidationErrors = {
     title: '',
     artist: '',
@@ -53,7 +51,7 @@ export function validateAudioFile(file: File | null | undefined): {
   error: string
 } {
   const validTypes = ['audio/mpeg', 'audio/wav']
-  const maxSize = 10 * 1024 * 1024 // 10MB
+  const maxSize = 10 * 1024 * 1024
 
   if (!file) {
     return { valid: false, error: 'No file selected.' }
