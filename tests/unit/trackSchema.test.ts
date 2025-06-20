@@ -1,6 +1,6 @@
 // unit test
 import { describe, it, expect } from 'vitest'
-import { TrackSchema } from '../schema/trackSchema'
+import { TrackSchema } from '@/features/tracks/schema/trackSchema.ts'
 
 const validTrack = {
   id: '1741096482742',
