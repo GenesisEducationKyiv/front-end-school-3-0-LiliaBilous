@@ -1,40 +1,40 @@
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginVue from "eslint-plugin-vue";
-import tsParser from "@typescript-eslint/parser";
-import vueParser from "vue-eslint-parser";
-import { defineConfig } from "eslint/config";
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+import pluginVue from 'eslint-plugin-vue'
+import tsParser from '@typescript-eslint/parser'
+import vueParser from 'vue-eslint-parser'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
-    files: ["src/**/*.{js,ts,vue}"],
+    files: ['src/**/*.{js,ts,vue}'],
     languageOptions: {
       globals: globals.browser,
       parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.json",
+        project: './tsconfig.json',
         tsconfigRootDir: process.cwd(),
-        extraFileExtensions: [".vue"],
+        extraFileExtensions: ['.vue'],
       },
     },
   },
   tseslint.configs.recommended,
-  pluginVue.configs["flat/essential"],
+  pluginVue.configs['flat/essential'],
   {
-    files: ["**/*.vue"],
+    files: ['**/*.vue'],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
         parser: tsParser,
-        project: "./tsconfig.json",
+        project: './tsconfig.json',
         tsconfigRootDir: process.cwd(),
-        extraFileExtensions: [".vue"],
+        extraFileExtensions: ['.vue'],
       },
     },
   },
   {
     rules: {
-      "no-console": "warn",
+      'no-console': 'warn',
     },
   },
-]);
+])

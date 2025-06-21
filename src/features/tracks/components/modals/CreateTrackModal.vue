@@ -56,7 +56,7 @@
           <input
             id="input-cover-image"
             v-model="form.coverImage"
-            placeholder="https://placehold.co/100"
+            placeholder="DEFAULT_COVER_IMAGE"
             class="form-input"
             data-testid="input-cover-image"
           />
@@ -69,9 +69,6 @@
         </div>
       </form>
     </template>
-    <!-- Form content -->
-
-    <!-- Footer buttons -->
     <template #footer>
       <div class="button-row">
         <button

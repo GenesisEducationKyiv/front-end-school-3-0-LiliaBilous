@@ -16,9 +16,7 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
-export function validateTrackForm(
-  form: TrackForm
-): { isValid: boolean; errors: ValidationErrors } {
+export function validateTrackForm(form: TrackForm): { isValid: boolean; errors: ValidationErrors } {
   const errors: ValidationErrors = {
     title: '',
     artist: '',

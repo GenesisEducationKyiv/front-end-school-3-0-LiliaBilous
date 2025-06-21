@@ -12,7 +12,7 @@
           />
           <span class="checkmark"></span>
         </label>
-        <img :src="track.coverImage || defaultImage" alt="cover" class="track-item__image" />
+        <img :src="track.coverImage || DEFAULT_COVER_IMAGE" alt="cover" class="track-item__image" />
         <div>
           <h2 :data-testid="`track-item-${track.id}-title`" class="track-item__title">
             {{ track.title }}
@@ -46,6 +46,7 @@
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import TrackWaveForm from '@/features/audio/components/TrackWaveForm.vue'
 import TrackActionsButton from '@/features/tracks/components/TrackActionsButton.vue'
+import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
 
 const props = defineProps<{
   track: Track
@@ -61,8 +62,6 @@ const emits = defineEmits<{
   (e: 'reset', trackId: string): void
   (e: 'select', trackId: string): void
 }>()
-
-const defaultImage = 'https://placehold.co/100'
 
 function handleSelection() {
   emits('select', props.track.id)
