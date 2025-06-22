@@ -56,10 +56,10 @@ test('user can create a new track', async ({ page }) => {
   await page.getByTestId('submit-button').click()
   await expect(page.getByTestId('title-input')).toHaveCount(0)
 
-  await expect(page.locator('[data-testid^="track-item-"][data-testid$="-title"]')).toHaveCount(1)
-
   await expect(
-    page.locator('[data-testid^="track-item-"][data-testid$="-title"]').first()
-  ).toContainText(TEST_TRACK.title)
+    page.locator('[data-testid^="track-item-"][data-testid$="-title"]').filter({
+      hasText: TEST_TRACK.title,
+    })
+  ).toHaveCount(1)
 
 })

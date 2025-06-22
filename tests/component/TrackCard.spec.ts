@@ -16,7 +16,6 @@ test('renders track item and emits select event', async ({ mount }) => {
   const onSelect = (trackId: string) => {
     selectedEventPayload = trackId
   }
-
   const component = await mount(TrackCard, {
     props: {
       track: mockTrack,
@@ -24,13 +23,7 @@ test('renders track item and emits select event', async ({ mount }) => {
       playing: false,
       onSelect,
     },
-    global: {
-      stubs: {
-        TrackWaveForm: true,
-      },
-    },
   })
-
   await expect(component.getByTestId(`track-item-${mockTrack.id}-title`)).toHaveText(mockTrack.title)
   await expect(component.getByTestId(`track-item-${mockTrack.id}-artist`)).toHaveText(`${mockTrack.artist} — ${mockTrack.album}`)
 

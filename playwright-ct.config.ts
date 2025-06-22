@@ -10,7 +10,7 @@ export default defineConfig({
             plugins: [vue()],
             resolve: {
                 alias: {
-                    '@': path.resolve(__dirname, './src'), // ось сюди
+                    '@': path.resolve(__dirname, './src'),
                 },
             },
         },
@@ -19,6 +19,10 @@ export default defineConfig({
         {
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'firefox',
+            use: { ...devices['Desktop Firefox'] },
         },
     ],
 })
