@@ -7,8 +7,6 @@ import {
   deleteTrack,
   bulkDeleteTracks,
   updateTrack,
-  uploadTrackFile,
-  deleteTrackFile,
 } from '@/shared/services/api.ts'
 
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
@@ -69,27 +67,6 @@ export const useTrackStore = defineStore('trackStore', () => {
     return result
   }
 
-  const uploadFile = async (trackId: string, file: File): Promise<Result<Track, Error>> => {
-    const formData = new FormData()
-    formData.append('file', file)
-
-    const result = await uploadTrackFile(trackId, formData)
-    if (result.isOk()) {
-      const index = tracks.value.findIndex((t) => t.id === trackId)
-      if (index !== -1) tracks.value[index] = result.value
-    }
-    return result
-  }
-
-  const deleteFile = async (trackId: string): Promise<Result<Track, Error>> => {
-    const result = await deleteTrackFile(trackId)
-    if (result.isOk()) {
-      const index = tracks.value.findIndex((t) => t.id === trackId)
-      if (index !== -1) tracks.value[index] = result.value
-    }
-    return result
-  }
-
   return {
     // state
     tracks,
@@ -102,7 +79,5 @@ export const useTrackStore = defineStore('trackStore', () => {
     removeTrack,
     removeTracks,
     editTrack,
-    uploadFile,
-    deleteFile,
   }
 })
