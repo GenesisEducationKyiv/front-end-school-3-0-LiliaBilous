@@ -7,9 +7,9 @@
     },
     /* Base Options */
     "types": ["node", "@playwright/test"],
-    "target": "es2022",
+    "target": "ESNext",
     "module": "ESNext",
-    // "moduleResolution": "Node",
+    "moduleResolution": "node",
     // "verbatimModuleSyntax": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
