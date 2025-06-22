@@ -21,6 +21,7 @@ test('renders track item and emits select event', async ({ mount }) => {
     props: {
       track: mockTrack,
       selected: false,
+      playing: false,
       onSelect,
     },
     global: {
@@ -38,5 +39,4 @@ test('renders track item and emits select event', async ({ mount }) => {
 
   await checkbox.click()
   expect(selectedEventPayload).toBe(mockTrack.id)
-
 })

@@ -6,7 +6,7 @@
       "@/*": ["src/*"]
     },
     /* Base Options */
-    "types": ["node", "@playwright/test"],
+    "types": ["node", "@playwright/test", "vite/client", "vue"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
