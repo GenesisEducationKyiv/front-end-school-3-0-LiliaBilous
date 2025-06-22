@@ -8,8 +8,11 @@
       @change="handleSelect"
       class="form-input genre-select"
       aria-label="Select a genre to add"
+      :disabled="isLoading || !!error"
     >
-      <option data-testid="genre-add-option" value="">+ Add genre</option>
+      <option data-testid="genre-add-option" disabled value="">
+        {{ isLoading ? 'Loading genres...' : error ? 'Failed to load genres' : '+ Add genre' }}
+      </option>
       <option v-for="option in genreOptions" :key="option" :value="option">
         {{ option }}
       </option>
@@ -38,23 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useTrackGenreStore } from '@/features/filters/store/trackGenresStore.ts'
-import { storeToRefs } from 'pinia'
-
+import { ref, computed } from 'vue'
+import { useGenreQuery } from '@/shared/composables/useGenreQuery.ts'
+const { genres, isLoading, error } = useGenreQuery()
 const props = defineProps<{ selected: string[] }>()
 const emit = defineEmits<{ (e: 'update:selected', value: string[]): void }>()
 
-const store = useTrackGenreStore()
-const { genres } = storeToRefs(store)
-
 const selectedOption = ref('')
-
-onMounted(() => {
-  if (store.genres.length === 0) {
-    store.fetchGenres()
-  }
-})
 
 const genreOptions = computed(() => genres.value.filter((genre) => !props.selected.includes(genre)))
 
