@@ -10,7 +10,7 @@
       aria-label="Select a genre to add"
       :disabled="isLoading || !!error"
     >
-      <option data-testid="genre-add-option" disabled value="">
+      <option data-testid="genre-add-option" value="">
         {{ isLoading ? 'Loading genres...' : error ? 'Failed to load genres' : '+ Add genre' }}
       </option>
       <option v-for="option in genreOptions" :key="option" :value="option">

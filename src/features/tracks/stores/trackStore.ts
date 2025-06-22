@@ -15,9 +15,8 @@ import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 export const useTrackStore = defineStore('trackStore', () => {
   // state
   const tracks = ref<Track[]>([])
-  const totalPages = ref()
+  const totalPages = ref<number>(0)
   const isLoading = ref(false)
-
   const filterStore = useTrackFilterStore()
 
   // actions
