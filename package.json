@@ -16,7 +16,7 @@
   "dependencies": {
     "@mobily/ts-belt": "3.13.1",
     "neverthrow": "8.2.0",
-    "pinia": "^3.0.3",
+    "pinia": "3.0.3", 
     "vue": "3.5.13",
     "vue-router": "4.5.0",
     "vue-toastification": "2.0.0-rc.5",
