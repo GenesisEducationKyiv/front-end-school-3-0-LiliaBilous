@@ -4,7 +4,7 @@ import WaveSurfer from 'wavesurfer.js'
 export function useAudioPlayer(
   audioRef: Ref<HTMLAudioElement | null>,
   waveformRef: Ref<HTMLElement | null>,
-  audioUrl: string
+  audioUrl: Ref<string>
 ) {
   const isPlaying = ref(false)
   const currentTime = ref('0:00')
@@ -44,7 +44,7 @@ export function useAudioPlayer(
   }
 
   const initWaveSurfer = () => {
-    if (!waveformRef.value || !audioRef.value || !audioUrl) return
+    if (!waveformRef.value || !audioRef.value || !audioUrl.value) return
 
     if (waveSurfer) {
       waveSurfer.destroy()
