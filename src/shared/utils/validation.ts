@@ -1,4 +1,4 @@
-import type { TrackForm } from '@/features/tracks/schema/trackSchema.ts'
+import type { TrackForm } from '@/features/tracks/schema/trackFormSchema.ts'
 
 type ValidationErrors = {
   title: string
