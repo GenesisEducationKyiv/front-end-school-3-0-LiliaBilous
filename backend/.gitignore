@@ -1,0 +1,18 @@
+# backend/.gitignore
+
+# dependencies
+node_modules/
+
+# build output
+dist/
+*.tsbuildinfo
+
+# logs
+*.log
+
+# env
+.env
+.env.local
+
+# system
+.DS_Store
