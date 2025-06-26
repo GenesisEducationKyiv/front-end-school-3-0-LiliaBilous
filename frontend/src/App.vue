@@ -2,6 +2,7 @@
 import { defineAsyncComponent } from 'vue'
 import AppFooter from '@/shared/components/ui/AppFooter.vue'
 import ModalHost from '@/shared/components/modal/ModalHost.vue'
+import ActiveTrack from '@/graphql/ActiveTrack.vue'
 const AsyncTracksView = defineAsyncComponent({
   loader: () => import('@/features/tracks/views/TracksView.vue'),
   delay: 200,
@@ -11,6 +12,8 @@ const AsyncTracksView = defineAsyncComponent({
 
 <template>
   <div class="wrapper">
+    <!-- ActiveTrack -->
+    <ActiveTrack />
     <!-- Hero section -->
     <section class="hero">
       <div class="hero__background"></div>
