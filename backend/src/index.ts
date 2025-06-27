@@ -9,8 +9,9 @@ import routes from './routes';
 import { initializeDb } from './utils/db';
 import config from './config';
 import mercurius from 'mercurius';
-import { schema } from './graphql/schema';
-import { resolvers, initActiveTrackStreaming } from './graphql/resolvers';
+import { fullSchema } from './graphql/schema/all';
+import { resolvers, initActiveTrackStreaming } from './graphql/resolvers/resolvers';
+
 
 async function start() {
   try {
@@ -52,7 +53,11 @@ async function start() {
       prefix: '/api/files/',
       decorateReply: false,
     });
-
+    await fastify.register(fastifyStatic, {
+      root: path.join(__dirname, '../public'),
+      prefix: '/',
+      decorateReply: false,
+    });
     // Register Swagger
     await fastify.register(swagger, {
       openapi: {
@@ -76,13 +81,13 @@ async function start() {
     // Register routes
     await fastify.register(routes);
 
-    // після fastify.register(routes)
     await fastify.register(mercurius, {
-      schema,
+      schema: fullSchema,
       resolvers,
       graphiql: true,
       subscription: true
     });
+
     // Start server
     await fastify.listen({
       port: config.server.port,

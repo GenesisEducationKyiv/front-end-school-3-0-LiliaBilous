@@ -1,8 +1,7 @@
-import * as db from '../utils/db';
+import { trackResolvers } from './tracks';
+
 import { PubSub } from 'graphql-subscriptions';
 const pubsub = new PubSub();
-
-
 const ACTIVE_TRACK_CHANGED = 'ACTIVE_TRACK_CHANGED';
 
 let allTrackTitles: string[] = [];
@@ -10,17 +9,15 @@ let currentTrackTitle = '';
 
 function pickRandomTrackTitle(): string {
     if (allTrackTitles.length === 0) return 'No tracks available';
-
     let nextTitle: string;
     do {
         nextTitle = allTrackTitles[Math.floor(Math.random() * allTrackTitles.length)];
     } while (nextTitle === currentTrackTitle);
-
     return nextTitle;
 }
 
 async function loadTrackTitles() {
-    const { tracks } = await db.getTracks({ page: 1, limit: 1000 });
+    const { tracks } = await import('../../utils/db').then(m => m.getTracks({ page: 1, limit: 1000 }));
     allTrackTitles = tracks.map(t => t.title);
 }
 
@@ -37,9 +34,10 @@ export async function initActiveTrackStreaming() {
 }
 
 export const resolvers = {
+    ...trackResolvers,
     Subscription: {
         activeTrackTitle: {
-            subscribe: () => pubsub.asyncIterableIterator([ACTIVE_TRACK_CHANGED]),
+            subscribe: () => pubsub.asyncIterableIterator(ACTIVE_TRACK_CHANGED),
         },
     },
 };
