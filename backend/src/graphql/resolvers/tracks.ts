@@ -20,6 +20,12 @@ export const trackResolvers = {
         track: async (_: unknown, args: { id: string }) => {
             return db.getTrackById(args.id);
         },
+        genres: async () => {
+            return db.getGenres();
+        },
+        trackBySlug: async (_: unknown, args: { slug: string }) => {
+            return db.getTrackBySlug(args.slug)
+        }
     },
     Mutation: {
         createTrack: async (_: unknown, args: { input: Omit<Track, 'id' | 'createdAt' | 'updatedAt'> }) => {

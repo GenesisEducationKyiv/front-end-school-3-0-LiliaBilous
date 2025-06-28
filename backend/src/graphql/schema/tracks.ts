@@ -1,17 +1,4 @@
 export const tracksSchema = `
-  type Track {
-    id: ID!
-    title: String!
-    artist: String!
-    album: String
-    genres: [String!]!
-    slug: String!
-    coverImage: String
-    audioFile: String
-    createdAt: String!
-    updatedAt: String!
-  }
-
   input CreateTrackInput {
     title: String!
     artist: String!
@@ -39,6 +26,19 @@ export const tracksSchema = `
     artist: String
   }
 
+  type Track {
+    id: ID!
+    title: String!
+    artist: String!
+    album: String
+    genres: [String!]!
+    slug: String
+    coverImage: String
+    audioFile: String
+    createdAt: String!
+    updatedAt: String!
+  }
+
   type PaginationMeta {
     total: Int!
     page: Int!
@@ -59,6 +59,8 @@ export const tracksSchema = `
   type Query {
     tracks(filter: TrackFilter): PaginatedTracks!
     track(id: ID!): Track
+    genres: [String!]!
+    trackBySlug(slug: String!): Track
   }
 
   type Mutation {
