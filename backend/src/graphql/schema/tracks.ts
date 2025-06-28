@@ -32,7 +32,7 @@ export const tracksSchema = `
     artist: String!
     album: String
     genres: [String!]!
-    slug: String
+    slug: String!
     coverImage: String
     audioFile: String
     createdAt: String!

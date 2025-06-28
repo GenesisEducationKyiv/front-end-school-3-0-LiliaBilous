@@ -1,5 +1,6 @@
 import * as db from '../../utils/db';
 import { Track } from '../../types';
+import { createSlug } from '../../utils/slug';
 
 export const trackResolvers = {
     Query: {
@@ -29,7 +30,17 @@ export const trackResolvers = {
     },
     Mutation: {
         createTrack: async (_: unknown, args: { input: Omit<Track, 'id' | 'createdAt' | 'updatedAt'> }) => {
-            return db.createTrack(args.input);
+            const slug = createSlug(args.input.title);
+
+            const existing = await db.getTrackBySlug(slug);
+            if (existing) {
+                throw new Error('A track with this title already exists');
+            }
+
+            return db.createTrack({
+                ...args.input,
+                slug,
+            });
         },
         updateTrack: async (_: unknown, args: { id: string; input: Partial<Track> }) => {
             return db.updateTrack(args.id, args.input);
