@@ -14,3 +14,8 @@ export const TrackSchema = z.object({
   updatedAt: z.string(),
 })
 export type Track = z.infer<typeof TrackSchema>
+
+export type BatchDeleteResponse = {
+  success: string[]
+  failed: string[]
+}

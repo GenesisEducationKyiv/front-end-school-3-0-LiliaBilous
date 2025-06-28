@@ -3,43 +3,20 @@
     <div class="main__container">
       <TrackToolbar />
 
-      <div
-        v-if="trackStore.isLoading"
-        data-testid="loading-tracks"
-        data-loading="true"
-        class="loading-indicator"
-      >
+      <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true" class="loading-indicator">
         Loading tracks...
       </div>
 
-      <button
-        data-testid="create-track-button"
-        class="main__create-track-button button"
-        @click="openCreateModal"
-        :disabled="trackStore.isLoading"
-        :aria-disabled="trackStore.isLoading"
-        :data-loading="trackStore.isLoading"
-      >
+      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
+        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
         + Create Track
       </button>
 
-      <TrackList
-        v-if="!trackStore.isLoading"
-        :tracks="trackStore.tracks"
-        @edit="openEditModal"
-        @delete="openConfirmDelete"
-        @upload="openUploadModal"
-        @reset="handleFileRemove"
-        @bulk-delete="deleteSelected"
-      />
+      <TrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
+        @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove" @bulk-delete="deleteSelected" />
 
-      <PaginationControls
-        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
-        data-testid="pagination"
-        :current-page="filterStore.page"
-        :total-pages="trackStore.totalPages"
-        @change="onPageChange"
-      />
+      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
+        :current-page="filterStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
     </div>
   </main>
 </template>
@@ -183,39 +160,51 @@ async function handleFileRemove(id: string) {
 .main {
   position: relative;
   z-index: 3;
-  margin-top: calc(var(--hero-height) * (-0.25));
+  margin-top: calc(var(--hero-height) * -0.45);
+  max-width: 86rem;
   width: 90%;
-  background: var(--white-color);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-glow-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--border-radius-1);
+  padding: 2rem;
+  box-shadow: var(--box-shadow-main);
 }
 
 .main__container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  container-type: inline-size;
 }
 
 .main__create-track-button {
   position: relative;
-  font-size: 1.25em;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-0-5);
+  color: var(--color-text-base);
+  background: linear-gradient(260deg,
+      var(--color-primary-purple),
+      var(--color-primary-pink),
+      var(--color-primary-orange));
+  border: none;
+  cursor: pointer;
   overflow: hidden;
   z-index: 1;
-  background: linear-gradient(90deg, #7b2eff 0%, #ff2d5e 50%, #ff6b2c 100%);
-  transition: color 0.3s ease-in-out;
-}
+  transition: var(--transition);
 
-.main__create-track-button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(262deg, #7b2eff 0%, #ff2d5e 50%, #ff6b2c 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  z-index: -1;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-wave);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
+  }
 }
 
 .main__create-track-button:hover::before {

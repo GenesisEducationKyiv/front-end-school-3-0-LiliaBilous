@@ -1,13 +1,8 @@
 <template>
   <div class="filter-tabs" role="group" :aria-label="ariaLabel">
-    <button
-      v-for="option in options"
-      :key="option"
-      :class="['tab', variant, { active: modelValue === option }]"
+    <button v-for="option in options" :key="option" :class="['tab', variant, { active: modelValue === option }]"
       :aria-pressed="modelValue === option"
-      :aria-label="modelValue === option ? `Unselect ${option}` : `Select ${option}`"
-      @click="toggleOption(option)"
-    >
+      :aria-label="modelValue === option ? `Unselect ${option}` : `Select ${option}`" @click="toggleOption(option)">
       {{ option }}
     </button>
   </div>
@@ -37,34 +32,53 @@ function toggleOption(option: string) {
 }
 
 .tab {
-  border: 1px solid transparent;
   padding: 0.5rem 0.75rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-1);
   font-weight: 500;
   cursor: pointer;
-  transition: all ease-in-out 0.3s;
+  border: 1px solid transparent;
   text-transform: capitalize;
+  transition: var(--transition);
+  background: var(--color-glow-soft);
+  color: var(--color-text-base);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: var(--box-shadow-button);
 }
 
 .genre {
-  border: 1px solid var(--secondary-color);
-  color: var(--secondary-color);
-}
+  border-color: var(--color-primary-cyan);
+  color: var(--color-primary-cyan);
 
-.genre.active,
-.genre:hover {
-  background-color: var(--secondary-color);
-  color: var(--white-color);
+  &.active {
+    background-color: var(--color-primary-cyan);
+    color: var(--color-text-inverted);
+    box-shadow: var(--box-shadow-blue);
+  }
+
+  &:focus-visible,
+  &:hover {
+    color: var(--color-text-base);
+    box-shadow: var(--box-shadow-blue);
+  }
 }
 
 .sort {
-  border: 1px solid var(--secondary-alt-color);
-  color: var(--secondary-alt-color);
-}
+  border-color: var(--color-primary-orange);
+  color: var(--color-primary-orange);
 
-.sort.active,
-.sort:hover {
-  background-color: var(--secondary-alt-color);
-  color: var(--white-color);
+  &.active {
+    background-color: var(--color-primary-orange);
+    color: var(--color-text-inverted);
+    box-shadow: var(--box-shadow-1);
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    border-color: var(--color-primary-orange);
+    color: var(--color-text-base);
+    box-shadow: var(--box-shadow-1);
+  }
 }
 </style>

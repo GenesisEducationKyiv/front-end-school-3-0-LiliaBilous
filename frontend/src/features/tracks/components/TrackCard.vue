@@ -3,13 +3,8 @@
     <div class="track-item__card">
       <div class="track-item__content">
         <label class="custom-checkbox">
-          <input
-            :data-testid="`track-checkbox-${track.id}`"
-            type="checkbox"
-            :checked="selected"
-            @change="handleSelection"
-            :id="`${track.id}`"
-          />
+          <input :data-testid="`track-checkbox-${track.id}`" type="checkbox" :checked="selected"
+            @change="handleSelection" :id="`${track.id}`" />
           <span class="checkmark"></span>
         </label>
         <img :src="track.coverImage || DEFAULT_COVER_IMAGE" alt="cover" class="track-item__image" />
@@ -24,21 +19,12 @@
         </div>
       </div>
 
-      <TrackActionsButton
-        :track="track"
-        @edit="$emit('edit', track)"
-        @delete="$emit('delete', track)"
-        @upload="$emit('upload', track)"
-        @play-track="$emit('play', track.id)"
-      />
+      <TrackActionsButton :track="track" @edit="$emit('edit', track)" @delete="$emit('delete', track)"
+        @upload="$emit('upload', track)" @play-track="$emit('play', track.id)" />
     </div>
 
-    <TrackWaveForm
-      v-if="track.audioFile && playing"
-      class="track-item__waveform"
-      :slug="track.slug"
-      @reset="() => $emit('reset', track.id)"
-    />
+    <TrackWaveForm :slug="track.slug" v-if="track.audioFile && playing" class="track-item__waveform"
+      @reset="() => $emit('reset', track.id)" />
   </div>
 </template>
 

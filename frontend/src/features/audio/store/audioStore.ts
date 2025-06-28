@@ -17,6 +17,7 @@ export const useTrackAudioStore = defineStore('trackAudioStore', () => {
       }
       trackBySlug.value = fullTrack
     }
+    console.log(result)
     return result
   }
   return {
