@@ -21,7 +21,7 @@
             v-model="filterStore.search" placeholder="Search..." aria-label="Search tracks by title or metadata" />
         </div>
         <div class="toolbar__item">
-          <h3>Filter by Genre:</h3>
+          <h2>Filter by Genre:</h2>
           <FilterTabGroup @modelValue="selectGenre" :options="availableGenres" v-model="filterStore.genre"
             ariaLabel="Select genre" variant="genre" />
         </div>
@@ -31,7 +31,7 @@
             v-model="filterStore.artist" placeholder="Filter by Artist" aria-label="Filter tracks by artist" />
         </div>
         <div class="toolbar__item">
-          <h3>Sort by:</h3>
+          <h2>Sort by:</h2>
           <FilterTabGroup @modelValue="selectSort" :options="sortOptions" v-model="filterStore.sort"
             ariaLabel="Sort tracks" variant="sort" />
         </div>
