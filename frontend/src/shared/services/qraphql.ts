@@ -23,7 +23,7 @@ export async function getTrackBySlug(slug: string): Promise<Result<Track, Error>
     try {
         const { data } = await apolloClient.query<{ track: Track }>({
             query: gql`
-                query GetTrackBySlug($slug: String!) {
+                query GetTrackBySlug($slug: String) {
                     trackBySlug(slug: $slug) {
                         id
                         title
@@ -56,8 +56,8 @@ export async function getTrackById(id: string): Promise<Result<Track, Error>> {
                     title
                     artist
                     album
-                    genres
                     slug
+                    genres
                     coverImage
                     audioFile
                     createdAt
@@ -85,6 +85,7 @@ export async function getTracks(query: TrackQuery): Promise<Result<PaginatedTrac
                             title
                             artist
                             album
+                            slug
                             genres
                             coverImage
                             audioFile
@@ -116,18 +117,18 @@ export async function createTrack(input: Omit<Track, 'id' | 'createdAt' | 'updat
         const { data } = await apolloClient.mutate<{ createTrack: Track }>({
             mutation: gql`
             mutation CreateTrack($input: CreateTrackInput!) {
-            createTrack(input: $input) {
-                id
-                title
-                artist
-                slug
-                album
-                genres
-                coverImage
-                audioFile
-                createdAt
-                updatedAt
-            }
+                createTrack(input: $input) {
+                    id
+                    title
+                    artist
+                    slug
+                    album
+                    genres
+                    coverImage
+                    audioFile
+                    createdAt
+                    updatedAt
+                }
             }
         `,
             variables: { input },
