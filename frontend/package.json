@@ -9,6 +9,7 @@
     "format": "prettier --write .",
     "lint": "eslint --ext .ts,.js,.vue src",
     "prepare": "husky install",
+    "analyze": "ANALYZE=true vite build",
     "test": "vitest",
     "test:e2e:track": "playwright test --config=playwright.config.ts",
     "test:ct": "playwright test --config=playwright-ct.config.ts"
