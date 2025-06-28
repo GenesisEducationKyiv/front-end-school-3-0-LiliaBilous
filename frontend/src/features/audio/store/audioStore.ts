@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Result } from 'neverthrow'
-import { getTrackBySlug, getTrackAudioUrl } from '@/shared/services/api.ts'
+import { getTrackBySlug } from '@/shared/services/qraphql.ts'
+import { getTrackAudioUrl } from '@/shared/services/api.ts'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 
 export const useTrackAudioStore = defineStore('trackAudioStore', () => {
