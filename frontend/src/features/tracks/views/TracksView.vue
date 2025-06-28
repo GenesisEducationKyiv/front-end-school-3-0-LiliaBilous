@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { ref, onMounted } from 'vue'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
@@ -31,12 +32,13 @@ import { notifySuccess, notifyError } from '@/shared/services/toastService'
 import { useModal } from '@/shared/composables/useModal'
 
 import TrackList from '@/features/tracks/components/TrackList.vue'
-import CreateTrackModal from '@/features/tracks/components/modals/CreateTrackModal.vue'
-import EditTrackModal from '@/features/tracks/components/modals/EditTrackModal.vue'
-import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
-import UploadFileModal from '@/features/tracks/components/modals/UploadFileModal.vue'
 import PaginationControls from '@/shared/components/ui/PaginationControls.vue'
 import TrackToolbar from '@/features/filters/components/TrackToolbar.vue'
+
+const CreateTrackModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/CreateTrackModal.vue'))
+const EditTrackModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/EditTrackModal.vue'))
+const ConfirmDeleteModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/ConfirmDeleteModal.vue'))
+const UploadFileModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/UploadFileModal.vue'))
 
 const trackStore = useTrackStore()
 const trackFileStore = useTrackFileStore()
