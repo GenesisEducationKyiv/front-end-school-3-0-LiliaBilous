@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core'
-import { apolloClient } from '@/graphql/apollo'
+import { apolloClient } from '@/shared/services/graphql/apollo'
 import type { Track, BatchDeleteResponse } from '@/features/tracks/schema/trackSchema'
 import type { TrackQuery, PaginatedTracks } from '@/features/filters/schema/trackQuerySchema'
 import { Result, ok, err } from 'neverthrow'
