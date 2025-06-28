@@ -1,5 +1,5 @@
 import { createApp, h, provide } from 'vue'
-import { apolloClient } from './graphql/apollo'
+import { apolloClient } from '@/shared/services/graphql/apollo'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { createPinia } from 'pinia'
 import App from './App.vue'

@@ -1,7 +1,8 @@
 <template>
   <div class="bulk__container">
     <label class="custom-checkbox">
-      <input id="select-all" type="checkbox" :checked="selectAll" @change="toggleSelectAll" data-testid="select-all" />
+      <input id="select-all" type="checkbox" :checked="selectAll" @change="toggleSelectAll" data-testid="select-all"
+        aria-label="Select All" />
       <span class="checkmark"></span>
       Select All
     </label>
