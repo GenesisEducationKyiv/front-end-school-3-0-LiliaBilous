@@ -15,14 +15,12 @@ import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 
 export const useTrackStore = defineStore('trackStore', () => {
-  // state
   const tracks = ref<Track[]>([])
   const totalPages = ref()
   const isLoading = ref(false)
 
   const filterStore = useTrackFilterStore()
 
-  // actions
   const fetchTracks = async (): Promise<void> => {
     isLoading.value = true
     const query = filterStore.toQuery()
@@ -91,12 +89,10 @@ export const useTrackStore = defineStore('trackStore', () => {
   }
 
   return {
-    // state
     tracks,
     totalPages,
     isLoading,
 
-    // actions
     fetchTracks,
     addTrack,
     removeTrack,

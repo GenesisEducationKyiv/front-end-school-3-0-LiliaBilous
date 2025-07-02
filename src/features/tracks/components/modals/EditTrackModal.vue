@@ -1,12 +1,10 @@
 <template>
   <BaseModal @close="$emit('close')">
-    <!-- Title -->
     <template #title>
       <h2 class="modal-title">Edit Track</h2>
     </template>
     <template #content>
       <form id="edit-track-form" @submit.prevent="handleSubmit" class="form">
-        <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
           <input
@@ -17,8 +15,6 @@
           />
           <p v-if="errors.title" class="error-text" data-testid="error-title">{{ errors.title }}</p>
         </div>
-
-        <!-- Artist -->
         <div class="form-group">
           <label class="form-label" for="artist-input">Artist</label>
           <input id="artist-input" v-model="form.artist" class="form-input" />
@@ -26,22 +22,16 @@
             {{ errors.artist }}
           </p>
         </div>
-
-        <!-- Album -->
         <div class="form-group">
           <label class="form-label" for="album-input">Album</label>
           <input id="album-input" v-model="form.album" class="form-input" />
         </div>
-
-        <!-- Cover Image -->
         <div class="form-group">
           <label class="form-label" for="cover-image-input">Cover Image URL</label>
           <input id="cover-image-input" v-model="form.coverImage" class="form-input" />
           <p v-if="errors.coverImage" class="error-text">{{ errors.coverImage }}</p>
           <img :src="form.coverImage" class="image-preview" :alt="'Cover image preview'" />
         </div>
-
-        <!-- Genre Selector -->
         <div class="form-group">
           <GenreSelector v-model:selected="form.genres" />
           <p v-if="errors.genres" class="error-text">{{ errors.genres }}</p>
@@ -85,7 +75,6 @@ import { defaultValidationErrors } from '@/features/tracks/utils/defaultTrackFor
 
 type TrackFormFields = Pick<Track, 'title' | 'artist' | 'album' | 'genres' | 'coverImage'>
 
-// --- Props & Emits ---
 const props = defineProps<{
   track: Track
 }>()
@@ -95,7 +84,6 @@ const emit = defineEmits<{
   (e: 'updated', updatedTrack: Track): void
 }>()
 
-// --- State ---
 const form = ref<TrackFormFields>({
   title: props.track.title,
   artist: props.track.artist,
@@ -121,7 +109,6 @@ watch(
   }
 )
 
-// --- Form submit ---
 async function handleSubmit() {
   const result = validateTrackForm(form.value)
   errors.value = result.errors

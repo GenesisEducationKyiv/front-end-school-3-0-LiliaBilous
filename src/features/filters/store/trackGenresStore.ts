@@ -4,7 +4,6 @@ import { Result } from 'neverthrow'
 import { getGenres } from '@/shared/services/api.ts'
 
 export const useTrackGenreStore = defineStore('trackGenreStore', () => {
-  // state
   const genres = ref<string[]>([])
   const fetchGenres = async (): Promise<Result<string[], Error>> => {
     const result = await getGenres()
