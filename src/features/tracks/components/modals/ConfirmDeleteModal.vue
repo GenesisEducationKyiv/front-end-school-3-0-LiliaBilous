@@ -1,5 +1,5 @@
 <template>
-  <BaseModal @close="$emit('close')">
+  <BaseModal data-testid="confirm-dialog" @close="$emit('close')">
     <template #title> Confirm Delete </template>
     <template #content>
       <p>

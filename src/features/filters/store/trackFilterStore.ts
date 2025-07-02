@@ -1,7 +1,7 @@
 import { O, pipe } from '@mobily/ts-belt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { TrackQuery } from '@/features/tracks/schema/trackSchema.ts'
+import type { TrackQuery } from '@/features/filters/schema/trackQuerySchema.ts'
 export const useTrackFilterStore = defineStore('trackFilter', () => {
   const search = ref<string>('')
   const artist = ref<string>('')

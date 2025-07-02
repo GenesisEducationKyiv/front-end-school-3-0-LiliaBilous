@@ -25,7 +25,7 @@ app.use(Toast, {
   hideProgressBar: true,
   closeButton: 'button',
   icon: true,
-  container: toastContainer
+  container: toastContainer,
 })
 
 app.use(pinia)

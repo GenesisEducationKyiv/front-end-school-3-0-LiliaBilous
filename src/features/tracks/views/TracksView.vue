@@ -79,7 +79,6 @@ function onPageChange(page: number) {
   trackStore.fetchTracks()
 }
 
-// function for open  modals & handle actions
 function openCreateModal() {
   showModal(CreateTrackModal, {
     listeners: {
@@ -128,7 +127,6 @@ function openConfirmDelete(track: Track) {
     },
   })
 }
-// call methods from store & poceed results
 async function addNewTrack(newTrack: Track) {
   const result = await trackStore.addTrack(newTrack)
 
