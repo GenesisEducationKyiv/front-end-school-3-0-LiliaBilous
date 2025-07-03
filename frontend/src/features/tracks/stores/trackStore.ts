@@ -4,12 +4,19 @@ import { Result } from 'neverthrow'
 import {
   getTracks,
   createTrack,
+  updateTrack,
   deleteTrack,
   bulkDeleteTracks,
-  updateTrack,
-} from '@/shared/services/api.ts'
+} from '@/shared/services/graphql/qraphql'
+// import {
+//   getTracks,
+//   createTrack,
+//   deleteTrack,
+//   bulkDeleteTracks,
+//   updateTrack,
+// } from '@/shared/services/api.ts'
 
-import type { Track } from '@/features/tracks/schema/trackSchema.ts'
+import type { Track, BatchDeleteResponse } from '@/features/tracks/schema/trackSchema.ts'
 import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 
 export const useTrackStore = defineStore('trackStore', () => {
@@ -37,7 +44,7 @@ export const useTrackStore = defineStore('trackStore', () => {
     const result = await createTrack(newTrack)
 
     if (result.isOk()) {
-      tracks.value.unshift(result.value)
+      tracks.value = [result.value, ...tracks.value]
     }
 
     return result
@@ -45,20 +52,19 @@ export const useTrackStore = defineStore('trackStore', () => {
   const editTrack = async (updatedTrack: Track): Promise<Result<Track, Error>> => {
     const result = await updateTrack(updatedTrack.id, updatedTrack)
     if (result.isOk()) {
-      const index = tracks.value.findIndex((t) => t.id === updatedTrack.id)
-      if (index !== -1) tracks.value[index] = result.value
+      tracks.value = tracks.value.map((t) => (t.id === updatedTrack.id ? result.value : t))
     }
     return result
   }
 
-  const removeTrack = async (id: string): Promise<Result<null, Error>> => {
+  const removeTrack = async (id: string): Promise<Result<boolean, Error>> => {
     const result = await deleteTrack(id)
     if (result.isOk()) {
       tracks.value = tracks.value.filter((t) => t.id !== id)
     }
     return result
   }
-  const removeTracks = async (ids: string[]): Promise<Result<null, Error>> => {
+  const removeTracks = async (ids: string[]): Promise<Result<BatchDeleteResponse, Error>> => {
     const result = await bulkDeleteTracks(ids)
     if (result.isOk()) {
       tracks.value = tracks.value.filter((t) => !ids.includes(t.id))
@@ -67,12 +73,9 @@ export const useTrackStore = defineStore('trackStore', () => {
   }
 
   return {
-    // state
     tracks,
     totalPages,
     isLoading,
-
-    // actions
     fetchTracks,
     addTrack,
     removeTrack,

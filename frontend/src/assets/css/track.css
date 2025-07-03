@@ -1,6 +1,3 @@
-.track-list {
-}
-
 .track-list,
 .track-list__container {
   display: flex;
@@ -10,42 +7,63 @@
 }
 
 .track-list__track-item {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background-color: var(--grey-fill-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-1);
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-glow-soft);
+  box-shadow: var(--box-shadow-button);
+  transition: var(--transition);
+}
+
+.track-list__track-item:hover {
+  /* transform: translateY(-2px); */
 }
 
 .track-item__card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .track-item__content {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .track-item__image {
   width: 4rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  object-fit: cover;
+  border-radius: var(--border-radius-0-5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .track-item__title {
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 600;
+  color: var(--color-text-base);
 }
 
 .track-item__subtitle {
-  font-size: 1rem;
-  color: var(--text-color);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
 }
 
 .track-item__genre {
   font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+.track-list > div > p {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin-top: 2rem;
 }

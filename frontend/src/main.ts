@@ -1,4 +1,6 @@
-import { createApp } from 'vue'
+import { createApp, h, provide } from 'vue'
+import { apolloClient } from '@/shared/services/graphql/apollo'
+import { DefaultApolloClient } from '@vue/apollo-composable'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from '@/router/index.ts'
@@ -7,7 +9,13 @@ import 'vue-toastification/dist/index.css'
 import '@/assets/main.css'
 
 const pinia = createPinia()
-const app = createApp(App)
+const app = createApp({
+  setup() {
+    provide(DefaultApolloClient, apolloClient)
+  },
+
+  render: () => h(App),
+})
 
 const toastContainer = document.createElement('div')
 toastContainer.setAttribute('data-testid', 'toast-container')

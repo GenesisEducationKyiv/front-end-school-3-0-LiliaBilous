@@ -36,7 +36,7 @@
             <button
               type="button"
               @click="removeAudioFile"
-              class="button danger small"
+              class="button danger"
               aria-label="Remove uploaded audio file"
             >
               Remove File
@@ -45,6 +45,7 @@
 
           <audio
             :src="audioFileUrl"
+            :key="audioFileUrl"
             controls
             class="audio-control"
             :aria-label="`Audio preview for ${track.title}`"
@@ -81,19 +82,16 @@ import { validateAudioFile } from '@/features/audio/utils/audioFileValidation'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseModal from '@/shared/components/modal/BaseModal.vue'
 
-// --- Props & Emits ---
 const props = defineProps<{ track: Track }>()
 const emit = defineEmits<{
   (e: 'close'): void
   (e: 'upload', id: string, file: File): void
 }>()
 
-// --- State ---
 const audioFile = ref<File | null>(null)
 const audioFileUrl = ref<string>('')
 const error = ref<string>('')
 
-// --- Methods ---
 function handleAudioUpload(event: Event) {
   const target = event.target
 
@@ -135,6 +133,7 @@ function removeAudioFile() {
   audioFileUrl.value = ''
 }
 </script>
+
 <style>
 input[type='file'] {
   display: none;
@@ -145,8 +144,7 @@ input[type='file'] {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--color-primary-orange);
   border: none;
   border-radius: 4px;
   transition: background-color 0.2s ease;
@@ -154,7 +152,7 @@ input[type='file'] {
 }
 
 .custom-file-upload:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--color-primary-orange);
 }
 
 .file-upload-wrapper {
@@ -184,6 +182,7 @@ input[type='file'] {
 .audio-control {
   height: 5rem;
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-0-5);
+  color: var(--color-primary-orange);
 }
 </style>

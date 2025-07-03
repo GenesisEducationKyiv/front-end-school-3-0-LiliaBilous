@@ -15,4 +15,5 @@ dist/
 .env.local
 
 # system
-.DS_Store
+data/
+data-initial/

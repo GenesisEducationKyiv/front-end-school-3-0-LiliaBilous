@@ -108,7 +108,7 @@ const emit = defineEmits<{
     payload: {
       title: string
       artist: string
-      album: string
+      album?: string
       coverImage: string
       genres: string[]
     }

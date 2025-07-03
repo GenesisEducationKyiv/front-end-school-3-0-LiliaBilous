@@ -12,7 +12,7 @@
 
   .genre-tab {
     padding: 0.25rem 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-0-5);
   }
 
   .toolbar__footer {
@@ -92,11 +92,6 @@
   .form-input {
     font-size: 0.875rem;
     padding: 6px 10px;
-  }
-
-  .button.small {
-    font-size: 0.75rem;
-    padding: 0.4rem;
   }
 
   .image-preview,

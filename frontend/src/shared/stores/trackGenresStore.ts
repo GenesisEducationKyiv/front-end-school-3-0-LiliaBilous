@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { ok, Result } from 'neverthrow'
-import { getGenres } from '@/shared/services/api.ts'
+// import { getGenres } from '@/shared/services/api.ts'
+import { getGenres } from '@/shared/services/graphql/qraphql'
 
 export const useTrackGenreStore = defineStore('trackGenreStore', () => {
   const genres = ref<string[]>([])

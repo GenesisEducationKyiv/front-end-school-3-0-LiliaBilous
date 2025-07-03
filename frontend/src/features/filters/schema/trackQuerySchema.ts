@@ -16,9 +16,11 @@ export type TrackQuery = z.infer<typeof TrackQuerySchema>
 export const PaginatedTracksSchema = z.object({
   data: z.array(TrackSchema),
   meta: z.object({
+    total: z.number(),
+    page: z.number(),
+    limit: z.number(),
     totalPages: z.number(),
-    currentPage: z.number(),
-    totalCount: z.number(),
   }),
 })
+
 export type PaginatedTracks = z.infer<typeof PaginatedTracksSchema>

@@ -1,64 +1,62 @@
 <template>
   <div class="track-item__actions-wrapper">
-    <div>
+    <BaseButton
+      class="more-button"
+      :aria-label="`Actions for ${track.title}`"
+      aria-haspopup="menu"
+      :aria-expanded="activeTrackId === track.id && isDropdownOpen"
+      aria-controls="track-actions-dropdown"
+      @click="toggleMenu(track.id)"
+    >
+      ⋮
+    </BaseButton>
+
+    <div
+      class="track-item__actions"
+      :class="{ dropdown: activeTrackId === track.id && isDropdownOpen }"
+    >
       <BaseButton
-        v-if="isMobile"
-        class="more-button"
-        :aria-label="`Actions for ${track.title}`"
-        @click="toggleMenu(track.id)"
+        v-show="!track.audioFile"
+        class="track-item__button button button-upload"
+        :aria-label="`Upload audio file for ${track.title}`"
+        :data-testid="`upload-track-${track.id}`"
+        @click="$emit('upload', track)"
       >
-        ⋮
+        Upload
       </BaseButton>
 
-      <div
-        :class="{
-          'dropdown-menu': isMobile && activeTrackId === track.id && isDropdownOpen,
-          'track-item__actions': !isMobile || (isMobile && activeTrackId === track.id),
-        }"
+      <BaseButton
+        v-if="track.audioFile"
+        class="track-item__button button button-upload"
+        :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`"
+        @click="handlePlay(track.id)"
       >
-        <BaseButton
-          v-show="!track.audioFile"
-          class="track-item__button button"
-          :aria-label="`Upload audio file for ${track.title}`"
-          :data-testid="`upload-track-${track.id}`"
-          @click="$emit('upload', track)"
-        >
-          Upload
-        </BaseButton>
+        {{ isPlayerVisible ? 'Hide player' : 'Player' }}
+      </BaseButton>
 
-        <BaseButton
-          v-if="track.audioFile"
-          class="track-item__button button"
-          :aria-label="`${isPlayerVisible ? 'Hide' : 'Show'} player for ${track.title}`"
-          @click="handlePlay(track.id)"
-        >
-          {{ isPlayerVisible ? 'Hide player' : 'Player' }}
-        </BaseButton>
+      <BaseButton
+        class="track-item__button button edit-button"
+        :aria-label="`Edit metadata for ${track.title}`"
+        :data-testid="`edit-track-${track.id}`"
+        @click="$emit('edit', track)"
+      >
+        Edit
+      </BaseButton>
 
-        <BaseButton
-          class="track-item__button button"
-          :aria-label="`Edit metadata for ${track.title}`"
-          :data-testid="`edit-track-${track.id}`"
-          @click="$emit('edit', track)"
-        >
-          Edit
-        </BaseButton>
-
-        <BaseButton
-          class="track-item__button button"
-          :aria-label="`Delete ${track.title}`"
-          :data-testid="`delete-track-${track.id}`"
-          @click="$emit('delete', track)"
-        >
-          Delete
-        </BaseButton>
-      </div>
+      <BaseButton
+        class="track-item__button button delete-button"
+        :aria-label="`Delete ${track.title}`"
+        :data-testid="`delete-track-${track.id}`"
+        @click="$emit('delete', track)"
+      >
+        Delete
+      </BaseButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseButton from '@/shared/components/ui/BaseButton.vue'
 
@@ -72,7 +70,6 @@ const emit = defineEmits<{
 }>()
 
 const isPlayerVisible = ref(false)
-const isMobile = ref(false)
 const activeTrackId = ref<string | null>(null)
 const isDropdownOpen = ref(false)
 
@@ -82,101 +79,93 @@ function handlePlay(trackId: string) {
 }
 
 function toggleMenu(id: string) {
-  if (isMobile.value) {
-    if (activeTrackId.value === id && isDropdownOpen.value) {
-      activeTrackId.value = null
-      isDropdownOpen.value = false
-    } else {
-      activeTrackId.value = id
-      isDropdownOpen.value = true
-    }
-  }
-}
-
-function checkScreenSize() {
-  isMobile.value = window.innerWidth <= 800
-  if (!isMobile.value) {
-    activeTrackId.value = null
+  if (activeTrackId.value === id && isDropdownOpen.value) {
     isDropdownOpen.value = false
+    activeTrackId.value = null
+  } else {
+    isDropdownOpen.value = true
+    activeTrackId.value = id
   }
 }
-
-onMounted(() => {
-  checkScreenSize()
-  window.addEventListener('resize', checkScreenSize)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', checkScreenSize)
-})
 </script>
 
-<style scoped>
-.more-button-hidden,
-.track-item__actions-mobile-hidden,
-.track-item__actions-desktop-hidden {
-  display: none;
-}
-
-.more-button {
-  color: var(--secondary-alt-color);
-  cursor: pointer;
-  font-size: 1.2em;
-  line-height: 1;
-  border: 1px solid transparent;
-  border-radius: 0.5rem;
-}
-
-.more-button:hover,
-.more-button:focus-visible {
-  border-color: var(--secondary-alt-color);
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: -10%;
-  background-color: var(--grey-fill-color);
-  border: 1px solid var(--border-color);
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+<style>
+.track-item__actions-wrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 6rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .track-item__actions {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.more-button {
+  display: none;
+}
+
+@media (max-width: 53rem) {
+  .more-button {
+    display: inline-block;
+    color: var(--color-text-base);
+    cursor: pointer;
+    font-size: 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-0-5);
+    background: transparent;
+    transition: var(--transition);
+  }
+
+  .track-item__actions {
+    display: none;
+  }
+
+  .track-item__actions.dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--color-bg-glass);
+    border-radius: var(--border-radius-0-5);
+    padding: 0.75rem;
+    box-shadow: var(--box-shadow-main);
+    z-index: 1000;
+    min-width: 10rem;
+  }
 }
 
 .track-item__button {
-  color: var(--primary-color);
   font-weight: 500;
-  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-0-5);
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text-base);
+  transition: var(--transition);
 }
 
-.track-item__button:hover {
-  background-color: var(--white-color);
+.track-item__button:focus-visible {
+  box-shadow: var(--box-shadow-button);
 }
 
-.track-item__actions-wrapper {
-  position: relative;
+.button-upload:hover {
+  color: var(--color-primary-blue);
+  box-shadow: inset var(--box-shadow-blue);
 }
 
-.dropdown-wrapper {
-  position: relative;
+.edit-button:hover {
+  color: var(--color-primary-purple);
+  box-shadow: inset var(--box-shadow-2);
 }
 
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
+.delete-button:hover {
+  color: var(--color-primary-pink);
+  box-shadow: inset var(--box-shadow-1);
 }
 </style>

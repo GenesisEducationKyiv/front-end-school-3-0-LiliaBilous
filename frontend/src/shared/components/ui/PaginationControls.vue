@@ -76,7 +76,7 @@ const visiblePages = computed(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .pagination {
   display: flex;
   justify-content: center;
@@ -88,28 +88,28 @@ const visiblePages = computed(() => {
 
 .pagination-button,
 .pagination-page {
-  padding: 0.25rem 0.75rem;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background-color: var(--grey-fill-color);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  border-radius: var(--border-radius-0-5);
+  border: 1px solid var(--color-glow-soft);
+  background-color: var(--color-bg-glass);
+  color: var(--color-text-base);
+  backdrop-filter: blur(4px);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination-button:hover,
 .pagination-page:hover {
-  background-color: var(--grey-fill-color);
+  background-color: var(--color-accent-glow-blue);
+  border-color: var(--color-primary-cyan);
+  color: var(--color-primary-cyan);
 }
 
 .pagination-page.active {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  background-color: var(--color-primary-cyan);
+  color: var(--color-text-inverted);
+  border-color: var(--color-primary-cyan);
 }
 </style>

@@ -1,50 +1,3 @@
-<template>
-  <div
-    v-if="trackBySlug && trackBySlug.audioFile"
-    :data-testid="`audio-player-${trackBySlug.id}`"
-    class="audio-player"
-  >
-    <audio
-      ref="audioRef"
-      :src="trackBySlug.audioFile"
-      preload="auto"
-      @timeupdate="updateProgress"
-      @loadedmetadata="updateDuration"
-      class="audio-hidden"
-    >
-      Your browser does not support the audio element.
-    </audio>
-
-    <!-- Waveform -->
-    <div ref="waveformRef" class="waveform"></div>
-
-    <!-- Controls -->
-    <div class="controls">
-      <button
-        v-if="!isPlaying"
-        @click="play"
-        :data-testid="`play-button-${trackBySlug.id}`"
-        class="button play-button"
-      >
-        Play
-      </button>
-      <button
-        v-else
-        @click="pause"
-        class="button play-button"
-        :data-testid="`pause-button-${trackBySlug.id}`"
-      >
-        Pause
-      </button>
-
-      <span :data-testid="`audio-progress-${trackBySlug.id}`">
-        {{ currentTime }} / {{ duration }}
-      </span>
-      <button type="button" @click="removeAudioFile" class="button danger">Remove File</button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, watch, nextTick, computed } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -104,44 +57,126 @@ const removeAudioFile = () => {
   pause()
 }
 </script>
+<template>
+  <div
+    v-if="trackBySlug && trackBySlug.audioFile"
+    :data-testid="`audio-player-${trackBySlug.id}`"
+    class="audio-player"
+  >
+    <audio
+      ref="audioRef"
+      :src="trackBySlug.audioFile"
+      preload="auto"
+      @timeupdate="updateProgress"
+      @loadedmetadata="updateDuration"
+      class="audio-hidden"
+    >
+      Your browser does not support the audio element.
+    </audio>
 
-<style scoped>
+    <!-- Waveform -->
+    <div ref="waveformRef" class="waveform"></div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button
+        v-if="!isPlaying"
+        @click="play"
+        :data-testid="`play-button-${trackBySlug.id}`"
+        class="button play-button"
+      >
+        Play
+      </button>
+      <button
+        v-else
+        @click="pause"
+        class="button play-button"
+        :data-testid="`pause-button-${trackBySlug.id}`"
+      >
+        Pause
+      </button>
+
+      <span :data-testid="`audio-progress-${trackBySlug.id}`">
+        {{ currentTime }} / {{ duration }}
+      </span>
+      <button type="button" @click="removeAudioFile" class="button danger">Remove File</button>
+    </div>
+  </div>
+</template>
+<style>
+.track-item__waveform {
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-glow-soft);
+  padding-top: 0.75rem;
+}
+
 .audio-player {
-  padding: 1rem;
-  margin-top: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem;
+  margin-top: 1rem;
   gap: 1rem;
+  /* background: var(--color-bg-glass);
+  border-radius: var(--border-radius-0-5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25); */
+  container-type: inline-size;
 }
 
 .waveform {
   width: 100%;
   height: 60px;
+  flex-shrink: 1;
 }
 
 .controls {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
   justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
 
-/* .audio-hidden {
+audio:is([controls], .audio-hidden) {
   display: none;
-} */
+}
 
 .play-button {
-  background-color: var(--secondary-alt-color);
+  color: var(--color-primary-blue);
+  border: 1px solid var(--color-primary-blue);
 }
 
-@media screen and (max-width: 50rem) {
+.play-button:hover {
+  background-color: var(--color-primary-blue);
+  color: var(--color-bg-dark);
+}
+
+.danger {
+  color: var(--color-primary-pink);
+  border: 1px solid var(--color-accent-glow);
+
+  &:hover {
+    background-color: var(--color-accent-glow);
+    color: var(--color-bg-dark);
+  }
+}
+
+@media (width < 50rem) {
   .audio-player {
-    padding: 0.25rem;
-    margin-top: 16px;
     flex-direction: column;
+    padding: 0.5rem;
     gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .waveform {
+    height: 48px;
   }
 }
 </style>
