@@ -11,6 +11,9 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     name: Install & Cache
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
 
