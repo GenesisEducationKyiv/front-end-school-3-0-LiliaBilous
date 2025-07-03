@@ -31,8 +31,12 @@ test('renders track item and emits select event', async ({ mount }) => {
     },
   })
 
-  await expect(component.getByTestId(`track-item-${mockTrack.id}-title`)).toHaveText(mockTrack.title)
-  await expect(component.getByTestId(`track-item-${mockTrack.id}-artist`)).toHaveText(`${mockTrack.artist} — ${mockTrack.album}`)
+  await expect(component.getByTestId(`track-item-${mockTrack.id}-title`)).toHaveText(
+    mockTrack.title
+  )
+  await expect(component.getByTestId(`track-item-${mockTrack.id}-artist`)).toHaveText(
+    `${mockTrack.artist} — ${mockTrack.album}`
+  )
 
   const checkbox = component.locator(`input[data-testid="track-checkbox-${mockTrack.id}"]`)
   await expect(checkbox).not.toBeChecked()
