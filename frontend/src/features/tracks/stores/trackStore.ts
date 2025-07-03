@@ -1,7 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Result } from 'neverthrow'
-import { getTracks, createTrack, updateTrack, deleteTrack, bulkDeleteTracks } from '@/shared/services/graphql/qraphql'
+import {
+  getTracks,
+  createTrack,
+  updateTrack,
+  deleteTrack,
+  bulkDeleteTracks,
+} from '@/shared/services/graphql/qraphql'
 // import {
 //   getTracks,
 //   createTrack,
@@ -46,9 +52,7 @@ export const useTrackStore = defineStore('trackStore', () => {
   const editTrack = async (updatedTrack: Track): Promise<Result<Track, Error>> => {
     const result = await updateTrack(updatedTrack.id, updatedTrack)
     if (result.isOk()) {
-      tracks.value = tracks.value.map((t) =>
-        t.id === updatedTrack.id ? result.value : t
-      )
+      tracks.value = tracks.value.map((t) => (t.id === updatedTrack.id ? result.value : t))
     }
     return result
   }

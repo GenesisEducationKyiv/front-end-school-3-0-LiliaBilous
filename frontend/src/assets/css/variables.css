@@ -20,18 +20,19 @@
   --color-accent-glow-blue: rgba(0, 209, 255, 0.5);
   --color-accent-glow-purple: rgba(166, 77, 255, 0.4);
 
-  --gradient-wave: linear-gradient(90deg,
-      var(--color-primary-purple),
-      var(--color-primary-pink),
-      var(--color-primary-orange),
-      var(--color-primary-blue));
+  --gradient-wave: linear-gradient(
+    90deg,
+    var(--color-primary-purple),
+    var(--color-primary-pink),
+    var(--color-primary-orange),
+    var(--color-primary-blue)
+  );
 
   --box-shadow-main: 0 8px 24px rgba(0, 0, 0, 0.2);
   --box-shadow-1: 0 0 10px var(--color-accent-glow);
   --box-shadow-blue: 0 0 10px var(--color-accent-glow-blue);
   --box-shadow-2: 0 0 10px var(--color-accent-glow-purple);
   --box-shadow-button: 0 0 10px var(--color-glow-soft);
-
 }
 
 /* animations */

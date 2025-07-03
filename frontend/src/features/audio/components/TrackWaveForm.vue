@@ -58,9 +58,19 @@ const removeAudioFile = () => {
 }
 </script>
 <template>
-  <div v-if="trackBySlug && trackBySlug.audioFile" :data-testid="`audio-player-${trackBySlug.id}`" class="audio-player">
-    <audio ref="audioRef" :src="trackBySlug.audioFile" preload="auto" @timeupdate="updateProgress"
-      @loadedmetadata="updateDuration" class="audio-hidden">
+  <div
+    v-if="trackBySlug && trackBySlug.audioFile"
+    :data-testid="`audio-player-${trackBySlug.id}`"
+    class="audio-player"
+  >
+    <audio
+      ref="audioRef"
+      :src="trackBySlug.audioFile"
+      preload="auto"
+      @timeupdate="updateProgress"
+      @loadedmetadata="updateDuration"
+      class="audio-hidden"
+    >
       Your browser does not support the audio element.
     </audio>
 
@@ -69,10 +79,20 @@ const removeAudioFile = () => {
 
     <!-- Controls -->
     <div class="controls">
-      <button v-if="!isPlaying" @click="play" :data-testid="`play-button-${trackBySlug.id}`" class="button play-button">
+      <button
+        v-if="!isPlaying"
+        @click="play"
+        :data-testid="`play-button-${trackBySlug.id}`"
+        class="button play-button"
+      >
         Play
       </button>
-      <button v-else @click="pause" class="button play-button" :data-testid="`pause-button-${trackBySlug.id}`">
+      <button
+        v-else
+        @click="pause"
+        class="button play-button"
+        :data-testid="`pause-button-${trackBySlug.id}`"
+      >
         Pause
       </button>
 
@@ -133,7 +153,6 @@ audio:is([controls], .audio-hidden) {
 }
 
 .danger {
-
   color: var(--color-primary-pink);
   border: 1px solid var(--color-accent-glow);
 

@@ -22,7 +22,7 @@ const ACTIVE_TRACK = gql`
   }
 `
 const { result } = useSubscription(ACTIVE_TRACK)
-const activeTrack = computed(() => result.value?.activeTrackTitle);
+const activeTrack = computed(() => result.value?.activeTrackTitle)
 </script>
 
 <style scoped>

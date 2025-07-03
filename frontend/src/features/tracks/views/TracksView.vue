@@ -3,20 +3,43 @@
     <div class="main__container">
       <TrackToolbar />
 
-      <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true" class="loading-indicator">
+      <div
+        v-if="trackStore.isLoading"
+        data-testid="loading-tracks"
+        data-loading="true"
+        class="loading-indicator"
+      >
         Loading tracks...
       </div>
 
-      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
-        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
+      <button
+        data-testid="create-track-button"
+        class="main__create-track-button button"
+        @click="openCreateModal"
+        :disabled="trackStore.isLoading"
+        :aria-disabled="trackStore.isLoading"
+        :data-loading="trackStore.isLoading"
+      >
         + Create Track
       </button>
 
-      <TrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
-        @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove" @bulk-delete="deleteSelected" />
+      <TrackList
+        v-if="!trackStore.isLoading"
+        :tracks="trackStore.tracks"
+        @edit="openEditModal"
+        @delete="openConfirmDelete"
+        @upload="openUploadModal"
+        @reset="handleFileRemove"
+        @bulk-delete="deleteSelected"
+      />
 
-      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
-        :current-page="filterStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
+      <PaginationControls
+        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
+        data-testid="pagination"
+        :current-page="filterStore.page"
+        :total-pages="trackStore.totalPages"
+        @change="onPageChange"
+      />
     </div>
   </main>
 </template>
@@ -35,10 +58,18 @@ import TrackList from '@/features/tracks/components/TrackList.vue'
 import PaginationControls from '@/shared/components/ui/PaginationControls.vue'
 import TrackToolbar from '@/features/filters/components/TrackToolbar.vue'
 
-const CreateTrackModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/CreateTrackModal.vue'))
-const EditTrackModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/EditTrackModal.vue'))
-const ConfirmDeleteModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/ConfirmDeleteModal.vue'))
-const UploadFileModal = defineAsyncComponent(() => import('@/features/tracks/components/modals/UploadFileModal.vue'))
+const CreateTrackModal = defineAsyncComponent(
+  () => import('@/features/tracks/components/modals/CreateTrackModal.vue')
+)
+const EditTrackModal = defineAsyncComponent(
+  () => import('@/features/tracks/components/modals/EditTrackModal.vue')
+)
+const ConfirmDeleteModal = defineAsyncComponent(
+  () => import('@/features/tracks/components/modals/ConfirmDeleteModal.vue')
+)
+const UploadFileModal = defineAsyncComponent(
+  () => import('@/features/tracks/components/modals/UploadFileModal.vue')
+)
 
 const trackStore = useTrackStore()
 const trackFileStore = useTrackFileStore()
@@ -188,10 +219,12 @@ async function handleFileRemove(id: string) {
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius-0-5);
   color: var(--color-text-base);
-  background: linear-gradient(260deg,
-      var(--color-primary-purple),
-      var(--color-primary-pink),
-      var(--color-primary-orange));
+  background: linear-gradient(
+    260deg,
+    var(--color-primary-purple),
+    var(--color-primary-pink),
+    var(--color-primary-orange)
+  );
   border: none;
   cursor: pointer;
   overflow: hidden;
