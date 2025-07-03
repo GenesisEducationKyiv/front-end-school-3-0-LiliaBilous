@@ -6,6 +6,7 @@ on:
       - main
       - homework9/ci-cd
   pull_request:
+  workflow_dispatch:
 
 jobs:
   setup:
@@ -106,5 +107,5 @@ jobs:
         with:
           name: e2e-artifacts
           path: |
-            test-results/
-            playwright-report/
+            frontend/test-results/
+            frontend/playwright-report/
