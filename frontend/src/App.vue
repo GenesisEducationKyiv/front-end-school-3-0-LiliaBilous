@@ -14,7 +14,9 @@ const AsyncTracksView = defineAsyncComponent({
 <template>
   <div class="wrapper">
     <section class="hero">
-      <div class="hero__background"></div>
+      <div class="hero__background">
+        <img src="/image.webp" alt="" aria-hidden="true" style="display: none" loading="eager" fetchpriority="high" />
+      </div>
       <div class="hero__content">
         <ActiveTrack />
         <h1 class="hero__title" data-testid="tracks-header">Track Manager</h1>
@@ -37,7 +39,6 @@ const AsyncTracksView = defineAsyncComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* max-height: 100%; */
   min-height: 100vh;
   position: relative;
   overflow: auto;
@@ -63,7 +64,6 @@ const AsyncTracksView = defineAsyncComponent({
   content: '';
   position: absolute;
   inset: 0;
-  /* backdrop-filter: blur(1px); */
   z-index: 1;
 }
 

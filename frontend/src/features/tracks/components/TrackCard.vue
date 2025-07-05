@@ -13,7 +13,12 @@
           />
           <span class="checkmark"></span>
         </label>
-        <img :src="track.coverImage || DEFAULT_COVER_IMAGE" alt="cover" class="track-item__image" />
+        <img
+          loading="lazy"
+          :src="track.coverImage || DEFAULT_COVER_IMAGE"
+          alt="cover"
+          class="track-item__image"
+        />
         <div>
           <h2 :data-testid="`track-item-${track.id}-title`" class="track-item__title">
             {{ track.title }}

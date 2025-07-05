@@ -62,6 +62,7 @@
           />
           <p v-if="errors.coverImage" class="input-error">{{ errors.coverImage }}</p>
           <img
+            loading="lazy"
             :src="form.coverImage ? form.coverImage : DEFAULT_COVER_IMAGE"
             alt="cover image preview"
             class="cover-image-preview"
