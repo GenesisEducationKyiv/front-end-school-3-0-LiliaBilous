@@ -61,4 +61,11 @@ const activeTrack = computed(() => result.value?.activeTrackTitle)
   font-weight: 600;
   color: var(--color-primary-cyan);
 }
+
+@media (width < 30rem) {
+  .active-track {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+}
 </style>

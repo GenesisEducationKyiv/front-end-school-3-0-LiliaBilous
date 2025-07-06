@@ -3,43 +3,20 @@
     <div class="main__container">
       <TrackToolbar />
 
-      <div
-        v-if="trackStore.isLoading"
-        data-testid="loading-tracks"
-        data-loading="true"
-        class="loading-indicator"
-      >
+      <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true" class="loading-indicator">
         Loading tracks...
       </div>
 
-      <button
-        data-testid="create-track-button"
-        class="main__create-track-button button"
-        @click="openCreateModal"
-        :disabled="trackStore.isLoading"
-        :aria-disabled="trackStore.isLoading"
-        :data-loading="trackStore.isLoading"
-      >
+      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
+        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
         + Create Track
       </button>
 
-      <TrackList
-        v-if="!trackStore.isLoading"
-        :tracks="trackStore.tracks"
-        @edit="openEditModal"
-        @delete="openConfirmDelete"
-        @upload="openUploadModal"
-        @reset="handleFileRemove"
-        @bulk-delete="deleteSelected"
-      />
+      <TrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
+        @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove" @bulk-delete="deleteSelected" />
 
-      <PaginationControls
-        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
-        data-testid="pagination"
-        :current-page="filterStore.page"
-        :total-pages="trackStore.totalPages"
-        @change="onPageChange"
-      />
+      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
+        :current-page="filterStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
     </div>
   </main>
 </template>
@@ -219,30 +196,49 @@ async function handleFileRemove(id: string) {
   padding: 0.75rem 1.5rem;
   border-radius: var(--border-radius-0-5);
   color: var(--color-text-base);
-  background: linear-gradient(
-    260deg,
-    var(--color-primary-purple),
-    var(--color-primary-pink),
-    var(--color-primary-orange)
-  );
+  background: linear-gradient(260deg,
+      var(--color-primary-purple),
+      var(--color-primary-pink),
+      var(--color-primary-orange));
   border: none;
   cursor: pointer;
   overflow: hidden;
   z-index: 1;
   transition: var(--transition);
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-wave);
-    opacity: 0;
-    transition: var(--transition);
-    z-index: -1;
-  }
+.main__create-track-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-wave);
+  opacity: 0;
+  transition: var(--transition);
+  z-index: -1;
 }
 
 .main__create-track-button:hover::before {
   opacity: 1;
+}
+
+
+/* Контейнер-запити замість media */
+@container (max-width: 40rem) {
+  .main {
+    margin-top: calc(var(--hero-height) * -0.65);
+    padding: 1rem 0;
+  }
+
+  .main__create-track-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@container (max-width: 30rem) {
+  .main {
+    margin-top: calc(var(--hero-height) * -0.75);
+    padding: 1rem 0;
+  }
 }
 </style>

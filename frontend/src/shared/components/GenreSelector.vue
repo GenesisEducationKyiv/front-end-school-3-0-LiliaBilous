@@ -1,15 +1,8 @@
 <template>
   <div class="genre-wrapper">
     <label for="genre-select" class="form-label">Genres</label>
-    <select
-      id="genre-select"
-      data-testid="genre-select"
-      v-model="selectedOption"
-      @change="handleSelect"
-      class="form-input genre-select"
-      aria-label="Select a genre to add"
-      :disabled="isLoading || !!error"
-    >
+    <select id="genre-select" data-testid="genre-select" v-model="selectedOption" @change="handleSelect"
+      class="form-input genre-select" aria-label="Select a genre to add" :disabled="isLoading || !!error">
       <option data-testid="genre-add-option" value="">
         {{ isLoading ? 'Loading genres...' : error ? 'Failed to load genres' : '+ Add genre' }}
       </option>
@@ -19,20 +12,10 @@
     </select>
 
     <div class="genre-container">
-      <span
-        v-for="(genre, index) in props.selected"
-        :key="genre"
-        class="genre-tag"
-        data-testid="genre-tag"
-      >
+      <span v-for="(genre, index) in props.selected" :key="genre" class="genre-tag" data-testid="genre-tag">
         {{ genre }}
-        <button
-          type="button"
-          @click="removeGenre(index)"
-          title="Remove genre"
-          :aria-label="`Remove genre ${genre}`"
-          data-testid="genre-remove-button"
-        >
+        <button type="button" @click="removeGenre(index)" title="Remove genre" :aria-label="`Remove genre ${genre}`"
+          data-testid="genre-remove-button">
           &times;
         </button>
       </span>
@@ -68,6 +51,7 @@ function removeGenre(index: number) {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  container-type: inline-size;
 }
 
 .genre-select {
@@ -136,6 +120,17 @@ select.genre-select option {
 
   &:hover button {
     color: var(--color-primary-cyan);
+  }
+}
+
+@container (max-width: 40rem) {
+  .genre-tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .genre-tag button {
+    font-size: 0.9rem;
   }
 }
 </style>

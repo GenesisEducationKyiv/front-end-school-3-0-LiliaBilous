@@ -1,24 +1,14 @@
 <template>
   <div class="bulk__container">
     <label class="custom-checkbox">
-      <input
-        id="select-all"
-        type="checkbox"
-        :checked="selectAll"
-        @change="toggleSelectAll"
-        data-testid="select-all"
-        aria-label="Select All"
-      />
+      <input id="select-all" type="checkbox" :checked="selectAll" @change="toggleSelectAll" data-testid="select-all"
+        aria-label="Select All" />
       <span class="checkmark"></span>
       Select All
     </label>
 
-    <button
-      data-testid="bulk-delete-button"
-      class="bulk__button button"
-      :disabled="!selectedIds.length"
-      @click="$emit('delete-selected')"
-    >
+    <button data-testid="bulk-delete-button" class="bulk__button button" :disabled="!selectedIds.length"
+      @click="$emit('delete-selected')">
       Delete {{ selectedIds.length }} Selected
     </button>
   </div>
@@ -99,7 +89,7 @@ function toggleSelectAll(event: Event) {
   transition: var(--transition);
 }
 
-.custom-checkbox input:checked ~ .checkmark {
+.custom-checkbox input:checked~.checkmark {
   background-color: var(--color-primary-purple);
 }
 
@@ -109,7 +99,7 @@ function toggleSelectAll(event: Event) {
   display: none;
 }
 
-.custom-checkbox input:checked ~ .checkmark::after {
+.custom-checkbox input:checked~.checkmark::after {
   display: block;
   left: 6px;
   top: 2px;
@@ -118,5 +108,18 @@ function toggleSelectAll(event: Event) {
   border: solid var(--color-text-base);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+@container (max-width: 30rem) {
+  .custom-checkbox .checkmark {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .custom-checkbox input:checked~.checkmark::after {
+    left: 3px;
+    top: 0;
+
+  }
 }
 </style>

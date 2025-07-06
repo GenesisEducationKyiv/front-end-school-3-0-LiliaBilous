@@ -50,7 +50,6 @@ const AsyncTracksView = defineAsyncComponent({
   height: var(--hero-height);
   width: 100%;
   background: center / cover url(@/assets/image.webp) no-repeat;
-  border: 1px var(--color-accent-gold) solid;
 }
 
 .hero__content {
@@ -77,5 +76,19 @@ const AsyncTracksView = defineAsyncComponent({
   font-size: 4rem;
   font-weight: 700;
   margin-top: 5rem;
+}
+
+@media screen and (max-width: 40rem) {
+  .hero__title {
+    font-size: 3em;
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 30rem) {
+  .hero__title {
+    font-size: 2.5em;
+    margin-top: 2rem;
+  }
 }
 </style>
