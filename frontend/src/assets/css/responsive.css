@@ -1,47 +1,12 @@
-/* ---------------------- */
-/* 320px */
-@media screen and (max-width: 20rem) {
-  .toolbar__container {
-    padding: 0.35rem;
-  }
-
-  .genre-tabs {
-    width: 100%;
-    gap: 0.25rem;
-  }
-
-  .genre-tab {
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--border-radius-0-5);
-  }
-
-  .toolbar__footer {
-    gap: 0.25rem;
-  }
+.wrapper {
+  container-type: inline-size;
 }
 
-/* 480px */
-@media screen and (max-width: 30rem) {
-  :root {
-    --hero-height: 250px;
-  }
 
+@media (width < 30rem) {
   body {
     font-size: 0.75rem;
     line-height: 1;
-  }
-
-  .hero__content {
-    padding-top: 3rem;
-  }
-
-  .main {
-    padding: 0.5rem;
-    width: 96%;
-  }
-
-  .main__container {
-    padding: 0;
   }
 
   .button {
@@ -52,72 +17,27 @@
     padding: 0.25rem 0.5rem;
   }
 
-  /* track-items */
-  .track-item__content {
-    gap: 0.5rem;
+  [class*='__container'] {
+    padding: 0 0.5rem;
   }
+}
 
-  .track-item__image {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .track-item__title {
+/* Контейнер ≤ 40rem (640px) */
+/* Тут можна додати стилі, якщо треба адаптив під 640px */
+@container (max-width: 40rem) {
+  /* Наприклад:
+  .some-class {
     font-size: 1rem;
-    font-weight: 600;
   }
-
-  .track-item__subtitle {
-    font-size: 0.85rem;
-    color: var(--text-color);
-  }
-
-  .track-item__genre {
-    font-size: 0.75rem;
-  }
+  */
 }
 
-/* 640px */
-@media screen and (max-width: 40rem) {
-  .modal-content {
-    width: 90%;
-    padding: 1rem;
-    gap: 1rem;
+/* Контейнер ≤ 50rem (800px) */
+/* Тут також залишаю місце під розширення */
+@container (max-width: 50rem) {
+  /* Приклад:
+  .another-class {
+    padding: 2rem;
   }
-
-  .modal-title {
-    font-size: 1.25rem;
-  }
-
-  .form-input {
-    font-size: 0.875rem;
-    padding: 6px 10px;
-  }
-
-  .image-preview,
-  .cover-image-preview {
-    max-width: 80px;
-  }
-
-  .genre-tag {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
-  }
-
-  .genre-tag button {
-    font-size: 0.9rem;
-  }
-
-  .modal-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-}
-
-/* 800px */
-@media screen and (max-width: 50rem) {
-  .track-list__track-item {
-    padding: 0.5rem;
-  }
+  */
 }

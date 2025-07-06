@@ -1,9 +1,9 @@
-.track-list,
-.track-list__container {
+.track-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 0;
+  container-type: inline-size;
 }
 
 .track-list__track-item {
@@ -61,9 +61,40 @@
   margin-top: 0.2rem;
 }
 
-.track-list > div > p {
+.track-list>div>p {
   text-align: center;
   color: var(--color-text-muted);
   font-size: 1rem;
   margin-top: 2rem;
+}
+
+@container (max-width: 50rem) {
+  .track-list__track-item {
+    padding: 0.75rem;
+  }
+}
+
+@container (max-width: 30rem) {
+
+  .track-item__content {
+    gap: 0.5rem;
+  }
+
+  .track-item__image {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .track-item__title {
+    font-size: 0.85rem;
+  }
+
+  .track-item__subtitle {
+    font-size: 0.85rem;
+  }
+
+  .track-item__genre {
+    font-size: 0.75rem;
+    color: var(--color-text-base);
+  }
 }
