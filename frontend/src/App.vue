@@ -15,7 +15,7 @@ const AsyncTracksView = defineAsyncComponent({
   <div class="wrapper">
     <section class="hero">
       <div class="hero__background">
-        <img src="/image.webp" alt="" aria-hidden="true" style="display: none" loading="eager" fetchpriority="high" />
+        <img src="/image.webp" alt="" aria-hidden="true" loading="eager" fetchpriority="high" />
       </div>
       <div class="hero__content">
         <ActiveTrack />
@@ -50,6 +50,17 @@ const AsyncTracksView = defineAsyncComponent({
   height: var(--hero-height);
   width: 100%;
   background: center / cover url(@/assets/image.webp) no-repeat;
+}
+
+.hero__background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hero__content {
