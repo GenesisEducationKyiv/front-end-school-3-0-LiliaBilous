@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="modal-overlay"
-    role="dialog"
-    aria-modal="true"
-    :aria-labelledby="ariaLabelledby"
-    :aria-describedby="ariaDescribedby"
-    @click.self="handleClose"
-    @keydown.esc="handleClose"
-  >
+  <div class="modal-overlay" role="dialog" aria-modal="true" :aria-labelledby="ariaLabelledby"
+    :aria-describedby="ariaDescribedby" @click.self="handleClose" @keydown.esc="handleClose">
     <div ref="modalContent" class="modal-content" tabindex="-1">
       <!-- Title slot -->
       <header v-if="$slots.title" class="modal-header" :id="ariaLabelledby">
@@ -46,8 +39,4 @@ import { useFocusTrap } from '@/shared/composables/useFocusTrap'
 useFocusTrap(modalContent)
 </script>
 
-<style>
-.modal-content:focus {
-  outline: none;
-}
-</style>
+<style></style>
