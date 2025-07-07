@@ -51,7 +51,7 @@ import { useGenreQuery } from '@/shared/composables/useGenreQuery.ts'
 const { genres: availableGenres } = useGenreQuery()
 
 const route = useRoute()
-const dropdownOpen = ref(true)
+const dropdownOpen = ref(false)
 const filterStore = useTrackFilterStore()
 
 const sortOptions = ['title', 'artist', 'album', 'createdAt']
