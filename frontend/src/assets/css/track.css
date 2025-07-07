@@ -75,6 +75,9 @@
 }
 
 @container (max-width: 30rem) {
+  .track-list {
+    gap: 0.4rem;
+  }
 
   .track-item__content {
     gap: 0.5rem;
@@ -97,4 +100,84 @@
     font-size: 0.75rem;
     color: var(--color-text-base);
   }
+}
+
+/* track action button */
+.track-item__actions-wrapper {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.track-item__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.more-button {
+  display: none;
+}
+
+@media (max-width: 53rem) {
+  .more-button {
+    display: inline-block;
+    color: var(--color-text-base);
+    cursor: pointer;
+    font-size: 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-0-5);
+    background: transparent;
+    transition: var(--transition);
+  }
+
+  .track-item__actions {
+    display: none;
+  }
+
+  .track-item__actions.dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--color-bg-glass);
+    border-radius: var(--border-radius-0-5);
+    padding: 0.75rem;
+    box-shadow: var(--box-shadow-main);
+    z-index: 1000;
+    min-width: 10rem;
+  }
+}
+
+.track-item__button {
+  font-weight: 500;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-0-5);
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text-base);
+  transition: var(--transition);
+}
+
+.track-item__button:focus-visible {
+  box-shadow: var(--box-shadow-button);
+}
+
+.button-upload:hover {
+  color: var(--color-primary-blue);
+  box-shadow: inset var(--box-shadow-blue);
+}
+
+.edit-button:hover {
+  color: var(--color-primary-purple);
+  box-shadow: inset var(--box-shadow-2);
+}
+
+.delete-button:hover {
+  color: var(--color-primary-pink);
+  box-shadow: inset var(--box-shadow-1);
 }
