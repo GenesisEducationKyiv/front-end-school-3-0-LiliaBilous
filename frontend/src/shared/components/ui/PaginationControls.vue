@@ -1,29 +1,17 @@
 <template>
   <div class="pagination">
-    <button
-      data-testid="pagination-prev"
-      @click="goToPage(currentPage - 1)"
-      :disabled="currentPage === 1"
-      class="pagination-button"
-    >
+    <button data-testid="pagination-prev" @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
+      class="pagination-button">
       &laquo;
     </button>
 
-    <button
-      v-for="page in visiblePages"
-      :key="page"
-      @click="goToPage(page)"
-      :class="['pagination-page', { active: page === currentPage }]"
-    >
+    <button v-for="page in visiblePages" :key="page" @click="goToPage(page)"
+      :class="['pagination-page', { active: page === currentPage }]">
       {{ page }}
     </button>
 
-    <button
-      data-testid="pagination-next"
-      @click="goToPage(currentPage + 1)"
-      :disabled="currentPage === totalPages"
-      class="pagination-button"
-    >
+    <button data-testid="pagination-next" @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
+      class="pagination-button">
       &raquo;
     </button>
   </div>
@@ -76,40 +64,4 @@ const visiblePages = computed(() => {
 })
 </script>
 
-<style>
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.pagination-button,
-.pagination-page {
-  border-radius: var(--border-radius-0-5);
-  border: 1px solid var(--color-glow-soft);
-  background-color: var(--color-bg-glass);
-  color: var(--color-text-base);
-  backdrop-filter: blur(4px);
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pagination-button:hover,
-.pagination-page:hover {
-  background-color: var(--color-accent-glow-blue);
-  border-color: var(--color-primary-cyan);
-  color: var(--color-primary-cyan);
-}
-
-.pagination-page.active {
-  background-color: var(--color-primary-cyan);
-  color: var(--color-text-inverted);
-  border-color: var(--color-primary-cyan);
-}
-</style>
+<style></style>
