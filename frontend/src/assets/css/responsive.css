@@ -1,16 +1,7 @@
-.wrapper {
-  container-type: inline-size;
-}
-
-
 @media (width < 30rem) {
   body {
     font-size: 0.75rem;
     line-height: 1;
-  }
-
-  .button {
-    padding: 0.25rem 0.5rem;
   }
 
   .input {
