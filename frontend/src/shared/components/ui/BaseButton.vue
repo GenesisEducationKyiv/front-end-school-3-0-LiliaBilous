@@ -1,11 +1,5 @@
 <template>
-  <button
-    :class="buttonClass"
-    :aria-label="ariaLabel"
-    :data-testid="dataTestid"
-    @click="onClick"
-    type="button"
-  >
+  <button :class="buttonClass" :aria-label="ariaLabel" :data-testid="dataTestid" @click="onClick" type="button">
     <slot />
   </button>
 </template>
@@ -30,4 +24,4 @@ const ariaLabel = computed(() => props.ariaLabel || undefined)
 const dataTestid = computed(() => props.dataTestid || undefined)
 </script>
 
-<style scoped></style>
+<style></style>
