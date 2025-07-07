@@ -5,7 +5,7 @@ import ModalHost from '@/shared/components/modal/ModalHost.vue'
 import ActiveTrack from '@/shared/components/ActiveTrack.vue'
 const AsyncTracksView = defineAsyncComponent({
   loader: () => import('@/features/tracks/views/TracksView.vue'),
-  delay: 200,
+  delay: 0,
   timeout: 10000,
   suspensible: true,
 })
@@ -13,6 +13,7 @@ const AsyncTracksView = defineAsyncComponent({
 
 <template>
   <div class="wrapper">
+
     <section class="hero">
       <div class="hero__background">
         <img src="/image.webp" alt="" aria-hidden="true" loading="eager" fetchpriority="high" />
@@ -30,6 +31,7 @@ const AsyncTracksView = defineAsyncComponent({
         <div class="spinner" data-testid="loading-indicator" data-loading="true"></div>
       </template>
     </Suspense>
+
     <ModalHost />
     <AppFooter />
   </div>
@@ -43,13 +45,14 @@ const AsyncTracksView = defineAsyncComponent({
   position: relative;
   overflow: auto;
   gap: 1rem;
+  container-type: inline-size;
 }
+
 
 .hero {
   position: relative;
   height: var(--hero-height);
   width: 100%;
-  background: center / cover url(@/assets/image.webp) no-repeat;
 }
 
 .hero__background img {
@@ -57,10 +60,6 @@ const AsyncTracksView = defineAsyncComponent({
   height: 100%;
   object-fit: cover;
   position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0;
-  pointer-events: none;
 }
 
 .hero__content {
@@ -68,13 +67,6 @@ const AsyncTracksView = defineAsyncComponent({
   z-index: 2;
   text-align: center;
   color: var(--color-text-base);
-}
-
-.hero__background::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
 }
 
 .hero__content {
@@ -86,7 +78,7 @@ const AsyncTracksView = defineAsyncComponent({
 .hero__title {
   font-size: 4rem;
   font-weight: 700;
-  margin-top: 5rem;
+  margin-top: 4rem;
 }
 
 @media screen and (max-width: 40rem) {
