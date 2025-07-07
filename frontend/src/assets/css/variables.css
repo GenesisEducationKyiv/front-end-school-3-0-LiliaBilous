@@ -1,5 +1,5 @@
 :root {
-  --hero-height: 42rem;
+  --hero-height: 40rem;
   --border-radius-0-5: 0.5rem;
   --border-radius-1: 1rem;
   --transition: all 0.3s ease-in-out;
@@ -34,7 +34,7 @@
 }
 
 /* animations */
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -59,4 +59,4 @@
 .list-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-}
+} */

@@ -13,22 +13,6 @@
   }
 }
 
-/* Контейнер ≤ 40rem (640px) */
-/* Тут можна додати стилі, якщо треба адаптив під 640px */
-@container (max-width: 40rem) {
-  /* Наприклад:
-  .some-class {
-    font-size: 1rem;
-  }
-  */
-}
+@container (max-width: 40rem) {}
 
-/* Контейнер ≤ 50rem (800px) */
-/* Тут також залишаю місце під розширення */
-@container (max-width: 50rem) {
-  /* Приклад:
-  .another-class {
-    padding: 2rem;
-  }
-  */
-}
+@container (max-width: 50rem) {}
