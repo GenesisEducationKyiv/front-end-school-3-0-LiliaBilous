@@ -13,10 +13,9 @@ const AsyncTracksView = defineAsyncComponent({
 
 <template>
   <div class="wrapper">
-
     <section class="hero">
       <div class="hero__background">
-        <img src="/image.webp" alt="" aria-hidden="true" loading="eager" fetchpriority="high" />
+        <img src="/image.webp" aria-hidden="true" loading="eager" fetchpriority="high" />
       </div>
       <div class="hero__content">
         <ActiveTrack />
@@ -91,7 +90,6 @@ const AsyncTracksView = defineAsyncComponent({
 @media screen and (max-width: 30rem) {
   .hero__title {
     font-size: 2.5em;
-    margin-top: 2rem;
   }
 }
 </style>

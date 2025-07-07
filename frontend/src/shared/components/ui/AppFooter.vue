@@ -13,23 +13,26 @@
   </footer>
 </template>
 
-<style scoped>
+<style>
 .footer {
+  min-height: 3rem;
+  max-width: 86rem;
   width: 90%;
-  margin-bottom: 1rem;
-  container-type: inline-size;
-}
-
-.footer__container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem 2rem;
   background: var(--color-bg-glass);
   border-radius: var(--border-radius-1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-glow-soft);
+  box-shadow: var(--box-shadow-main);
+  container-type: inline-size;
+  margin-bottom: 1rem;
+}
+
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer__text {
@@ -50,11 +53,14 @@
 }
 
 @container (max-width: 800px) {
+  .footer {
+    padding: 1rem;
+  }
+
   .footer__container {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
-    padding: 1rem;
   }
 }
 </style>
