@@ -82,15 +82,16 @@
 import { useRoute } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
 import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore.ts'
-import { useTrackGenreStore } from '@/features/filters/store/trackGenresStore.ts'
+
 import { useSyncFiltersWithUrl } from '@/features/filters/composables/useFiltersWithUrl'
 import FilterTabGroup from '@/features/filters/components/FilterTabGroup.vue'
+import { useGenreQuery } from '@/shared/composables/useGenreQuery.ts'
+const { genres: availableGenres } = useGenreQuery()
 
 const route = useRoute()
 const dropdownOpen = ref(true)
 const filterStore = useTrackFilterStore()
-const genreStore = useTrackGenreStore()
-const availableGenres = computed(() => genreStore.genres)
+
 const sortOptions = ['title', 'artist', 'album', 'createdAt']
 
 function selectSort(value: string) {
@@ -110,6 +111,5 @@ const isFilterActive = computed((): boolean => {
 useSyncFiltersWithUrl()
 onMounted(() => {
   filterStore.initFromQuery(route.query)
-  genreStore.fetchGenres()
 })
 </script>

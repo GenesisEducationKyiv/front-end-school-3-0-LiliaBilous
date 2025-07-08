@@ -48,6 +48,7 @@
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import { ref, onMounted } from 'vue'
 import { useTrackStore } from '@/features/tracks/stores/trackStore'
+import { useTrackFileStore } from '@/features/tracks/stores/useTrackFileStore.ts'
 import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore.ts'
 import { notifySuccess, notifyError } from '@/shared/services/toastService'
 import { useModal } from '@/shared/composables/useModal'
@@ -61,6 +62,7 @@ import PaginationControls from '@/shared/components/ui/PaginationControls.vue'
 import TrackToolbar from '@/features/filters/components/TrackToolbar.vue'
 
 const trackStore = useTrackStore()
+const trackFileStore = useTrackFileStore()
 const filterStore = useTrackFilterStore()
 const { showModal, hideModal } = useModal()
 
@@ -161,7 +163,7 @@ async function deleteSelected(ids: string[]) {
   }
 }
 async function handleFileUpload(id: string, file: File) {
-  const result = await trackStore.uploadFile(id, file)
+  const result = await trackFileStore.uploadFile(id, file)
   if (result.isOk()) {
     notifySuccess('File uploaded successfully')
   } else {
@@ -169,7 +171,7 @@ async function handleFileUpload(id: string, file: File) {
   }
 }
 async function handleFileRemove(id: string) {
-  const result = await trackStore.deleteFile(id)
+  const result = await trackFileStore.deleteFile(id)
   if (result.isOk()) {
     notifySuccess('File removed successfully')
   } else {

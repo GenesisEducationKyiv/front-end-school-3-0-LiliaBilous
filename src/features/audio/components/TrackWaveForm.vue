@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAudioPlayer } from '@/features/audio/composables/useAudioPlayer'
 import { useTrackAudioStore } from '@/features/audio/store/audioStore'
@@ -60,6 +60,7 @@ const waveformRef = ref<HTMLDivElement | null>(null)
 const audioStore = useTrackAudioStore()
 const { fetchTrackBySlug } = audioStore
 const { trackBySlug } = storeToRefs(audioStore)
+const audioUrl = computed(() => trackBySlug.value?.audioFile ?? '')
 
 const {
   isPlaying,
@@ -70,7 +71,15 @@ const {
   play,
   pause,
   initWaveSurfer,
-} = useAudioPlayer(audioRef, waveformRef, trackBySlug.value?.audioFile ?? '')
+} = useAudioPlayer(audioRef, waveformRef, audioUrl)
+
+watch(audioUrl, (newUrl) => {
+  if (newUrl) {
+    nextTick().then(() => {
+      initWaveSurfer()
+    })
+  }
+})
 
 const fetchData = async () => {
   const result = await fetchTrackBySlug(props.slug)

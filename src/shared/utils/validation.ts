@@ -1,4 +1,11 @@
-import type { TrackForm, ValidationErrors } from '@/features/tracks/schema/trackFormSchema.ts'
+import type { TrackForm } from '@/features/tracks/schema/trackFormSchema.ts'
+
+type ValidationErrors = {
+  title: string
+  artist: string
+  genres: string
+  coverImage: string
+}
 
 export function isValidImageUrl(url: string): boolean {
   try {
