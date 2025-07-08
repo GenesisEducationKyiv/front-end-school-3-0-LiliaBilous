@@ -19,7 +19,10 @@ const AsyncTracksView = defineAsyncComponent({
       </div>
       <div class="hero__content">
         <ActiveTrack />
-        <h1 class="hero__title" data-testid="tracks-header">Track Manager</h1>
+        <div>
+          <h1 class="hero__title" data-testid="tracks-header">Track Manager</h1>
+        </div>
+
       </div>
     </section>
     <Suspense>
@@ -27,7 +30,9 @@ const AsyncTracksView = defineAsyncComponent({
         <AsyncTracksView />
       </template>
       <template #fallback>
-        <div class="spinner" data-testid="loading-indicator" data-loading="true"></div>
+        <div class="async-tracks-placeholder">
+          <div class="spinner" data-testid="loading-indicator" data-loading="true"></div>
+        </div>
       </template>
     </Suspense>
 
@@ -75,9 +80,10 @@ const AsyncTracksView = defineAsyncComponent({
 }
 
 .hero__title {
+  line-height: 1.2;
+  min-height: 4rem;
   font-size: 4rem;
   font-weight: 700;
-  margin-top: 4rem;
 }
 
 @media screen and (max-width: 40rem) {
@@ -91,5 +97,9 @@ const AsyncTracksView = defineAsyncComponent({
   .hero__title {
     font-size: 2.5em;
   }
+}
+
+.async-tracks-placeholder {
+  min-height: 20vh;
 }
 </style>

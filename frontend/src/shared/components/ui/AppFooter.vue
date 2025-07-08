@@ -26,10 +26,11 @@
   border: 1px solid var(--color-glow-soft);
   box-shadow: var(--box-shadow-main);
   container-type: inline-size;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .footer__container {
+  min-height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
