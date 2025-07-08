@@ -1,13 +1,11 @@
 <template>
   <BaseModal @close="$emit('close')">
-    <!-- Title -->
     <template #title>
       <h2 class="modal-title">Create New Track</h2>
     </template>
 
     <template #content>
       <form @submit.prevent="handleSubmit" id="create-track-form">
-        <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
           <input
@@ -20,8 +18,6 @@
             {{ errors.title }}
           </p>
         </div>
-
-        <!-- Artist -->
         <div class="form-group">
           <label class="form-label" for="input-artist">Artist</label>
           <input
@@ -32,8 +28,6 @@
           />
           <p v-if="errors.artist" class="input-error">{{ errors.artist }}</p>
         </div>
-
-        <!-- Album -->
         <div class="form-group">
           <label class="form-label" for="input-album">Album</label>
           <input
@@ -43,14 +37,10 @@
             data-testid="input-album"
           />
         </div>
-
-        <!-- GenreSelector -->
         <div class="form-group">
           <GenreSelector v-model:selected="form.genres" />
           <p v-if="errors.genres" class="input-error">{{ errors.genres }}</p>
         </div>
-
-        <!-- Cover Image -->
         <div class="form-group">
           <label class="form-label" for="input-cover-image">Cover Image URL</label>
           <input

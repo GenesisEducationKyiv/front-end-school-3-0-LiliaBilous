@@ -1,15 +1,12 @@
 <template>
-  <BaseModal @close="$emit('close')">
-    <!-- Title -->
+  <BaseModal data-testid="confirm-dialog" @close="$emit('close')">
     <template #title> Confirm Delete </template>
-    <!-- Main content -->
     <template #content>
       <p>
         Are you sure you want to delete <strong>{{ track.title }}</strong
         >?
       </p>
     </template>
-    <!-- Footer buttons -->
     <template #footer>
       <div class="button-row">
         <button

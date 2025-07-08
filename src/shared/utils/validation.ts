@@ -45,13 +45,12 @@ export function validateTrackForm(form: TrackForm): { isValid: boolean; errors: 
   return { isValid, errors }
 }
 
-// Validate audio file type and size
 export function validateAudioFile(file: File | null | undefined): {
   valid: boolean
   error: string
 } {
   const validTypes = ['audio/mpeg', 'audio/wav']
-  const maxSize = 10 * 1024 * 1024 // 10MB
+  const maxSize = 10 * 1024 * 1024
 
   if (!file) {
     return { valid: false, error: 'No file selected.' }

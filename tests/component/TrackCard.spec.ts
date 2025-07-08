@@ -38,5 +38,8 @@ test('renders track item and emits select event', async ({ mount }) => {
   await expect(checkbox).not.toBeChecked()
 
   await checkbox.click()
+
+  await expect(checkbox).toBeChecked()
+
   expect(selectedEventPayload).toBe(mockTrack.id)
 })
