@@ -21,11 +21,8 @@ import TrackCard from '@/features/tracks/components/TrackCard.vue'
 import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
 import { useModal } from '@/shared/composables/useModal'
 import type { Track } from '@/features/tracks/schema/trackSchema'
-import { storeToRefs } from 'pinia'
 import { useTrackAudioStore } from '@/features/audio/store/audioStore'
-
 const audioStore = useTrackAudioStore()
-const { playingTrackId, isPlaying } = storeToRefs(audioStore)
 
 const props = defineProps<{
   tracks: Track[]
@@ -45,12 +42,7 @@ const { showModal, hideModal } = useModal()
 
 function handlePlay(trackId: string) {
   audioStore.togglePlay(trackId)
-  console.log('trackList', audioStore.isPlaying)
-  console.log('trackList.playingTrackId', audioStore.playingTrackId)
 }
-watch([playingTrackId, isPlaying], ([id, playing]) => {
-  console.log('trackList -> store state changed:', id, playing)
-})
 
 function handleReset(trackId: string) {
   emits('reset', trackId)
