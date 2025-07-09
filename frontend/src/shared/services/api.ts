@@ -6,6 +6,17 @@ import { API_BASE } from '@/shared/constants.ts'
 
 export const getTrackAudioUrl = (filename: string): string => `http://localhost:8000/api/files/${filename}`
 
+export const uploadTrackFile = (id: string, formData: FormData): Promise<Result<Track, Error>> =>
+  fetchWrapper<Track>(`http://localhost:8000/api/tracks/${id}/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+
+export const deleteTrackFile = (id: string): Promise<Result<Track, Error>> =>
+  fetchWrapper<Track>(`http://localhost:8000/api/tracks/${id}/file`, {
+    method: 'DELETE',
+  })
+
 export const getGenres = (): Promise<Result<string[], Error>> =>
   fetchWrapper<string[]>(`${API_BASE}/genres`)
 
@@ -36,17 +47,6 @@ export const bulkDeleteTracks = (ids: string[]): Promise<Result<null, Error>> =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ids }),
-  })
-
-export const uploadTrackFile = (id: string, formData: FormData): Promise<Result<Track, Error>> =>
-  fetchWrapper<Track>(`${API_BASE}/tracks/${id}/upload`, {
-    method: 'POST',
-    body: formData,
-  })
-
-export const deleteTrackFile = (id: string): Promise<Result<Track, Error>> =>
-  fetchWrapper<Track>(`${API_BASE}/tracks/${id}/file`, {
-    method: 'DELETE',
   })
 
 export const getTracks = (query: TrackQuery): Promise<Result<PaginatedTracks, Error>> => {
