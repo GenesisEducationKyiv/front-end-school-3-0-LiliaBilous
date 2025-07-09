@@ -6,9 +6,8 @@
     </Transition>
     <TransitionGroup class="track-list" name="list" tag="div" v-if="tracks.length > 0">
       <TrackCard v-for="track in tracks" :key="track.id" :track="track" :selected="selectedIds.includes(track.id)"
-        :playing="playingTrackId === track.id" :disable-actions="selectedIds.length > 0" @edit="emits('edit', track)"
-        @delete="emits('delete', track)" @upload="emits('upload', track)" @play="handlePlay" @reset="handleReset"
-        @select="handleSelect" />
+        :disable-actions="selectedIds.length > 0" @edit="emits('edit', track)" @delete="emits('delete', track)"
+        @upload="emits('upload', track)" @play="handlePlay" @reset="handleReset" @select="handleSelect" />
     </TransitionGroup>
     <div v-else>
       <p>No tracks found.</p>
@@ -22,6 +21,11 @@ import TrackCard from '@/features/tracks/components/TrackCard.vue'
 import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
 import { useModal } from '@/shared/composables/useModal'
 import type { Track } from '@/features/tracks/schema/trackSchema'
+import { storeToRefs } from 'pinia'
+import { useTrackAudioStore } from '@/features/audio/store/audioStore'
+
+const audioStore = useTrackAudioStore()
+const { playingTrackId, isPlaying } = storeToRefs(audioStore)
 
 const props = defineProps<{
   tracks: Track[]
@@ -35,15 +39,18 @@ const emits = defineEmits<{
   (e: 'bulk-delete', ids: string[]): void
 }>()
 
-const playingTrackId = ref<string | null>(null)
 const selectedIds = ref<string[]>([])
 const selectAll = ref(false)
-
 const { showModal, hideModal } = useModal()
 
 function handlePlay(trackId: string) {
-  playingTrackId.value = playingTrackId.value === trackId ? null : trackId
+  audioStore.togglePlay(trackId)
+  console.log('trackList', audioStore.isPlaying)
+  console.log('trackList.playingTrackId', audioStore.playingTrackId)
 }
+watch([playingTrackId, isPlaying], ([id, playing]) => {
+  console.log('trackList -> store state changed:', id, playing)
+})
 
 function handleReset(trackId: string) {
   emits('reset', trackId)
