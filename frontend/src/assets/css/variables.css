@@ -1,5 +1,6 @@
 :root {
   --hero-height: 40rem;
+  --hero-mobile-height: 20rem;
   --border-radius-0-5: 0.5rem;
   --border-radius-1: 1rem;
   --transition: all 0.3s ease-in-out;
@@ -33,8 +34,45 @@
   --box-shadow-button: 0 0 10px var(--color-glow-soft);
 }
 
+/* fonts */
+/* montserrat-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/montserrat-v30-latin-regular.woff2') format('woff2');
+}
+
+/* montserrat-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/montserrat-v30-latin-500.woff2') format('woff2');
+}
+
+/* montserrat-600 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/montserrat-v30-latin-600.woff2') format('woff2');
+}
+
+/* montserrat-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/montserrat-v30-latin-700.woff2') format('woff2');
+}
+
 /* animations */
-/* @keyframes fadeIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -59,4 +97,4 @@
 .list-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-} */
+}
