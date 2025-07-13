@@ -80,34 +80,10 @@
   border: 1px solid var(--color-glow-soft);
 }
 
-.button-row,
 .modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-}
-
-.button-cancel {
-  background-color: var(--color-glow-soft);
-  color: var(--color-text-base);
-
-  &:hover {
-    background-color: var(--color-accent-glow);
-  }
-}
-
-.button-submit {
-  background-color: var(--color-primary-cyan);
-
-  &.button {
-    color: var(--color-text-inverted);
-  }
-
-  &:hover {
-    background-color: transparent;
-    color: var(--color-primary-cyan);
-    border: 1px solid var(--color-primary-cyan);
-  }
 }
 
 @media screen and (max-width: 40rem) {

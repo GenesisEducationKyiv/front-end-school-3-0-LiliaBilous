@@ -153,31 +153,3 @@
     min-width: 10rem;
   }
 }
-
-.track-item__button {
-  font-weight: 500;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius-0-5);
-  padding: 0.5rem 0.75rem;
-  color: var(--color-text-base);
-  transition: var(--transition);
-}
-
-.track-item__button:focus-visible {
-  box-shadow: var(--box-shadow-button);
-}
-
-.button-upload:hover {
-  color: var(--color-primary-blue);
-  box-shadow: inset var(--box-shadow-blue);
-}
-
-.edit-button:hover {
-  color: var(--color-primary-purple);
-  box-shadow: inset var(--box-shadow-2);
-}
-
-.delete-button:hover {
-  color: var(--color-primary-pink);
-  box-shadow: inset var(--box-shadow-1);
-}

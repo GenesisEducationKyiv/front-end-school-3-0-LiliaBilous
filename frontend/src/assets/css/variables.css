@@ -31,7 +31,7 @@
   --box-shadow-1: 0 0 10px var(--color-accent-glow);
   --box-shadow-blue: 0 0 10px var(--color-accent-glow-blue);
   --box-shadow-2: 0 0 10px var(--color-accent-glow-purple);
-  --box-shadow-button: 0 0 10px var(--color-glow-soft);
+  --box-shadow-button: 0 0 20px var(--color-glow-soft);
 }
 
 /* fonts */

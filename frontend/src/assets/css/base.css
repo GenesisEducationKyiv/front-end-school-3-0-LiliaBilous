@@ -92,27 +92,6 @@ body {
   min-height: 70vh;
 }
 
-
-.button {
-  font-weight: 500;
-  border-radius: var(--border-radius-0-5);
-  color: var(--color-text-base);
-  padding: 0.5rem 0.75rem;
-  border: 1px solid transparent;
-  transition: var(--transition);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-
-  &:hover {
-    box-shadow: var(--box-shadow-button);
-  }
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .input,
 input,
 select {
@@ -133,8 +112,7 @@ select::placeholder {
 
 input:focus-visible,
 .input:focus-visible,
-select:focus-visible,
-button:focus-visible {
+select:focus-visible {
   border: 1px solid var(--color-primary-cyan);
   outline: none;
 }
