@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from 'vue'
 import { useAudioPlayer } from '@/features/audio/composables/useAudioPlayer'
+import BaseButton from '@/shared/components/ui/BaseButton.vue'
 
 const props = defineProps<{
   trackId: string
@@ -60,19 +61,21 @@ const removeAudioFile = () => {
     <div ref="waveformRef" class="waveform"></div>
 
     <div class="controls">
-      <button v-if="!isPlaying" @click="play" :data-testid="`play-button-${trackId}`" class="button play-button">
+      <BaseButton v-if="!isPlaying" :buttonClass="'button button-primary'" :aria-label="`Play track ${trackId}`"
+        :data-testid="`play-button-${trackId}`" @click="play" type="button">
         Play
-      </button>
-      <button v-else @click="pause" class="button play-button" :data-testid="`pause-button-${trackId}`">
+      </BaseButton>
+
+      <BaseButton v-else :buttonClass="'button button-primary'" :aria-label="`Pause track ${trackId}`"
+        :data-testid="`pause-button-${trackId}`" @click="pause" type="button">
         Pause
-      </button>
+      </BaseButton>
 
       <span :data-testid="`audio-progress-${trackId}`">
         {{ currentTime }} / {{ duration }}
       </span>
-      <button type="button" @click="removeAudioFile" class="button danger">
-        Remove File
-      </button>
+      <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel upload" @click="removeAudioFile"
+        type="button">Remove File</BaseButton>
     </div>
   </div>
 </template>
@@ -115,26 +118,6 @@ const removeAudioFile = () => {
 
 audio:is([controls], .audio-hidden) {
   display: none;
-}
-
-.play-button {
-  color: var(--color-primary-blue);
-  border: 1px solid var(--color-primary-blue);
-}
-
-.play-button:hover {
-  background-color: var(--color-primary-blue);
-  color: var(--color-bg-dark);
-}
-
-.danger {
-  color: var(--color-primary-pink);
-  border: 1px solid var(--color-accent-glow);
-
-  &:hover {
-    background-color: var(--color-accent-glow);
-    color: var(--color-bg-dark);
-  }
 }
 
 @media (width < 50rem) {

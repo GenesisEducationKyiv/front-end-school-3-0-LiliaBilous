@@ -8,21 +8,11 @@
     <template #content>
       <form id="upload-file" @submit.prevent="handleSubmit" class="form">
         <div v-if="!audioFile" class="file-upload-wrapper">
-          <label
-            for="audioFile"
-            class="button custom-file-upload"
-            data-testid="button-upload-audio"
-          >
+          <label for="audioFile" class="button custom-file-upload" data-testid="button-upload-audio">
             Upload Track (MP3, WAV)
           </label>
-          <input
-            type="file"
-            id="audioFile"
-            accept=".mp3, .wav"
-            @change="handleAudioUpload"
-            aria-describedby="audio-file-instructions"
-            data-testid="input-audio-file"
-          />
+          <input type="file" id="audioFile" accept=".mp3, .wav" @change="handleAudioUpload"
+            aria-describedby="audio-file-instructions" data-testid="input-audio-file" />
           <p id="audio-file-instructions" class="visually-hidden">
             Accepted formats: MP3 or WAV. Maximum size: 10MB.
           </p>
@@ -33,44 +23,20 @@
         <div v-if="audioFileUrl" class="audio-player">
           <div class="file-info">
             <p class="file-name" v-if="audioFile">{{ audioFile.name }}</p>
-            <button
-              type="button"
-              @click="removeAudioFile"
-              class="button danger"
-              aria-label="Remove uploaded audio file"
-            >
-              Remove File
-            </button>
+            <BaseButton :buttonClass="'button button-danger'" aria-label="Remove uploaded audio file"
+              @click="removeAudioFile">Remove File</BaseButton>
           </div>
-
-          <audio
-            :src="audioFileUrl"
-            :key="audioFileUrl"
-            controls
-            class="audio-control"
-            :aria-label="`Audio preview for ${track.title}`"
-          />
+          <audio :src="audioFileUrl" :key="audioFileUrl" controls class="audio-control"
+            :aria-label="`Audio preview for ${track.title}`" />
         </div>
       </form>
     </template>
     <template #footer>
-      <div class="button-row">
-        <button
-          type="button"
-          @click="$emit('close')"
-          class="button button-cancel"
-          data-testid="cancel-button"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          form="upload-file"
-          class="button button-submit"
-          data-testid="submit-button"
-        >
-          Save
-        </button>
+      <div class="modal-actions">
+        <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel upload" data-testid="cancel-button"
+          @click="$emit('close')">Cancel</BaseButton>
+        <BaseButton :buttonClass="'button button-primary'" aria-label="Upload file to track" data-testid="submit-button"
+          type="submit" form="upload-file">Save</BaseButton>
       </div>
     </template>
   </BaseModal>
@@ -81,6 +47,7 @@ import { ref } from 'vue'
 import { validateAudioFile } from '@/features/audio/utils/audioFileValidation'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
 import BaseModal from '@/shared/components/modal/BaseModal.vue'
+import BaseButton from '@/shared/components/ui/BaseButton.vue'
 
 const props = defineProps<{ track: Track }>()
 const emit = defineEmits<{
@@ -155,8 +122,7 @@ input[type='file'] {
   background-color: var(--color-primary-orange);
 }
 
-.file-upload-wrapper {
-}
+.file-upload-wrapper {}
 
 .file-info {
   display: flex;
