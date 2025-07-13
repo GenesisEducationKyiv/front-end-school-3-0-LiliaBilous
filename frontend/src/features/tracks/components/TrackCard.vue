@@ -2,11 +2,9 @@
   <div class="track-list__track-item" :data-testid="`track-item-${track.id}`">
     <div class="track-item__card">
       <div class="track-item__content">
-        <label class="custom-checkbox">
-          <input :data-testid="`track-checkbox-${track.id}`" type="checkbox" :checked="selected"
-            :aria-label="`Select track ${track.title}`" @change="handleSelection" :id="`${track.id}`" />
-          <span class="checkmark"></span>
-        </label>
+        <BaseCheckbox :checked="selected" :data-testid="`track-checkbox-${track.id}`"
+          :aria-label="`Select track ${track.title}`" :id="`${track.id}`" @change="handleSelection" />
+
         <img loading="lazy" :src="track.coverImage || DEFAULT_COVER_IMAGE" alt="cover" class="track-item__image" />
         <div>
           <h2 :data-testid="`track-item-${track.id}-title`" class="track-item__title">
@@ -36,6 +34,7 @@ const TrackWaveForm = defineAsyncComponent(
   () => import('@/features/audio/components/TrackWaveForm.vue')
 )
 import TrackActionsButton from '@/features/tracks/components/TrackActionsButton.vue'
+import BaseCheckbox from '@/shared/components/ui/BaseCheckbox.vue'
 import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
 import { useTrackAudioStore } from '@/features/audio/store/audioStore'
 import { getTrackAudioUrl } from '@/shared/services/api.ts'
