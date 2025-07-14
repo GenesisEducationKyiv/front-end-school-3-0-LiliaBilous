@@ -2,22 +2,43 @@
   <main class="main">
     <div class="main__container">
       <TrackToolbar />
-      <button data-testid="create-track-button" class="main__create-track-button button" @click="openCreateModal"
-        :disabled="trackStore.isLoading" :aria-disabled="trackStore.isLoading" :data-loading="trackStore.isLoading">
+      <button
+        data-testid="create-track-button"
+        class="main__create-track-button button"
+        @click="openCreateModal"
+        :disabled="trackStore.isLoading"
+        :aria-disabled="trackStore.isLoading"
+        :data-loading="trackStore.isLoading"
+      >
         + Create Track
       </button>
       <div class="tracks-container">
-        <div v-if="trackStore.isLoading" data-testid="loading-tracks" data-loading="true"
-          class="async-tracks-placeholder">
+        <div
+          v-if="trackStore.isLoading"
+          data-testid="loading-tracks"
+          data-loading="true"
+          class="async-tracks-placeholder"
+        >
           Loading tracks...
           <div class="spinner" data-testid="loading-indicator" data-loading="true"></div>
         </div>
-        <AsyncTrackList v-if="!trackStore.isLoading" :tracks="trackStore.tracks" @edit="openEditModal"
-          @delete="openConfirmDelete" @upload="openUploadModal" @reset="handleFileRemove"
-          @bulk-delete="deleteSelected" />
+        <AsyncTrackList
+          v-if="!trackStore.isLoading"
+          :tracks="trackStore.tracks"
+          @edit="openEditModal"
+          @delete="openConfirmDelete"
+          @upload="openUploadModal"
+          @reset="handleFileRemove"
+          @bulk-delete="deleteSelected"
+        />
       </div>
-      <PaginationControls v-if="!trackStore.isLoading && trackStore.totalPages > 1" data-testid="pagination"
-        :current-page="filterStore.page" :total-pages="trackStore.totalPages" @change="onPageChange" />
+      <PaginationControls
+        v-if="!trackStore.isLoading && trackStore.totalPages > 1"
+        data-testid="pagination"
+        :current-page="filterStore.page"
+        :total-pages="trackStore.totalPages"
+        @change="onPageChange"
+      />
     </div>
   </main>
 </template>
@@ -34,7 +55,9 @@ import { useModal } from '@/shared/composables/useModal'
 import PaginationControls from '@/shared/components/ui/PaginationControls.vue'
 import TrackToolbar from '@/features/filters/components/TrackToolbar.vue'
 
-const AsyncTrackList = defineAsyncComponent(() => import('@/features/tracks/components/TrackList.vue'))
+const AsyncTrackList = defineAsyncComponent(
+  () => import('@/features/tracks/components/TrackList.vue')
+)
 const CreateTrackModal = defineAsyncComponent(
   () => import('@/features/tracks/components/modals/CreateTrackModal.vue')
 )

@@ -13,9 +13,12 @@ const emit = defineEmits<{
 }>()
 const audioFileRef = ref(props.audioFile)
 
-watch(() => props.audioFile, (newVal) => {
-  audioFileRef.value = newVal
-})
+watch(
+  () => props.audioFile,
+  (newVal) => {
+    audioFileRef.value = newVal
+  }
+)
 const audioRef = ref<HTMLAudioElement | null>(null)
 const waveformRef = ref<HTMLDivElement | null>(null)
 
@@ -53,29 +56,50 @@ const removeAudioFile = () => {
 </script>
 <template>
   <div v-if="audioFile" :data-testid="`audio-player-${trackId}`" class="audio-player">
-    <audio ref="audioRef" :src="audioFile" preload="auto" @timeupdate="updateProgress" @loadedmetadata="updateDuration"
-      class="audio-hidden">
+    <audio
+      ref="audioRef"
+      :src="audioFile"
+      preload="auto"
+      @timeupdate="updateProgress"
+      @loadedmetadata="updateDuration"
+      class="audio-hidden"
+    >
       Your browser does not support the audio element.
     </audio>
 
     <div ref="waveformRef" class="waveform"></div>
 
     <div class="controls">
-      <BaseButton v-if="!isPlaying" :buttonClass="'button button-primary'" :aria-label="`Play track ${trackId}`"
-        :data-testid="`play-button-${trackId}`" @click="play" type="button">
+      <BaseButton
+        v-if="!isPlaying"
+        :buttonClass="'button button-primary'"
+        :aria-label="`Play track ${trackId}`"
+        :data-testid="`play-button-${trackId}`"
+        @click="play"
+        type="button"
+      >
         Play
       </BaseButton>
 
-      <BaseButton v-else :buttonClass="'button button-primary'" :aria-label="`Pause track ${trackId}`"
-        :data-testid="`pause-button-${trackId}`" @click="pause" type="button">
+      <BaseButton
+        v-else
+        :buttonClass="'button button-primary'"
+        :aria-label="`Pause track ${trackId}`"
+        :data-testid="`pause-button-${trackId}`"
+        @click="pause"
+        type="button"
+      >
         Pause
       </BaseButton>
 
-      <span :data-testid="`audio-progress-${trackId}`">
-        {{ currentTime }} / {{ duration }}
-      </span>
-      <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel upload" @click="removeAudioFile"
-        type="button">Remove File</BaseButton>
+      <span :data-testid="`audio-progress-${trackId}`"> {{ currentTime }} / {{ duration }} </span>
+      <BaseButton
+        :buttonClass="'button button-danger'"
+        aria-label="Cancel upload"
+        @click="removeAudioFile"
+        type="button"
+        >Remove File</BaseButton
+      >
     </div>
   </div>
 </template>

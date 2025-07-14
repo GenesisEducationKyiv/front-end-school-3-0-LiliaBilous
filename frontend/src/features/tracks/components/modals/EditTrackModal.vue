@@ -7,7 +7,12 @@
       <form id="edit-track-form" @submit.prevent="handleSubmit" class="form">
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
-          <input id="title-input" v-model="form.title" class="form-input" data-testid="title-input" />
+          <input
+            id="title-input"
+            v-model="form.title"
+            class="form-input"
+            data-testid="title-input"
+          />
           <p v-if="errors.title" class="error-text" data-testid="error-title">{{ errors.title }}</p>
         </div>
         <div class="form-group">
@@ -35,10 +40,22 @@
     </template>
     <template #footer>
       <div class="modal-actions">
-        <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel editing track" data-testid="cancel-button"
-          @click="$emit('close')" type="button">Cancel</BaseButton>
-        <BaseButton :buttonClass="'button button-primary'" aria-label="Save track changes" data-testid="submit-button"
-          type="submit" form="edit-track-form">Save</BaseButton>
+        <BaseButton
+          :buttonClass="'button button-danger'"
+          aria-label="Cancel editing track"
+          data-testid="cancel-button"
+          @click="$emit('close')"
+          type="button"
+          >Cancel</BaseButton
+        >
+        <BaseButton
+          :buttonClass="'button button-primary'"
+          aria-label="Save track changes"
+          data-testid="submit-button"
+          type="submit"
+          form="edit-track-form"
+          >Save</BaseButton
+        >
       </div>
     </template>
   </BaseModal>

@@ -1,5 +1,11 @@
 <template>
-  <button :class="classList" :aria-label="ariaLabel" :data-testid="dataTestid" @click="onClick" :type="type">
+  <button
+    :class="classList"
+    :aria-label="ariaLabel"
+    :data-testid="dataTestid"
+    @click="onClick"
+    :type="type"
+  >
     <slot />
   </button>
 </template>
@@ -10,7 +16,7 @@ import { computed } from 'vue'
 const props = defineProps<{
   ariaLabel?: string
   dataTestid?: string
-  buttonClass?: string,
+  buttonClass?: string
   type?: 'button' | 'submit' | 'reset'
 }>()
 
@@ -25,11 +31,8 @@ const ariaLabel = computed(() => props.ariaLabel || undefined)
 const dataTestid = computed(() => props.dataTestid || undefined)
 
 const classList = computed(() =>
-  typeof props.buttonClass === 'string'
-    ? props.buttonClass.split(' ')
-    : props.buttonClass
+  typeof props.buttonClass === 'string' ? props.buttonClass.split(' ') : props.buttonClass
 )
-
 </script>
 
 <style></style>

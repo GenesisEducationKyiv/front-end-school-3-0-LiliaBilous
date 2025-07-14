@@ -1,10 +1,19 @@
 <template>
   <div class="bulk__container">
-    <BaseCheckbox :checked="selectAll" data-testid="select-all" aria-label="Select All" @change="toggleSelectAll">
+    <BaseCheckbox
+      :checked="selectAll"
+      data-testid="select-all"
+      aria-label="Select All"
+      @change="toggleSelectAll"
+    >
       Select All
     </BaseCheckbox>
-    <BaseButton data-testid="bulk-delete-button" class="button button-secondary" :disabled="!selectedIds.length"
-      @click="$emit('delete-selected')">
+    <BaseButton
+      data-testid="bulk-delete-button"
+      class="button button-secondary"
+      :disabled="!selectedIds.length"
+      @click="$emit('delete-selected')"
+    >
       Delete {{ selectedIds.length }} Selected
     </BaseButton>
   </div>

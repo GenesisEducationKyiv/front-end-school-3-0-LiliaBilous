@@ -7,19 +7,34 @@
       <form @submit.prevent="handleSubmit" id="create-track-form">
         <div class="form-group">
           <label class="form-label" for="title-input">Title</label>
-          <input id="title-input" v-model="form.title" class="form-input" data-testid="title-input" />
+          <input
+            id="title-input"
+            v-model="form.title"
+            class="form-input"
+            data-testid="title-input"
+          />
           <p v-if="errors.title" class="input-error" data-testid="error-title">
             {{ errors.title }}
           </p>
         </div>
         <div class="form-group">
           <label class="form-label" for="input-artist">Artist</label>
-          <input id="input-artist" v-model="form.artist" class="form-input" data-testid="input-artist" />
+          <input
+            id="input-artist"
+            v-model="form.artist"
+            class="form-input"
+            data-testid="input-artist"
+          />
           <p v-if="errors.artist" class="input-error">{{ errors.artist }}</p>
         </div>
         <div class="form-group">
           <label class="form-label" for="input-album">Album</label>
-          <input id="input-album" v-model="form.album" class="form-input" data-testid="input-album" />
+          <input
+            id="input-album"
+            v-model="form.album"
+            class="form-input"
+            data-testid="input-album"
+          />
         </div>
         <div class="form-group">
           <GenreSelector v-model:selected="form.genres" />
@@ -27,20 +42,41 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="input-cover-image">Cover Image URL</label>
-          <input id="input-cover-image" v-model="form.coverImage" placeholder="DEFAULT_COVER_IMAGE" class="form-input"
-            data-testid="input-cover-image" />
+          <input
+            id="input-cover-image"
+            v-model="form.coverImage"
+            placeholder="DEFAULT_COVER_IMAGE"
+            class="form-input"
+            data-testid="input-cover-image"
+          />
           <p v-if="errors.coverImage" class="input-error">{{ errors.coverImage }}</p>
-          <img loading="lazy" :src="form.coverImage ? form.coverImage : DEFAULT_COVER_IMAGE" alt="cover image preview"
-            class="cover-image-preview" />
+          <img
+            loading="lazy"
+            :src="form.coverImage ? form.coverImage : DEFAULT_COVER_IMAGE"
+            alt="cover image preview"
+            class="cover-image-preview"
+          />
         </div>
       </form>
     </template>
     <template #footer>
       <div class="modal-actions">
-        <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel create" data-testid="cancel-button"
-          @click="$emit('close')" type="button">Cancel</BaseButton>
-        <BaseButton :buttonClass="'button button-primary'" aria-label="Create track" data-testid="submit-button"
-          type="submit" form="create-track-form">Create</BaseButton>
+        <BaseButton
+          :buttonClass="'button button-danger'"
+          aria-label="Cancel create"
+          data-testid="cancel-button"
+          @click="$emit('close')"
+          type="button"
+          >Cancel</BaseButton
+        >
+        <BaseButton
+          :buttonClass="'button button-primary'"
+          aria-label="Create track"
+          data-testid="submit-button"
+          type="submit"
+          form="create-track-form"
+          >Create</BaseButton
+        >
       </div>
     </template>
   </BaseModal>
