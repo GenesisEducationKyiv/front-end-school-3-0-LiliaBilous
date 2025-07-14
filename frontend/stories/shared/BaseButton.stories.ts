@@ -11,6 +11,15 @@ export default {
         onClick: { action: 'clicked' },
         default: { control: 'text' },
     },
+    parameters: {
+        docs: {
+            description: {
+                component:
+                    'BaseButton — кастомна кнопка, стилізована відповідно до кольорової палітри проєкту на основі принципів Material 3. Підтримує різні варіації (primary, secondary, outline, danger, disabled) через клас `buttonClass`. Відображення тексту задається через слот або `default` проп.',
+            },
+        },
+    },
+
 }
 
 const render = (args: {
