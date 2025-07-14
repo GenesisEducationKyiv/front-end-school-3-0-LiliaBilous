@@ -20,7 +20,7 @@
 
     &:focus,
     &:focus-visible {
-        border-color: var(--color-primary-pink);
+        border-color: var(--color-primary-purple);
         color: var(--color-text-base);
     }
 }
