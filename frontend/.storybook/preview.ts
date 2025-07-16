@@ -9,7 +9,7 @@ setup((app) => {
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      default: 'dark',
+      dark: { name: 'Dark', value: '#242323' },
     },
     controls: {
       matchers: {

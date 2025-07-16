@@ -12,6 +12,7 @@ export default {
     default: { control: 'text' },
   },
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:
@@ -65,7 +66,7 @@ export const Outline = {
 
 export const Danger = {
   args: {
-    default: 'Delete',
+    default: 'Danger',
     buttonClass: 'button button-danger',
   },
   render,

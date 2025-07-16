@@ -12,6 +12,7 @@ export default {
     default: { control: 'text' },
   },
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `Компонент BaseCheckbox реалізує чекбокс, взятий з дизайн-системи Material 3 (https://m3.material.io) та стилізований під головну дизайн-систему проєкту.`,
