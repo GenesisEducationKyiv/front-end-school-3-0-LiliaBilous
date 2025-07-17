@@ -1,6 +1,6 @@
 # 🎵 Music Track Manager
 
-A Vue 3 frontend application for managing music tracks with advanced features including audio playback, waveform visualization, and real-time updates. Built with **Vue 3 + TypeScript** and integrated with a provided **Node.js + GraphQL** backend.
+A Vue 3 frontend application for managing music tracks with advanced features including audio playback, waveform visualization, and real-time updates. Built with **Vue 3 + TypeScript** and integrated with a provided **Node.js** backend.
 
 ## 🚀 Quick Start
 
@@ -160,11 +160,6 @@ npm run test         # Run tests
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is part of the Front-End School 3.0.
-
----
 
 ## 🎯 Learning Objectives
 
