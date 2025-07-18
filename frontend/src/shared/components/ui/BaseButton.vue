@@ -1,11 +1,5 @@
 <template>
-  <button
-    :class="classList"
-    :aria-label="ariaLabel"
-    :data-testid="dataTestid"
-    @click="onClick"
-    :type="type"
-  >
+  <button :class="classList" :aria-label="ariaLabel" :data-testid="dataTestid" @click="onClick" :type="type">
     <slot />
   </button>
 </template>
@@ -34,5 +28,3 @@ const classList = computed(() =>
   typeof props.buttonClass === 'string' ? props.buttonClass.split(' ') : props.buttonClass
 )
 </script>
-
-<style></style>
