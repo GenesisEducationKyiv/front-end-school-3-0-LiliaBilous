@@ -88,12 +88,10 @@ button:focus-visible {
   padding: 0rem 1.5rem;
   border-radius: var(--border-radius-0-5);
   color: var(--color-text-base);
-  background: linear-gradient(
-    260deg,
-    var(--color-primary-purple),
-    var(--color-primary-pink),
-    var(--color-primary-orange)
-  );
+  background: linear-gradient(260deg,
+      var(--color-primary-purple),
+      var(--color-primary-pink),
+      var(--color-primary-orange));
   border: none;
   cursor: pointer;
   overflow: hidden;

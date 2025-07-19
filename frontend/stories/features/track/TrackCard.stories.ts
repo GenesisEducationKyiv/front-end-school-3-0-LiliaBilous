@@ -5,6 +5,9 @@ import type { Track } from '@/features/tracks/schema/trackSchema'
 const meta: Meta<typeof TrackCardStoryWrapper> = {
   title: 'Track/TrackCard',
   component: TrackCardStoryWrapper,
+  globals: {
+    viewport: { value: 'mobile2', isRotated: false },
+  },
   tags: ['autodocs'],
   argTypes: {
     selected: { control: 'boolean' },
@@ -69,6 +72,9 @@ export const Mobile: StoryObj<typeof TrackCardStoryWrapper> = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+  },
+  globals: {
+    viewport: { value: 'mobile2', isRotated: false },
   },
   play: async ({ canvasElement }) => {
     const menuButton = canvasElement.querySelector('.more-button')
