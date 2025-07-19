@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/vue3-vite'
 import { setup } from '@storybook/vue3'
+import { INITIAL_VIEWPORTS } from 'storybook/viewport';
 import '../src/assets/main.css'
 import { createPinia } from 'pinia'
 setup((app) => {
@@ -8,15 +9,19 @@ setup((app) => {
 
 const preview: Preview = {
   parameters: {
+    viewport: {
+      options: { ...INITIAL_VIEWPORTS },
+    },
     backgrounds: {
-      dark: { name: 'dark', value: '#242323' },
+      default: 'dark',
+      values: [
+        { name: 'dark', value: '#242323' },
+      ],
     },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
+  },
+  initialGlobals: {
+    backgrounds: { value: 'dark' },
+    viewport: { value: 'mobile1', isRotated: false },
   },
 }
 

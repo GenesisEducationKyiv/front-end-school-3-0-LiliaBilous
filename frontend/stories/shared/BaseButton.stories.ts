@@ -50,7 +50,6 @@ export default {
   },
   parameters: {
     layout: 'centered',
-    backgrounds: { default: 'dark' },
     docs: {
       description: {
         component: `
@@ -84,6 +83,7 @@ const render = (args: BaseButtonProps) => ({
   setup() {
     return { args }
   },
+
   template: `
     <BaseButton v-bind="args" @click="args.onClick">
       {{ args.default }}
