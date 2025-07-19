@@ -2,75 +2,37 @@
   <header class="toolbar">
     <div class="toolbar__container">
       <div class="toolbar__header">
-        <BaseButton
-          class="button button-secondary"
-          :aria-expanded="dropdownOpen"
-          aria-controls="filters-section"
-          aria-label="Toggle filters"
-          @click="dropdownOpen = !dropdownOpen"
-        >
+        <BaseButton class="button button-secondary" :aria-expanded="dropdownOpen" aria-controls="filters-section"
+          aria-label="Toggle filters" @click="dropdownOpen = !dropdownOpen">
           {{ dropdownOpen ? 'Hide Filters' : 'Show Filters' }}
           <span>{{ dropdownOpen ? '▲' : '▼' }}</span>
         </BaseButton>
-        <BaseButton
-          class="button button-danger"
-          :disabled="!isFilterActive"
-          @click="resetAllFilters"
-          aria-label="Reset all filters"
-        >
+        <BaseButton class="button button-danger" :disabled="!isFilterActive" @click="resetAllFilters"
+          aria-label="Reset all filters">
           Reset Filters <span>&times;</span>
         </BaseButton>
       </div>
 
-      <div
-        class="toolbar__body"
-        v-if="dropdownOpen"
-        id="filters-section"
-        aria-label="Filter options"
-      >
+      <div class="toolbar__body" v-if="dropdownOpen" id="filters-section" aria-label="Filter options">
         <div class="toolbar__item">
           <label for="search-input" class="visually-hidden">Search tracks</label>
-          <input
-            id="search-input"
-            class="toolbar__search input"
-            data-testid="search-input"
-            type="text"
-            v-model="filterStore.search"
-            placeholder="Search..."
-            aria-label="Search tracks by title or metadata"
-          />
+          <input id="search-input" class="toolbar__search" data-testid="search-input" type="text"
+            v-model="filterStore.search" placeholder="Search..." aria-label="Search tracks by title or metadata" />
         </div>
         <div class="toolbar__item">
           <h2>Filter by Genre:</h2>
-          <FilterTabGroup
-            @modelValue="selectGenre"
-            :options="availableGenres"
-            v-model="filterStore.genre"
-            ariaLabel="Select genre"
-            variant="genre"
-          />
+          <FilterTabGroup @modelValue="selectGenre" :options="availableGenres" v-model="filterStore.genre"
+            ariaLabel="Select genre" variant="genre" />
         </div>
         <div class="toolbar__item">
           <label for="filter-artist" class="">Filter by Artist</label>
-          <input
-            id="filter-artist"
-            class="toolbar__filter-input input"
-            data-testid="filter-artist"
-            type="text"
-            v-model="filterStore.artist"
-            placeholder="Filter by Artist"
-            aria-label="Filter tracks by artist"
-          />
+          <input id="filter-artist" class="toolbar__filter-input" data-testid="filter-artist" type="text"
+            v-model="filterStore.artist" placeholder="Filter by Artist" aria-label="Filter tracks by artist" />
         </div>
         <div class="toolbar__item">
           <h2>Sort by:</h2>
-          <FilterTabGroup
-            @modelValue="selectSort"
-            :options="sortOptions"
-            v-model="filterStore.sort"
-            ariaLabel="Sort tracks"
-            variant="sort"
-          />
+          <FilterTabGroup @modelValue="selectSort" :options="sortOptions" v-model="filterStore.sort"
+            ariaLabel="Sort tracks" variant="sort" />
         </div>
       </div>
     </div>

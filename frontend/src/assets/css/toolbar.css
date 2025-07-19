@@ -42,18 +42,20 @@
 }
 
 .toolbar__search,
-.toolbar__filter-input,
-.toolbar__sort {
-  border-radius: var(--border-radius-0-5);
-  background-color: rgba(255, 255, 255, 0.02);
+.toolbar__filter-input {
+  padding: 1rem;
+  width: 100%;
   border: 1px solid var(--color-glow-soft);
+  border-radius: var(--border-radius-0-5);
+  font-size: 1rem;
+  background-color: transparent;
   color: var(--color-text-base);
   transition: var(--transition);
+  outline: none;
 }
 
 .toolbar__search:focus,
-.toolbar__filter-input:focus,
-.toolbar__sort:focus {
+.toolbar__filter-input:focus {
   border-color: var(--color-primary-cyan);
   box-shadow: var(--box-shadow-blue);
   outline: none;
