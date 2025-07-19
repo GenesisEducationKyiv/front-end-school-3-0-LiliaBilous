@@ -5,57 +5,24 @@
     </template>
     <template #content>
       <form id="edit-track-form" @submit.prevent="handleSubmit" class="form">
-        <div class="form-group">
-          <label class="form-label" for="title-input">Title</label>
-          <input
-            id="title-input"
-            v-model="form.title"
-            class="form-input"
-            data-testid="title-input"
-          />
-          <p v-if="errors.title" class="error-text" data-testid="error-title">{{ errors.title }}</p>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="artist-input">Artist</label>
-          <input id="artist-input" v-model="form.artist" class="form-input" />
-          <p v-if="errors.artist" class="error-text" data-testid="error-artist">
-            {{ errors.artist }}
-          </p>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="album-input">Album</label>
-          <input id="album-input" v-model="form.album" class="form-input" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="cover-image-input">Cover Image URL</label>
-          <input id="cover-image-input" v-model="form.coverImage" class="form-input" />
-          <p v-if="errors.coverImage" class="error-text">{{ errors.coverImage }}</p>
-          <img :src="form.coverImage" class="image-preview" :alt="'Cover image preview'" />
-        </div>
-        <div class="form-group">
-          <GenreSelector v-model:selected="form.genres" />
-          <p v-if="errors.genres" class="error-text">{{ errors.genres }}</p>
-        </div>
+        <BaseInput id="title-input" v-model="form.title" label="Title" :error="errors.title" data-testid="title-input"
+          errorTestid="error-title" />
+        <BaseInput id="artist-input" v-model="form.artist" label="Artist" :error="errors.artist"
+          data-testid="artist-input" errorTestid="error-artist" />
+        <BaseInput id="album-input" v-model="form.album" label="Album" data-testid="album-input" />
+        <BaseInput id="cover-image-input" v-model="form.coverImage" label="Cover Image URL" :error="errors.coverImage"
+          data-testid="cover-image-input" errorTestid="error-coverImage" />
+        <GenreSelector v-model:selected="form.genres" />
+        <p v-if="errors.genres" class="error-text">{{ errors.genres }}</p>
+        <img :src="form.coverImage" class="image-preview" :alt="'Cover image preview'" />
       </form>
     </template>
     <template #footer>
       <div class="modal-actions">
-        <BaseButton
-          :buttonClass="'button button-danger'"
-          aria-label="Cancel editing track"
-          data-testid="cancel-button"
-          @click="$emit('close')"
-          type="button"
-          >Cancel</BaseButton
-        >
-        <BaseButton
-          :buttonClass="'button button-primary'"
-          aria-label="Save track changes"
-          data-testid="submit-button"
-          type="submit"
-          form="edit-track-form"
-          >Save</BaseButton
-        >
+        <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel editing track" data-testid="cancel-button"
+          @click="$emit('close')" type="button">Cancel</BaseButton>
+        <BaseButton :buttonClass="'button button-primary'" aria-label="Save track changes" data-testid="submit-button"
+          type="submit" form="edit-track-form">Save</BaseButton>
       </div>
     </template>
   </BaseModal>
@@ -71,6 +38,7 @@ import type { ValidationErrors } from '@/features/tracks/schema/trackFormSchema'
 import { validateTrackForm } from '@/shared/utils/formValidation.ts'
 import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
 import { defaultValidationErrors } from '@/features/tracks/utils/defaultTrackForm'
+import BaseInput from '@/shared/components/ui/BaseInput.vue'
 
 type TrackFormFields = Pick<Track, 'title' | 'artist' | 'album' | 'genres' | 'coverImage'>
 
