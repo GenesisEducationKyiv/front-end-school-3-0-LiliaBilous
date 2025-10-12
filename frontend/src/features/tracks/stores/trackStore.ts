@@ -8,25 +8,16 @@ import {
   deleteTrack,
   bulkDeleteTracks,
 } from '@/shared/services/graphql/graphql'
-// import {
-//   getTracks,
-//   createTrack,
-//   deleteTrack,
-//   bulkDeleteTracks,
-//   updateTrack,
-// } from '@/shared/services/api.ts'
 
 import type { Track, BatchDeleteResponse } from '@/features/tracks/schema/trackSchema.ts'
 import { useTrackFilterStore } from '@/features/filters/store/trackFilterStore'
 
 export const useTrackStore = defineStore('trackStore', () => {
-  // state
   const tracks = ref<Track[]>([])
   const totalPages = ref<number>(0)
   const isLoading = ref(false)
   const filterStore = useTrackFilterStore()
 
-  // actions
   const fetchTracks = async (): Promise<void> => {
     isLoading.value = true
     const query = filterStore.toQuery()
@@ -76,6 +67,7 @@ export const useTrackStore = defineStore('trackStore', () => {
     tracks,
     totalPages,
     isLoading,
+
     fetchTracks,
     addTrack,
     removeTrack,

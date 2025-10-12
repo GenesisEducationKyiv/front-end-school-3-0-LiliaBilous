@@ -1,29 +1,17 @@
 <template>
-  <BaseModal @close="$emit('close')">
+  <BaseModal data-testid="confirm-dialog" @close="$emit('close')">
     <template #title> Confirm Delete </template>
     <template #content>
       <p>
-        Are you sure you want to delete <strong>{{ track.title }}</strong
-        >?
+        Are you sure you want to delete <strong>{{ track.title }}</strong>?
       </p>
     </template>
     <template #footer>
       <div class="modal-actions">
-        <BaseButton
-          :buttonClass="'button button-danger'"
-          aria-label="Cancel deletion"
-          data-testid="cancel-delete"
-          @click="$emit('close')"
-          type="button"
-          >Cancel</BaseButton
-        >
-        <BaseButton
-          :buttonClass="'button button-primary'"
-          aria-label="Confirm deletion"
-          data-testid="confirm-danger"
-          @click="confirmDelete"
-          type="button"
-        >
+        <BaseButton :buttonClass="'button button-danger'" aria-label="Cancel deletion" data-testid="cancel-delete"
+          @click="$emit('close')" type="button">Cancel</BaseButton>
+        <BaseButton :buttonClass="'button button-primary'" aria-label="Confirm deletion" data-testid="confirm-danger"
+          @click="confirmDelete" type="button">
           Delete
         </BaseButton>
       </div>
