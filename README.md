@@ -1,5 +1,7 @@
 # 🎵 Music Track Manager
 
+[DEMO](https://trackmanagerapp.netlify.app/)
+
 A Vue 3 frontend application for managing music tracks with advanced features including audio playback, waveform visualization, and real-time updates. Built with **Vue 3 + TypeScript** and integrated with a provided **Node.js** backend.
 
 ## 🚀 Quick Start
