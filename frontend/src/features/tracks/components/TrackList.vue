@@ -1,5 +1,5 @@
 <template>
-  <div class="track-list">
+  <div>
     <Transition name="fade">
       <TrackBulkActions
         v-if="selectedIds.length"
@@ -9,13 +9,12 @@
         @delete-selected="deleteSelected"
       />
     </Transition>
-    <TransitionGroup name="list" tag="div" class="track-list__container" v-if="tracks.length > 0">
+    <TransitionGroup class="track-list" name="list" tag="div" v-if="tracks.length > 0">
       <TrackCard
         v-for="track in tracks"
         :key="track.id"
         :track="track"
         :selected="selectedIds.includes(track.id)"
-        :playing="playingTrackId === track.id"
         :disable-actions="selectedIds.length > 0"
         @edit="emits('edit', track)"
         @delete="emits('delete', track)"
@@ -37,6 +36,8 @@ import TrackCard from '@/features/tracks/components/TrackCard.vue'
 import ConfirmDeleteModal from '@/features/tracks/components/modals/ConfirmDeleteModal.vue'
 import { useModal } from '@/shared/composables/useModal'
 import type { Track } from '@/features/tracks/schema/trackSchema'
+import { useTrackAudioStore } from '@/features/audio/store/audioStore'
+const audioStore = useTrackAudioStore()
 
 const props = defineProps<{
   tracks: Track[]
@@ -50,14 +51,12 @@ const emits = defineEmits<{
   (e: 'bulk-delete', ids: string[]): void
 }>()
 
-const playingTrackId = ref<string | null>(null)
 const selectedIds = ref<string[]>([])
 const selectAll = ref(false)
-
 const { showModal, hideModal } = useModal()
 
 function handlePlay(trackId: string) {
-  playingTrackId.value = playingTrackId.value === trackId ? null : trackId
+  audioStore.togglePlay(trackId)
 }
 
 function handleReset(trackId: string) {

@@ -46,8 +46,4 @@ import { useFocusTrap } from '@/shared/composables/useFocusTrap'
 useFocusTrap(modalContent)
 </script>
 
-<style>
-.modal-content:focus {
-  outline: none;
-}
-</style>
+<style></style>

@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue'
-import { storeToRefs } from 'pinia'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import { useAudioPlayer } from '@/features/audio/composables/useAudioPlayer'
-import { useTrackAudioStore } from '@/features/audio/store/audioStore'
+import BaseButton from '@/shared/components/ui/BaseButton.vue'
 
-const props = defineProps<{ slug: string }>()
-const emit = defineEmits<{
-  (e: 'reset', trackId?: string): void
+const props = defineProps<{
+  trackId: string
+  audioFile: string
 }>()
 
+const emit = defineEmits<{
+  (e: 'reset', trackId: string): void
+}>()
+const audioFileRef = ref(props.audioFile)
+
+watch(
+  () => props.audioFile,
+  (newVal) => {
+    audioFileRef.value = newVal
+  }
+)
 const audioRef = ref<HTMLAudioElement | null>(null)
 const waveformRef = ref<HTMLDivElement | null>(null)
-
-const audioStore = useTrackAudioStore()
-const { fetchTrackBySlug } = audioStore
-const { trackBySlug } = storeToRefs(audioStore)
-const audioUrl = computed(() => trackBySlug.value?.audioFile ?? '')
 
 const {
   isPlaying,
@@ -26,46 +31,34 @@ const {
   play,
   pause,
   initWaveSurfer,
-} = useAudioPlayer(audioRef, waveformRef, audioUrl)
+} = useAudioPlayer(audioRef, waveformRef, audioFileRef)
 
-watch(audioUrl, (newUrl) => {
-  if (newUrl) {
-    nextTick().then(() => {
+onMounted(async () => {
+  await nextTick()
+
+  let attempts = 10
+  const tryInit = () => {
+    if (audioRef.value && waveformRef.value) {
       initWaveSurfer()
-    })
+    } else if (attempts-- > 0) {
+      setTimeout(tryInit, 100)
+    } else {
+      console.warn('WaveSurfer init failed: refs still not ready')
+    }
   }
+  tryInit()
 })
 
-const fetchData = async () => {
-  const result = await fetchTrackBySlug(props.slug)
-  if (result.isOk()) {
-    await nextTick()
-    initWaveSurfer()
-  }
-}
-
-watch(
-  () => props.slug,
-  () => {
-    if (props.slug) fetchData()
-  },
-  { immediate: true }
-)
-
 const removeAudioFile = () => {
-  emit('reset', trackBySlug.value?.id)
+  emit('reset', props.trackId)
   pause()
 }
 </script>
 <template>
-  <div
-    v-if="trackBySlug && trackBySlug.audioFile"
-    :data-testid="`audio-player-${trackBySlug.id}`"
-    class="audio-player"
-  >
+  <div v-if="audioFile" :data-testid="`audio-player-${trackId}`" class="audio-player">
     <audio
       ref="audioRef"
-      :src="trackBySlug.audioFile"
+      :src="audioFile"
       preload="auto"
       @timeupdate="updateProgress"
       @loadedmetadata="updateDuration"
@@ -74,36 +67,44 @@ const removeAudioFile = () => {
       Your browser does not support the audio element.
     </audio>
 
-    <!-- Waveform -->
     <div ref="waveformRef" class="waveform"></div>
 
-    <!-- Controls -->
     <div class="controls">
-      <button
+      <BaseButton
         v-if="!isPlaying"
+        :buttonClass="'button button-primary'"
+        :aria-label="`Play track ${trackId}`"
+        :data-testid="`play-button-${trackId}`"
         @click="play"
-        :data-testid="`play-button-${trackBySlug.id}`"
-        class="button play-button"
+        type="button"
       >
         Play
-      </button>
-      <button
+      </BaseButton>
+
+      <BaseButton
         v-else
+        :buttonClass="'button button-primary'"
+        :aria-label="`Pause track ${trackId}`"
+        :data-testid="`pause-button-${trackId}`"
         @click="pause"
-        class="button play-button"
-        :data-testid="`pause-button-${trackBySlug.id}`"
+        type="button"
       >
         Pause
-      </button>
+      </BaseButton>
 
-      <span :data-testid="`audio-progress-${trackBySlug.id}`">
-        {{ currentTime }} / {{ duration }}
-      </span>
-      <button type="button" @click="removeAudioFile" class="button danger">Remove File</button>
+      <span :data-testid="`audio-progress-${trackId}`"> {{ currentTime }} / {{ duration }} </span>
+      <BaseButton
+        :buttonClass="'button button-danger'"
+        aria-label="Cancel upload"
+        @click="removeAudioFile"
+        type="button"
+        >Remove File</BaseButton
+      >
     </div>
   </div>
 </template>
-<style>
+
+<style scoped>
 .track-item__waveform {
   margin-top: 1rem;
   border-top: 1px solid var(--color-glow-soft);
@@ -112,6 +113,7 @@ const removeAudioFile = () => {
 
 .audio-player {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
@@ -140,26 +142,6 @@ const removeAudioFile = () => {
 
 audio:is([controls], .audio-hidden) {
   display: none;
-}
-
-.play-button {
-  color: var(--color-primary-blue);
-  border: 1px solid var(--color-primary-blue);
-}
-
-.play-button:hover {
-  background-color: var(--color-primary-blue);
-  color: var(--color-bg-dark);
-}
-
-.danger {
-  color: var(--color-primary-pink);
-  border: 1px solid var(--color-accent-glow);
-
-  &:hover {
-    background-color: var(--color-accent-glow);
-    color: var(--color-bg-dark);
-  }
 }
 
 @media (width < 50rem) {

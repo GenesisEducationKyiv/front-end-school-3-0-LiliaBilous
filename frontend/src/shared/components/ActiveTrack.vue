@@ -25,7 +25,12 @@ const { result } = useSubscription(ACTIVE_TRACK)
 const activeTrack = computed(() => result.value?.activeTrackTitle)
 </script>
 
-<style scoped>
+<style>
+.active-track-container {
+  min-height: 3rem;
+  width: 25rem;
+}
+
 .active-track {
   background: var(--color-bg-glass);
   backdrop-filter: blur(12px);
@@ -38,11 +43,10 @@ const activeTrack = computed(() => result.value?.activeTrackTitle)
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   font-size: 1rem;
   color: var(--color-text-base);
-  width: fit-content;
   max-width: 100%;
   margin: 1rem auto;
   transition: all 0.4s ease;
@@ -60,5 +64,13 @@ const activeTrack = computed(() => result.value?.activeTrackTitle)
 .track-title {
   font-weight: 600;
   color: var(--color-primary-cyan);
+}
+
+@media (width < 30rem) {
+  .active-track {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+    max-width: 80%;
+  }
 }
 </style>
