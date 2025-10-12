@@ -1,0 +1,43 @@
+.main {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--hero-height) * -0.45);
+  max-width: 86rem;
+  width: 90%;
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-glow-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--border-radius-1);
+  padding: 2rem;
+  box-shadow: var(--box-shadow-main);
+}
+
+.main__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  container-type: inline-size;
+}
+
+@container (max-width: 48rem) {
+  .main {
+    margin-top: calc(var(--hero-height) * -0.65);
+    padding: 1rem 0;
+  }
+}
+
+@container (max-width: 30rem) {
+  .main {
+    margin-top: calc(var(--hero-height) * -0.25);
+    padding: 1rem 0;
+  }
+
+  .main__container {
+    gap: 0.5rem;
+  }
+
+  .main__create-track-button {
+    height: 2rem;
+  }
+}
