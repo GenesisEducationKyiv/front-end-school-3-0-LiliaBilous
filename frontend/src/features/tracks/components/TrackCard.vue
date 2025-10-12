@@ -4,7 +4,7 @@
       <div class="track-item__content">
         <label class="custom-checkbox">
           <input :data-testid="`track-checkbox-${track.id}`" type="checkbox" :checked="selected"
-            @change="handleSelection" :id="`${track.id}`" />
+            :aria-label="`Select track ${track.title}`" @change="handleSelection" :id="`${track.id}`" />
           <span class="checkmark"></span>
         </label>
         <img :src="track.coverImage || DEFAULT_COVER_IMAGE" alt="cover" class="track-item__image" />
@@ -29,8 +29,9 @@
 </template>
 
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import type { Track } from '@/features/tracks/schema/trackSchema.ts'
-import TrackWaveForm from '@/features/audio/components/TrackWaveForm.vue'
+const TrackWaveForm = defineAsyncComponent(() => import('@/features/audio/components/TrackWaveForm.vue'))
 import TrackActionsButton from '@/features/tracks/components/TrackActionsButton.vue'
 import { DEFAULT_COVER_IMAGE } from '@/shared/constants.ts'
 

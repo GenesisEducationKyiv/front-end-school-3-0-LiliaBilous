@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Result } from 'neverthrow'
-import { getTracks, createTrack, updateTrack, deleteTrack, bulkDeleteTracks } from '@/shared/services/qraphql.ts'
+import { getTracks, createTrack, updateTrack, deleteTrack, bulkDeleteTracks } from '@/shared/services/graphql/qraphql'
 // import {
 //   getTracks,
 //   createTrack,
