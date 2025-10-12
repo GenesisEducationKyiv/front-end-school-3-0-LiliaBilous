@@ -39,6 +39,7 @@ function toggleOption(option: string) {
   border: 1px solid transparent;
   text-transform: capitalize;
   transition: var(--transition);
+  background: var(--color-glow-soft);
   color: var(--color-text-base);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
