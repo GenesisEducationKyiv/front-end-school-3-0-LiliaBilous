@@ -1,95 +1,175 @@
-# Music Track Manager
+# 🎵 Music Track Manager
 
-This is a single-page application for managing music tracks. It allows to create, edit, delete, filter, and upload tracks. The application uses Vue 3 with the Composition API and Vite, and interacts with a provided NodeJS backend via REST API.
+A Vue 3 frontend application for managing music tracks with advanced features including audio playback, waveform visualization, and real-time updates. Built with **Vue 3 + TypeScript** and integrated with a provided **Node.js** backend.
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### Requirements
+### Prerequisites
 
-- NodeJS v20.13.1
-- NPM v10+
+- Node.js `v20.13.1` or higher
+- NPM `v10+` or higher
 
-### Installation
+### Backend Setup
 
 ```bash
+cd backend
 npm install
+npm run dev
 ```
 
-### Run the Application
+Backend will be available at: [http://localhost:8000](http://localhost:8000)  
+GraphQL Playground: [http://localhost:8000/graphql](http://localhost:8000/graphql)
+
+### Frontend Setup
 
 ```bash
-npm start
+cd frontend
+npm install
+npm run dev
 ```
 
-After starting, the application will be available at:
+Frontend will be available at: [http://localhost:3000](http://localhost:3000)
 
-```
-http://localhost:3000
-```
+## 🛠 Tech Stack
 
-The backend server must also be running (instructions provided in the backend README).
-API documentation: http://localhost:8000/documentation
+### Frontend
 
-## 🛠 Technologies Used
+- **Vue 3** + Composition API
+- **TypeScript** for type safety
+- **Pinia** for state management
+- **Vite** for fast development and building
+- **WaveSurfer.js** for audio waveform visualization
+- **Playwright** for E2E & Component testing
+- **Vitest** for unit testing
+- **Apollo Client** for GraphQL integration
 
-- Vue 3 with Composition API
-- Pinia for state management
-- Vite as the build tool
-- Plain CSS for styling
+### Backend (Provided)
 
-## ✅ Implemented Features
+- **Node.js** with Express
+- **GraphQL** with Apollo Server (migrated from REST API)
+- **TypeScript** for type safety
+- **File upload** handling
+- **REST API** endpoints
+- **Vitest** for testing
 
-### Main Features
+## ✨ Features
 
-- **Track List View** with pagination, sorting, and filtering by genre and artist
-- **Track Creation Modal**
-  - Required fields: title, artist
-  - Genre tags with add/remove functionality
-  - Validation for required fields
-  - Cover image URL validation with fallback image
-- **Edit Track Modal**
-  - Prefilled form with existing metadata
-  - Real-time update of list view on save
-- **File Upload Flow**
-  - Upload and remove track audio files
-  - File type and size validation
-  - Inline audio player
-- **Track Deletion**
+### Core Functionality
 
-### Extra Features
+- 📋 **Track Management** - Create, edit, delete tracks
+- 🎧 **Audio Playback** - Play tracks with waveform visualization
+- 📁 **File Upload** - Upload audio files with validation
+- 🔍 **Advanced Filtering** - Filter by genre, artist, title
+- 📄 **Pagination** - Efficient track list navigation
+- 🏷️ **Genre Management** - Add/remove genre tags
 
-- ✅ Bulk delete of selected tracks
-- ✅ Optimistic UI updates (UI updates immediately before server confirmation)
-- ✅ Audiowave visualization for the currently played track (WaveSurfer.js)
+### Advanced Features
 
-## 📦 Testability
+- ✅ **Bulk Operations** - Select and delete multiple tracks
+- ✅ **Real-time Updates** - GraphQL subscriptions for live sync
+- ✅ **Responsive Design** - Works on desktop and mobile
+- ✅ **Accessibility** - Keyboard navigation and ARIA support
 
-All required `data-testid` attributes are implemented across:
+## 🧪 Testing
 
-- Headers, buttons, filters
-- Track list items
-- Forms and inputs
-- Notifications and loaders
-- Audio controls
-- Bulk selection controls
+### Frontend Tests
 
-Loading states also include `data-loading="true"` and `aria-disabled` where appropriate.
-
-## 📁 Folder Structure (Simplified)
-
-```
-src/
-├── assets/         # Static assets like images, fonts, etc.
-├── components/     # Reusable Vue components
-├── views/          # Page-level components
-├── stores/         # Pinia stores for state management
-├── utils/          # Utility functions and helpers
-├── services/       # API service calls and integrations
-├── router/         # Vue Router configuration and route definitions
-└── App.vue         # Root Vue component
+```bash
+cd frontend
+npm run test          # Unit tests (Vitest)
+npm run test:e2e      # E2E tests (Playwright)
+npm run test:ct       # Component tests (Playwright CT)
 ```
 
-## 📎 Notes
+### Backend Tests
 
-- Styling is done with plain CSS.
-- Backend audio playback is mocked due to file unavailability from the server.
+```bash
+cd backend
+npm run test          # Unit tests (Vitest)
+```
+
+## 📁 Project Structure
+
+```
+├── frontend/                 # Vue 3 + TypeScript application
+│   ├── src/
+│   │   ├── features/         # Feature-based modules
+│   │   │   ├── tracks/       # Track management
+│   │   │   ├── filters/      # Search and filtering
+│   │   │   └── audio/        # Audio playback
+│   │   ├── shared/           # Reusable components & utilities
+│   │   └── tests/            # Test files
+│   ├── docs/                 # Documentation & ADRs
+│   └── public/               # Static assets
+├── backend/                  # Provided Node.js + GraphQL API
+│   ├── src/
+│   │   ├── controllers/      # Route handlers
+│   │   ├── graphql/          # GraphQL schema & resolvers
+│   │   ├── types/            # TypeScript types
+│   │   └── utils/            # Utilities
+│   ├── data/                 # Database files
+│   └── uploads/              # Uploaded audio files
+└── .github/workflows/        # CI/CD pipeline
+```
+
+## 🔧 Development
+
+### Available Scripts
+
+#### Frontend
+
+```bash
+cd frontend
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+npm run analyze      # Analyze bundle size
+```
+
+#### Backend
+
+```bash
+cd backend
+npm run dev          # Start development server
+npm run build        # Build TypeScript
+npm run start        # Start production server
+npm run test         # Run tests
+```
+
+## 📊 Performance & Quality
+
+- ✅ **Bundle Analysis** - Track bundle size with rollup-plugin-visualizer
+- ✅ **Lighthouse Reports** - Performance, accessibility, SEO scores
+- ✅ **Security Audit** - Regular security assessments
+- ✅ **Code Coverage** - Comprehensive test coverage
+- ✅ **CI/CD Pipeline** - Automated quality checks
+
+## 📚 Documentation
+
+- [Frontend README](./frontend/README.md) - Detailed frontend documentation
+- [Backend README](./backend/README.md) - Backend API documentation
+- [Architecture Decision Records](./frontend/docs/adr/) - ADR documentation
+- [Security Audit Reports](./frontend/docs/audit/) - Security assessments
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+
+## 🎯 Learning Objectives
+
+This project demonstrates:
+
+- **Modern Frontend Architecture** with Vue 3 + TypeScript
+- **API Integration** with GraphQL (migrated from REST) and REST endpoints
+- **Testing Strategies** (Unit, Component, E2E)
+- **CI/CD Best Practices** with GitHub Actions
+- **Documentation Standards** with ADRs and comprehensive READMEs
+- **Performance Optimization** with bundle analysis and Lighthouse
+- **Security Awareness** with regular audits
+- **Engineering Culture** with proper project structure and conventions
